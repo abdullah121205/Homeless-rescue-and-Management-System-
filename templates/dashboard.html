@@ -1,1 +1,138 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
 
+<div class="container">
+
+    <h1>Homeless Rescue & Management System</h1>
+
+    <h3>Welcome, Admin</h3>
+
+    <div class="cards">
+
+        <div class="card">
+            <h2>256</h2>
+            <p>Total Persons</p>
+        </div>
+
+        <div class="card">
+            <h2>12</h2>
+            <p>Rescued Today</p>
+        </div>
+
+        <div class="card">
+            <h2>45</h2>
+            <p>Volunteers</p>
+        </div>
+
+        <div class="card">
+            <h2>18</h2>
+            <p>Pending Cases</p>
+        </div>
+
+    </div>
+
+    <h2>Quick Actions</h2>
+
+    <div class="buttons">
+        <a href="/add_person"><button>Add Person</button></a>
+        <a href="/view_persons"><button>View Persons</button></a>
+        <a href="/search"><button>Search</button></a>
+    </div>
+
+    <h2>Recent Rescue Records</h2>
+
+    <table>
+
+        <tr>
+            <th>Name</th>
+            <th>Age</th>
+            <th>Location</th>
+            <th>Rescue Date</th>
+            <th>Status</th>
+        </tr>
+
+        <tr>
+            <td>Ravi</td>
+            <td>45</td>
+            <td>Chennai</td>
+            <td>08-06-2026</td>
+            <td>Safe</td>
+        </tr>
+
+        <tr>
+            <td>Mani</td>
+            <td>52</td>
+            <td>Trichy</td>
+            <td>08-06-2026</td>
+            <td>Medical Care</td>
+        </tr>
+
+    </table>
+
+</div>
+
+</body>
+</html>
+
+style.css
+body{
+    font-family: Arial, sans-serif;
+    background:#f4f6f9;
+    margin:0;
+}
+
+.container{
+    width:90%;
+    margin:auto;
+    padding:20px;
+}
+
+h1{
+    text-align:center;
+}
+
+.cards{
+    display:flex;
+    gap:20px;
+    margin:30px 0;
+}
+
+.card{
+    flex:1;
+    background:white;
+    padding:20px;
+    border-radius:10px;
+    text-align:center;
+    box-shadow:0 2px 8px rgba(0,0,0,0.1);
+}
+
+.buttons button{
+    padding:12px 25px;
+    margin:10px;
+    cursor:pointer;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    background:white;
+}
+
+table,th,td{
+    border:1px solid #ddd;
+}
+
+th,td{
+    padding:12px;
+    text-align:center;
+}
+
+th{
+    background:#2d89ef;
+    color:white;
+}
