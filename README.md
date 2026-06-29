@@ -21,4 +21,12 @@ To help NGOs track and manage homeless individuals.
 - SQLite
 
 ## Team Members
-(Add names here)
+Abdullah 
+Vaira Prakash
+Libin Bharani
+Naveen Balu
+Kerson Roach
+Haritha Varshini
+Harini
+Tharani Bala
+Deepak
