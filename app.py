@@ -1,18 +1,29 @@
-from flask import Flask, render_template
-
+from flask import Flask, render_template, request, redirect, url_for, session
 app = Flask(__name__)
-
-@app.route('/')
+app.secret_key = "ngo_secret_key"
+@app.route('/', methods=['GET', 'POST'])
 def login():
-    return render_template('login.html')
+    if request.method == 'POST':
+        username = request.form['username']
+        password = request.form['password']
 
+        # demo login (for now)
+        if username == "admin" and password == "admin":
+            session['user'] = username
+            return redirect(url_for('dashboard'))
+        else:
+            return render_template('login.html', error="Invalid Credentials")
+
+    return render_template('login.html')
 @app.route('/register')
 def register():
     return render_template('register.html')
 
 @app.route('/dashboard')
 def dashboard():
-    return render_template('dashboard.html')
+    if 'user' in session:
+        return render_template('dashboard.html')
+    return redirect(url_for('login'))
 
 @app.route('/add_person')
 def add_person():
@@ -25,6 +36,10 @@ def view_persons():
 @app.route('/search')
 def search():
     return render_template('search.html')
+    @app.route('/logout')
+def logout():
+    session.pop('user', None)
+    return redirect(url_for('login'))
 
 if __name__ == '__main__':
     app.run(debug=True)
