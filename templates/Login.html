@@ -1,22 +1,60 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>NGO Login</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Homeless Rescue & Management System</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
+
 <body>
-    <h1>Homeless Rescue Management System</h1>
 
-    <h2>Login</h2>
+<div class="container">
 
-    <form>
-        <label>Username:</label><br>
-        <input type="text" name="username"><br><br>
+    <!-- Left Panel -->
+    <div class="left-panel">
+        <h1>Homeless Rescue & Management System</h1>
 
-        <label>Password:</label><br>
-        <input type="password" name="password"><br><br>
+        <p>
+            Providing shelter, safety and support for homeless people.
+        </p>
 
-        <button type="submit">Login</button>
-    </form>
+        <p><em>"Every life deserves dignity and care."</em></p>
+    </div>
+
+    <!-- Right Panel -->
+    <div class="right-panel">
+
+        <div class="login-card">
+
+            <h2>Login</h2>
+
+            <form method="POST">
+
+                <input type="text"
+                       name="username"
+                       placeholder="Enter Username"
+                       required>
+
+                <input type="password"
+                       name="password"
+                       placeholder="Enter Password"
+                       required>
+
+                <button type="submit">Login</button>
+
+            </form>
+
+            {% if error %}
+            <p style="color:red;">{{ error }}</p>
+            {% endif %}
+
+        </div>
+
+    </div>
+
+</div>
 
 </body>
 </html>
