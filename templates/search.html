@@ -1,1 +1,155 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Search Persons</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
 
+<div class="container">
+
+<h2>Search Homeless Persons</h2>
+
+<input
+type="text"
+id="searchInput"
+placeholder="Search by Name or Location..."
+onkeyup="searchPerson()">
+
+<select id="statusFilter" onchange="filterStatus()">
+    <option value="All">All</option>
+    <option value="Rescued">Rescued</option>
+    <option value="Medical Care">Medical Care</option>
+    <option value="In Shelter">In Shelter</option>
+    <option value="Reunited">Reunited</option>
+</select>
+
+<table id="personTable">
+
+<tr>
+<th>Name</th>
+<th>Age</th>
+<th>Location</th>
+<th>Status</th>
+</tr>
+
+<tr>
+<td>Ravi</td>
+<td>45</td>
+<td>Chennai</td>
+<td>Medical Care</td>
+</tr>
+
+<tr>
+<td>Mani</td>
+<td>60</td>
+<td>Madurai</td>
+<td>In Shelter</td>
+</tr>
+
+<tr>
+<td>Kumar</td>
+<td>52</td>
+<td>Trichy</td>
+<td>Reunited</td>
+</tr>
+
+</table>
+
+<script src="{{ url_for('static', filename='js/script.js') }}"></script>
+
+</body>
+</html>
+
+css
+body{
+    font-family:Arial;
+    background:#f4f6f8;
+}
+
+.container{
+    width:85%;
+    margin:auto;
+}
+
+input,select{
+    padding:10px;
+    margin:15px 5px;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+}
+
+th,td{
+    border:1px solid #ddd;
+    padding:12px;
+}
+
+th{
+    background:#2d89ef;
+    color:white;
+}
+
+java script 
+function searchPerson(){
+
+let input=document.getElementById("searchInput").value.toUpperCase();
+
+let table=document.getElementById("personTable");
+
+let tr=table.getElementsByTagName("tr");
+
+for(let i=1;i<tr.length;i++){
+
+let td=tr[i].getElementsByTagName("td")[0];
+
+let td2=tr[i].getElementsByTagName("td")[2];
+
+if(td || td2){
+
+let txt1=td.textContent;
+let txt2=td2.textContent;
+
+if(txt1.toUpperCase().indexOf(input)>-1 || txt2.toUpperCase().indexOf(input)>-1){
+
+tr[i].style.display="";
+
+}else{
+
+tr[i].style.display="none";
+
+}
+
+}
+
+}
+
+}
+
+function filterStatus(){
+
+let filter=document.getElementById("statusFilter").value;
+
+let table=document.getElementById("personTable");
+
+let tr=table.getElementsByTagName("tr");
+
+for(let i=1;i<tr.length;i++){
+
+let status=tr[i].getElementsByTagName("td")[3].textContent;
+
+if(filter=="All" || status==filter){
+
+tr[i].style.display="";
+
+}else{
+
+tr[i].style.display="none";
+
+}
+
+}
+
+}
