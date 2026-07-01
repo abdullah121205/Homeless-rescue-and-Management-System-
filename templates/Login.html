@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Homeless Rescue & Management System</title>
+    <title>Sabarmati NGO - Login</title>
 
     <link rel="stylesheet" href="{{ url_for('static', filename='css/login.css') }}">
 </head>
@@ -15,51 +15,66 @@
     <!-- Left Panel -->
     <div class="left-panel">
 
-    <h1>Sabarmati NGO</h1>
+        <h1>Sabarmati NGO</h1>
 
-    <h2>Homeless Rescue & Management System</h2>
+        <h2>Homeless Rescue & Management System</h2>
 
-    <p>
-        Sabarmati NGO is dedicated to rescuing, rehabilitating and supporting homeless people by providing shelter, food and essential care.
-    </p>
+        <p>
+            Sabarmati NGO is dedicated to rescuing, rehabilitating and supporting
+            homeless people by providing shelter, food and essential care.
+        </p>
 
-    <p><em>"Together we can restore hope and dignity."</em></p>
+        <p class="quote">
+            "Together we can restore hope and dignity."
+        </p>
 
-</div>
+    </div>
+
     <!-- Right Panel -->
     <div class="right-panel">
 
         <div class="login-card">
 
-            <h2>Login</h2>
+            <h2>Admin Login</h2>
 
-            <form id="loginForm" method="POST">
+            <!-- Connects Login Button to Flask -->
+            <form id="loginForm" method="POST" action="/login">
 
-                <input type="text" 
-                       id="username"
-                       name="username"
-                       placeholder="Enter Username"
-                       required>
+                <input
+                    type="text"
+                    id="username"
+                    name="username"
+                    placeholder="Enter Username"
+                    required
+                >
 
-                <input type="password"
-                       id="password"
-                       name="password"
-                       placeholder="Enter Password"
-                       required>
+                <input
+                    type="password"
+                    id="password"
+                    name="password"
+                    placeholder="Enter Password"
+                    required
+                >
 
                 <button type="submit">Login</button>
 
-            </form>
+                <!-- JavaScript Validation Error -->
+                <p id="error-message"></p>
 
-            {% if error %}
-            <p style="color:red;">{{ error }}</p>
-            {% endif %}
+                <!-- Flask Server Error -->
+                {% if error %}
+                <p class="server-error">{{ error }}</p>
+                {% endif %}
+
+            </form>
 
         </div>
 
     </div>
 
 </div>
+
 <script src="{{ url_for('static', filename='js/login.js') }}"></script>
+
 </body>
 </html>
