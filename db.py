@@ -5,6 +5,7 @@ def connect_db():
     conn = sqlite3.connect("database.db")
     return conn
 
+
 # Create tables
 def create_tables():
     conn = connect_db()
@@ -34,6 +35,7 @@ def create_tables():
     conn.commit()
     conn.close()
 
+
 # Insert Person
 def insert_person(name, age, gender, location):
     conn = connect_db()
@@ -47,6 +49,7 @@ def insert_person(name, age, gender, location):
     conn.commit()
     conn.close()
 
+
 # View Persons
 def get_all_persons():
     conn = connect_db()
@@ -57,6 +60,7 @@ def get_all_persons():
 
     conn.close()
     return data
+
 
 # Update Person
 def update_person(id, name, age, gender, location):
@@ -72,6 +76,7 @@ def update_person(id, name, age, gender, location):
     conn.commit()
     conn.close()
 
+
 # Delete Person
 def delete_person(id):
     conn = connect_db()
@@ -81,6 +86,22 @@ def delete_person(id):
 
     conn.commit()
     conn.close()
+
+
+# Search Person
+def search_person(name):
+    conn = connect_db()
+    cursor = conn.cursor()
+
+    cursor.execute("""
+    SELECT * FROM persons
+    WHERE name LIKE ?
+    """, ('%' + name + '%',))
+
+    data = cursor.fetchall()
+
+    conn.close()
+    return data
 
 
 if __name__ == "__main__":
