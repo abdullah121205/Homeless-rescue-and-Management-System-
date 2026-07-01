@@ -78,3 +78,97 @@
 <script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
 </body>
 </html>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}">
+</head>
+<body>
+
+<div class="sidebar">
+    <h2>HRMS</h2>
+
+    <a href="#">🏠 Dashboard</a>
+    <a href="#">➕ Add Person</a>
+    <a href="#">👥 View Persons</a>
+    <a href="#">🔍 Search</a>
+    <a href="#">📊 Reports</a>
+
+    <button class="logout" onclick="logoutConfirm()">Logout</button>
+</div>
+
+<div class="main">
+
+    <h1>Homeless Rescue & Management System</h1>
+
+    <p>Welcome, Admin</p>
+
+    <div class="cards">
+
+        <div class="card">
+            <h2>245</h2>
+            <p>Total Rescued</p>
+        </div>
+
+        <div class="card">
+            <h2>32</h2>
+            <p>Active Cases</p>
+        </div>
+
+        <div class="card">
+            <h2>180</h2>
+            <p>Reunited</p>
+        </div>
+
+        <div class="card">
+            <h2>21</h2>
+            <p>Medical Care</p>
+        </div>
+
+    </div>
+
+    <h2>Recent Rescue Records</h2>
+
+    <table>
+
+        <tr>
+            <th>Name</th>
+            <th>Age</th>
+            <th>Location</th>
+            <th>Status</th>
+        </tr>
+
+        <tr>
+            <td>Ravi</td>
+            <td>45</td>
+            <td>Chennai</td>
+            <td>Medical Care</td>
+        </tr>
+
+        <tr>
+            <td>Mani</td>
+            <td>52</td>
+            <td>Madurai</td>
+            <td>In Shelter</td>
+        </tr>
+
+        <tr>
+            <td>Kumar</td>
+            <td>39</td>
+            <td>Coimbatore</td>
+            <td>Reunited</td>
+        </tr>
+
+    </table>
+
+</div>
+
+<script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
+
+</body>
+</html>
