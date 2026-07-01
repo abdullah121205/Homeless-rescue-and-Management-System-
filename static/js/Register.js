@@ -1,32 +1,51 @@
-const registerForm = document.getElementById("registerForm");
+document.getElementById("registerForm").addEventListener("submit", function(e){
 
-if (registerForm) {
-    registerForm.addEventListener("submit", function (e) {
+let fullname=document.getElementById("fullname").value.trim();
 
-        e.preventDefault();
+let email=document.getElementById("email").value.trim();
 
-        let name = document.getElementById("name").value;
-        let email = document.getElementById("email").value;
-        let phone = document.getElementById("phone").value;
-        let password = document.getElementById("password").value;
-        let confirm = document.getElementById("confirmPassword").value;
+let username=document.getElementById("username").value.trim();
 
-        if (name === "" || email === "" || phone === "" || password === "") {
-            alert("Please fill all fields");
-            return;
-        }
+let password=document.getElementById("password").value;
 
-        if (password.length < 8) {
-            alert("Password must be at least 8 characters");
-            return;
-        }
+let confirm=document.getElementById("confirm_password").value;
 
-        if (password !== confirm) {
-            alert("Passwords do not match");
-            return;
-        }
+let message=document.getElementById("message");
 
-        alert("Registration Successful");
-        window.location.href = "/";
-    });
+if(fullname=="" || email=="" || username==""){
+
+e.preventDefault();
+
+message.innerHTML="Please fill all fields.";
+
+message.style.color="red";
+
+return;
+
 }
+
+if(password.length<6){
+
+e.preventDefault();
+
+message.innerHTML="Password should contain at least 6 characters.";
+
+message.style.color="red";
+
+return;
+
+}
+
+if(password!=confirm){
+
+e.preventDefault();
+
+message.innerHTML="Passwords do not match.";
+
+message.style.color="red";
+
+return;
+
+}
+
+});
