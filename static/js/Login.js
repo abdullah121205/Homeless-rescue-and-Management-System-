@@ -1,18 +1,34 @@
 const loginForm = document.getElementById("loginForm");
 
 if (loginForm) {
+
     loginForm.addEventListener("submit", function (e) {
-        e.preventDefault();
 
-        let email = document.getElementById("email").value;
-        let password = document.getElementById("password").value;
+        const username = document.getElementById("username").value.trim();
+        const password = document.getElementById("password").value.trim();
+        const errorMessage = document.getElementById("error-message");
 
-        if (email === "" || password === "") {
-            alert("Please fill all fields");
+        errorMessage.textContent = "";
+
+        if (username === "") {
+            e.preventDefault();
+            errorMessage.textContent = "Please enter your username.";
             return;
         }
 
-        alert("Login Successful");
-        window.location.href = "/dashboard";
+        if (password === "") {
+            e.preventDefault();
+            errorMessage.textContent = "Please enter your password.";
+            return;
+        }
+
+        if (password.length < 6) {
+            e.preventDefault();
+            errorMessage.textContent = "Password must be at least 6 characters.";
+            return;
+        }
+
+        // If validation passes, the form is submitted to Flask.
     });
+
 }
