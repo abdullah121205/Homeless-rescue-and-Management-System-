@@ -1,80 +1,87 @@
-body {
-    margin: 0;
-    font-family: Arial, sans-serif;
-    background-color: #f4f7fb;
+body{
+
+background:#eef2f3;
+
+font-family:Arial;
+
+display:flex;
+
+justify-content:center;
+
+align-items:center;
+
+height:100vh;
+
 }
 
-.container {
-    display: flex;
-    height: 100vh;
+.container{
+
+background:white;
+
+padding:30px;
+
+border-radius:10px;
+
+width:350px;
+
+box-shadow:0 0 10px gray;
+
 }
 
-/* Left Panel */
-.left-panel {
-    width: 50%;
-    background: linear-gradient(135deg, #1565c0, #42a5f5);
-    color: white;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    padding: 60px;
-    box-sizing: border-box;
+h2{
+
+text-align:center;
+
+margin-bottom:20px;
+
 }
 
-.left-panel h1 {
-    font-size: 36px;
-    margin-bottom: 20px;
+input{
+
+width:100%;
+
+padding:10px;
+
+margin:10px 0;
+
+border:1px solid #ccc;
+
+border-radius:5px;
+
 }
 
-.left-panel p {
-    font-size: 18px;
-    line-height: 1.6;
+button{
+
+width:100%;
+
+padding:10px;
+
+background:#3498db;
+
+color:white;
+
+border:none;
+
+border-radius:5px;
+
+cursor:pointer;
+
+font-size:16px;
+
 }
 
-/* Right Panel */
-.right-panel {
-    width: 50%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background: white;
+button:hover{
+
+background:#2980b9;
+
 }
 
-/* Login Card */
-.login-card {
-    width: 350px;
-    background: white;
-    padding: 40px;
-    border-radius: 12px;
-    box-shadow: 0px 8px 20px rgba(0,0,0,0.15);
-}
+#message{
 
-.login-card h2 {
-    text-align: center;
-    margin-bottom: 25px;
-}
+text-align:center;
 
-.login-card input {
-    width: 100%;
-    padding: 12px;
-    margin: 10px 0;
-    border: 1px solid #cccccc;
-    border-radius: 6px;
-    box-sizing: border-box;
-    font-size: 15px;
-}
+margin-top:15px;
 
-.login-card button {
-    width: 100%;
-    padding: 12px;
-    background-color: #1565c0;
-    color: white;
-    border: none;
-    border-radius: 6px;
-    font-size: 16px;
-    cursor: pointer;
-}
+font-weight:bold;
 
-.login-card button:hover {
-    background-color: #0d47a1;
 }
