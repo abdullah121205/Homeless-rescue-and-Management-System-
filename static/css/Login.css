@@ -1,80 +1,166 @@
-body {
-    margin: 0;
-    font-family: Arial, sans-serif;
-    background-color: #f4f7fb;
+/* Reset */
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial, Helvetica, sans-serif;
 }
 
-.container {
-    display: flex;
-    height: 100vh;
+/* Body */
+
+body{
+    background-color:#f4f7fb;
+}
+
+/* Main Container */
+
+.container{
+    display:flex;
+    height:100vh;
 }
 
 /* Left Panel */
-.left-panel {
-    width: 50%;
-    background: linear-gradient(135deg, #1565c0, #42a5f5);
-    color: white;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    padding: 60px;
-    box-sizing: border-box;
+
+.left-panel{
+    width:50%;
+    background:linear-gradient(135deg,#1565c0,#42a5f5);
+    color:white;
+
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+
+    padding:60px;
 }
 
-.left-panel h1 {
-    font-size: 36px;
-    margin-bottom: 20px;
+.left-panel h1{
+    font-size:36px;
+    margin-bottom:20px;
 }
 
-.left-panel p {
-    font-size: 18px;
-    line-height: 1.6;
+.left-panel h2{
+    margin-bottom:20px;
+    font-size:28px;
+}
+
+.left-panel p{
+    font-size:18px;
+    line-height:1.6;
+}
+
+.quote{
+    margin-top:25px;
+    font-style:italic;
+    font-size:18px;
 }
 
 /* Right Panel */
-.right-panel {
-    width: 50%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background: white;
+
+.right-panel{
+    width:50%;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background:white;
 }
 
 /* Login Card */
-.login-card {
-    width: 350px;
-    background: white;
-    padding: 40px;
-    border-radius: 12px;
-    box-shadow: 0px 8px 20px rgba(0,0,0,0.15);
+
+.login-card{
+    width:350px;
+    background:white;
+    padding:40px;
+    border-radius:12px;
+    box-shadow:0px 8px 20px rgba(0,0,0,0.15);
 }
 
-.login-card h2 {
-    text-align: center;
-    margin-bottom: 25px;
+.login-card h2{
+    text-align:center;
+    margin-bottom:25px;
 }
 
-.login-card input {
-    width: 100%;
-    padding: 12px;
-    margin: 10px 0;
-    border: 1px solid #cccccc;
-    border-radius: 6px;
-    box-sizing: border-box;
-    font-size: 15px;
+.login-card input{
+    width:100%;
+    padding:12px;
+    margin:10px 0;
+    border:1px solid #cccccc;
+    border-radius:6px;
+    font-size:15px;
 }
 
-.login-card button {
-    width: 100%;
-    padding: 12px;
-    background-color: #1565c0;
-    color: white;
-    border: none;
-    border-radius: 6px;
-    font-size: 16px;
-    cursor: pointer;
+.login-card input:focus{
+    outline:none;
+    border-color:#1565c0;
+    box-shadow:0 0 5px rgba(21,101,192,0.3);
 }
 
-.login-card button:hover {
-    background-color: #0d47a1;
+.login-card button{
+    width:100%;
+    padding:12px;
+    margin-top:10px;
+
+    background-color:#1565c0;
+    color:white;
+
+    border:none;
+    border-radius:6px;
+
+    font-size:16px;
+    cursor:pointer;
+
+    transition:0.3s;
+}
+
+.login-card button:hover{
+    background-color:#0d47a1;
+}
+
+/* JavaScript Validation Error */
+
+#error-message{
+    margin-top:15px;
+    text-align:center;
+    color:red;
+    font-size:14px;
+}
+
+/* Flask Error Message */
+
+.server-error{
+    margin-top:10px;
+    text-align:center;
+    color:red;
+    font-size:14px;
+}
+
+/* Responsive Design */
+
+@media (max-width:768px){
+
+    .container{
+        flex-direction:column;
+    }
+
+    .left-panel,
+    .right-panel{
+        width:100%;
+    }
+
+    .left-panel{
+        height:40%;
+        padding:30px;
+        text-align:center;
+        align-items:center;
+    }
+
+    .right-panel{
+        height:60%;
+        padding:20px;
+    }
+
+    .login-card{
+        width:100%;
+        max-width:350px;
+    }
 }
