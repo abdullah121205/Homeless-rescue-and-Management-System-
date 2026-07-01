@@ -1,1 +1,27 @@
+body{
+    font-family: Arial, sans-serif;
+    background:#f4f7fb;
+}
 
+.container{
+    width:90%;
+    margin:auto;
+    padding:20px;
+}
+
+.card{
+    background:white;
+    padding:20px;
+    margin:15px 0;
+    border-radius:10px;
+    box-shadow:0 2px 8px rgba(0,0,0,.15);
+}
+
+button{
+    padding:10px 20px;
+    background:#1565c0;
+    color:white;
+    border:none;
+    border-radius:5px;
+    cursor:pointer;
+}
