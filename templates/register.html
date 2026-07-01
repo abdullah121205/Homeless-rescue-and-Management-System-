@@ -1,1 +1,69 @@
+<!DOCTYPE html>
+<html>
 
+<head>
+
+<title>Registration</title>
+
+<link rel="stylesheet" href="{{ url_for('static', filename='css/register.css') }}">
+
+</head>
+
+<body>
+
+<div class="container">
+
+<h2>User Registration</h2>
+
+<form action="/register" method="POST" id="registerForm">
+
+<input
+type="text"
+name="fullname"
+id="fullname"
+placeholder="Full Name"
+required>
+
+<input
+type="email"
+name="email"
+id="email"
+placeholder="Email"
+required>
+
+<input
+type="text"
+name="username"
+id="username"
+placeholder="Username"
+required>
+
+<input
+type="password"
+name="password"
+id="password"
+placeholder="Password"
+required>
+
+<input
+type="password"
+name="confirm_password"
+id="confirm_password"
+placeholder="Confirm Password"
+required>
+
+<button type="submit">
+Register
+</button>
+
+</form>
+
+<p id="message"></p>
+
+</div>
+
+<script src="{{ url_for('static', filename='js/register.js') }}"></script>
+
+</body>
+
+</html>
