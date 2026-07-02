@@ -3,6 +3,8 @@
 <head>
     <title>Homeless Persons List</title>
 
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/view_persons.css') }}">
+
     <style>
         body{
             font-family: Arial;
@@ -46,6 +48,24 @@
             border:none;
             cursor:pointer;
         }
+
+
+        .edit-btn{
+            background:#f39c12;
+            margin-right:5px;
+        }
+
+        .delete-btn{
+            background:#e74c3c;
+        }
+
+        #searchInput{
+            width:300px;
+            padding:10px;
+            margin-bottom:20px;
+            border:1px solid #ccc;
+            border-radius:5px;
+        }
     </style>
 
 </head>
@@ -54,13 +74,26 @@
 
 <h2>Homeless Persons Details</h2>
 
-<table>
+<center>
+    <input
+        type="text"
+        id="searchInput"
+        placeholder="Search by Name...">
+</center>
+
+<br>
+
+<table id="personsTable">
 
 <tr>
     <th>Name</th>
     <th>Age</th>
     <th>Gender</th>
     <th>Location Found</th>
+
+    
+    <th>Edit</th>
+    <th>Delete</th>
 </tr>
 
 {% for person in persons %}
@@ -70,6 +103,15 @@
     <td>{{ person.age }}</td>
     <td>{{ person.gender }}</td>
     <td>{{ person.location }}</td>
+
+    <td>
+        <button class="edit-btn">Edit</button>
+    </td>
+
+    <td>
+        <button class="delete-btn">Delete</button>
+    </td>
+
 </tr>
 
 {% endfor %}
@@ -79,8 +121,10 @@
 <br>
 
 <a href="/add_person">
-<button>Add New Person</button>
+    <button>Add New Person</button>
 </a>
+
+<script src="{{ url_for('static', filename='js/view_persons.js') }}"></script>
 
 </body>
 </html>
