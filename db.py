@@ -53,6 +53,7 @@ def insert_person(name, age, gender, location):
 # View Persons
 def get_all_persons():
     conn = connect_db()
+    conn.row_factory = sqlite3.Row
     cursor = conn.cursor()
 
     cursor.execute("SELECT * FROM persons")
