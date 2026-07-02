@@ -41,9 +41,12 @@ def add_person():
     return render_template('add_person.html')
 
 
+from db import get_all_persons
+
 @app.route('/view_persons')
 def view_persons():
-    return render_template('view_persons.html')
+    persons = get_all_persons()
+    return render_template('view_persons.html', persons=persons)
 
 
 @app.route('/search')
