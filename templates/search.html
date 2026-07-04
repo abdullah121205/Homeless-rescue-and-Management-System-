@@ -10,19 +10,25 @@
 
 <h2>Search Homeless Persons</h2>
 
-<input
-type="text"
-id="searchInput"
-placeholder="Search by Name or Location..."
-onkeyup="searchPerson()">
+<form method="POST">
 
-<select id="statusFilter" onchange="filterStatus()">
-    <option value="All">All</option>
-    <option value="Rescued">Rescued</option>
-    <option value="Medical Care">Medical Care</option>
-    <option value="In Shelter">In Shelter</option>
-    <option value="Reunited">Reunited</option>
-</select>
+    <input
+    type="text"
+    name="keyword"
+    id="searchInput"
+    placeholder="Search by Name or Location">
+
+    <select name="status" id="statusFilter">
+        <option value="All">All</option>
+        <option>Rescued</option>
+        <option>Medical Care</option>
+        <option>In Shelter</option>
+        <option>Reunited</option>
+    </select>
+
+    <button type="submit">Search</button>
+
+</form>
 
 <table id="personTable">
 
