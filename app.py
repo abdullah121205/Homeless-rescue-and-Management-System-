@@ -70,8 +70,12 @@ def dashboard():
     if 'user' not in session:
         return redirect(url_for('login'))
 
-    return render_template('dashboard.html')
-
+    return render_template(
+        'dashboard.html',
+        total_persons=get_total_persons(),
+        rescued=get_rescued_count(),
+        pending=get_pending_cases()
+    )
 
 # ---------------- ADD PERSON ----------------
 
