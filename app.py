@@ -9,7 +9,10 @@ from db import (
     update_person,
     search_person,
     filter_by_status,
-    delete_person
+    delete_person,
+    get_total_persons,
+    get_pending_cases,
+    get_rescued_count
 )
 
 app = Flask(__name__)
