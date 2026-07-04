@@ -51,26 +51,3 @@ editButtons.forEach(function(button){
     });
 
 });
-
-
-// ==============================
-// Delete Button
-// ==============================
-
-const deleteButtons = document.querySelectorAll(".delete-btn");
-
-deleteButtons.forEach(function(button){
-
-    button.addEventListener("click", function(){
-
-        let confirmDelete = confirm("Are you sure you want to delete this record?");
-
-        if(confirmDelete){
-
-            alert("Record deleted successfully. (Demo)");
-
-        }
-
-    });
-
-});
