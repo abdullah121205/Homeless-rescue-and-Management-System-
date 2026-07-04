@@ -12,13 +12,14 @@ def create_tables():
     conn = connect_db()
     cursor = conn.cursor()
 
-    # User Table
+    # User  table
     cursor.execute("""
     CREATE TABLE IF NOT EXISTS users(
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        username TEXT NOT NULL,
-        email TEXT NOT NULL,
-        password TEXT NOT NULL
+       id INTEGER PRIMARY KEY AUTOINCREMENT,
+       fullname TEXT NOT NULL,
+       username TEXT NOT NULL,
+       email TEXT NOT NULL,
+       password TEXT NOT NULL
     )
     """)
 
