@@ -28,7 +28,8 @@ def create_tables():
         name TEXT NOT NULL,
         age INTEGER,
         gender TEXT,
-        location TEXT
+        location TEXT,
+        status TEXT
     )
     """)
 
