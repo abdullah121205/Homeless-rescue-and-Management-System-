@@ -53,14 +53,14 @@
 
                 <label>Rescued By *</label>
                 <input type="text" name="rescued_by" placeholder="Volunteer / Officer Name" required>
+                
                 <label>Rescue Status *</label>
 
                 <select name="status" required>
-                    <option value="">Select Status</option>
-                    <option>Rescued</option>
-                    <option>Medical Care</option>
-                    <option>In Shelter</option>
-                    <option>Reunited</option>
+                <option value="Rescued" {% if person.status=="Rescued" %}selected{% endif %}>Rescued</option>
+                <option value="Medical Care" {% if person.status=="Medical Care" %}selected{% endif %}>Medical Care</option>
+                <option value="In Shelter" {% if person.status=="In Shelter" %}selected{% endif %}>In Shelter</option>
+                <option value="Reunited" {% if person.status=="Reunited" %}selected{% endif %}>Reunited</option>
                 </select>
             </fieldset>
 
