@@ -93,7 +93,15 @@ def add_person():
         location = request.form['location']
         status = request.form['status']
 
-        insert_person(name, age, gender, location, status)
+        photo = request.files['photo']
+
+filename = ""
+
+if photo and photo.filename != "":
+    filename = photo.filename
+    photo.save(os.path.join("static/images", filename))
+
+insert_person(name, age, gender, location, status, filename)
 
         return redirect(url_for('view_persons'))
 
