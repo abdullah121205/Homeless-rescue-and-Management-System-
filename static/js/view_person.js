@@ -34,20 +34,3 @@ if (searchInput) {
 
     });
 }
-
-
-// ==============================
-// Edit Button
-// ==============================
-
-const editButtons = document.querySelectorAll(".edit-btn");
-
-editButtons.forEach(function(button){
-
-    button.addEventListener("click", function(){
-
-        alert("Edit feature will be connected to the database later.");
-
-    });
-
-});
