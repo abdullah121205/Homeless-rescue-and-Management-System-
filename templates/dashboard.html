@@ -63,21 +63,15 @@
             <th>Status</th>
         </tr>
 
-        <tr>
-            <td>Ravi</td>
-            <td>45</td>
-            <td>Chennai</td>
-            <td>08-06-2026</td>
-            <td>Safe</td>
-        </tr>
-
-        <tr>
-            <td>Mani</td>
-            <td>52</td>
-            <td>Trichy</td>
-            <td>08-06-2026</td>
-            <td>Medical Care</td>
-        </tr>
+        {% for person in recent_persons %}
+<tr>
+    <td>{{ person.name }}</td>
+    <td>{{ person.age }}</td>
+    <td>{{ person.location }}</td>
+    <td>{{ person.id }}</td>
+    <td>{{ person.status }}</td>
+</tr>
+{% endfor %}
 
     </table>
 
