@@ -110,6 +110,22 @@ def search_person(keyword):
 
     return data
 
+def filter_by_status(status):
+
+    conn = connect_db()
+    conn.row_factory = sqlite3.Row
+    cursor = conn.cursor()
+
+    cursor.execute("""
+    SELECT * FROM persons
+    WHERE status = ?
+    """, (status,))
+
+    data = cursor.fetchall()
+
+    conn.close()
+
+    return data
 
 if __name__ == "__main__":
     create_tables()
