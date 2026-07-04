@@ -5,6 +5,8 @@ from db import (
     login_user,
     insert_person,
     get_all_persons,
+    get_person,
+    update_person,
     search_person,
     filter_by_status,
     delete_person
