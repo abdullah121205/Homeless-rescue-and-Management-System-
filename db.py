@@ -83,7 +83,55 @@ def get_all_persons():
     conn.close()
     return data
 
+# Total Persons
+def get_total_persons():
+    conn = connect_db()
+    cursor = conn.cursor()
 
+    cursor.execute("SELECT COUNT(*) FROM persons")
+
+    total = cursor.fetchone()[0]
+
+    conn.close()
+
+    return total
+
+
+# Total Pending Cases
+def get_pending_cases():
+    conn = connect_db()
+    cursor = conn.cursor()
+
+    cursor.execute("""
+        SELECT COUNT(*)
+        FROM persons
+        WHERE status != 'Reunited'
+    """)
+
+    total = cursor.fetchone()[0]
+
+    conn.close()
+
+    return total
+
+
+# Total Rescued Persons
+def get_rescued_count():
+    conn = connect_db()
+    cursor = conn.cursor()
+
+    cursor.execute("""
+        SELECT COUNT(*)
+        FROM persons
+        WHERE status='Rescued'
+    """)
+
+    total = cursor.fetchone()[0]
+
+    conn.close()
+
+    return total
+    
 # Update Person
 def update_person(id, name, age, gender, location,status):
     conn = connect_db()
