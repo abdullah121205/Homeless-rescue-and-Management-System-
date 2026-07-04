@@ -73,7 +73,7 @@ def add_person():
 
     if request.method == 'POST':
 
-        name = request.form['name']
+        name = request.form['full_name']
         age = request.form['age']
         gender = request.form['gender']
         location = request.form['location']
