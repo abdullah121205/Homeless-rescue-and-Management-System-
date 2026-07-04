@@ -1,62 +1,138 @@
 from flask import Flask, render_template, request, redirect, url_for, session
 
+from db import (
+    insert_user,
+    login_user,
+    insert_person,
+    get_all_persons,
+    search_person,
+    filter_by_status
+)
+
 app = Flask(__name__)
 app.secret_key = "ngo_secret_key"
 
 
+# ---------------- LOGIN ----------------
+
 @app.route('/', methods=['GET', 'POST'])
 def login():
+
     if request.method == 'POST':
+
         username = request.form['username']
         password = request.form['password']
 
-        # Demo login
-        if username == "admin" and password == "admin":
+        user = login_user(username, password)
+
+        if user:
             session['user'] = username
             return redirect(url_for('dashboard'))
-        else:
-            return render_template('login.html', error="Invalid Credentials")
+
+        return render_template(
+            'login.html',
+            error="Invalid Username or Password"
+        )
 
     return render_template('login.html')
 
 
+# ---------------- REGISTER ----------------
+
 @app.route('/register', methods=['GET', 'POST'])
 def register():
+
     if request.method == 'POST':
-        # Placeholder for registration form handling
+
+        username = request.form['username']
+        email = request.form['email']
+        password = request.form['password']
+
+        insert_user(username, email, password)
+
         return redirect(url_for('login'))
 
     return render_template('register.html')
 
 
+# ---------------- DASHBOARD ----------------
+
 @app.route('/dashboard')
 def dashboard():
-    if 'user' in session:
-        return render_template('dashboard.html')
-    return redirect(url_for('login'))
+
+    if 'user' not in session:
+        return redirect(url_for('login'))
+
+    return render_template('dashboard.html')
 
 
-@app.route('/add_person')
+# ---------------- ADD PERSON ----------------
+
+@app.route('/add_person', methods=['GET', 'POST'])
 def add_person():
+
+    if request.method == 'POST':
+
+        name = request.form['name']
+        age = request.form['age']
+        gender = request.form['gender']
+        location = request.form['location']
+        status = request.form['status']
+
+        insert_person(name, age, gender, location, status)
+
+        return redirect(url_for('view_persons'))
+
     return render_template('add_person.html')
 
 
-from db import get_all_persons
+# ---------------- VIEW PERSONS ----------------
 
 @app.route('/view_persons')
 def view_persons():
+
     persons = get_all_persons()
-    return render_template('view_persons.html', persons=persons)
+
+    return render_template(
+        'view_persons.html',
+        persons=persons
+    )
 
 
-@app.route('/search')
+# ---------------- SEARCH ----------------
+
+@app.route('/search', methods=['GET', 'POST'])
 def search():
-    return render_template('search.html')
 
+    persons = []
+
+    if request.method == 'POST':
+
+        keyword = request.form.get('keyword')
+        status = request.form.get('status')
+
+        if keyword:
+            persons = search_person(keyword)
+
+        elif status and status != "All":
+            persons = filter_by_status(status)
+
+        else:
+            persons = get_all_persons()
+
+    return render_template(
+        'search.html',
+        persons=persons
+    )
+
+
+# ---------------- LOGOUT ----------------
 
 @app.route('/logout')
 def logout():
+
     session.pop('user', None)
+
     return redirect(url_for('login'))
 
 
