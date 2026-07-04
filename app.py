@@ -44,11 +44,12 @@ def register():
 
     if request.method == 'POST':
 
+        fullname = request.form['fullname']
         username = request.form['username']
         email = request.form['email']
         password = request.form['password']
 
-        insert_user(username, email, password)
+        insert_user(fullname, username, email, password)
 
         return redirect(url_for('login'))
 
