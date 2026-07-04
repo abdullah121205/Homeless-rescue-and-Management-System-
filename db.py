@@ -47,9 +47,9 @@ def insert_person(name, age, gender, location, status, photo):
     cursor = conn.cursor()
 
     cursor.execute("""
-    INSERT INTO persons(name, age, gender, location,status)
-    VALUES (?, ?, ?, ?, ?)
-    """, (name, age, gender, location,status))
+    INSERT INTO persons(name, age, gender, location, status, photo)
+    VALUES (?, ?, ?, ?, ?, ?)
+    """, (name, age, gender, location, status, photo))
 
     conn.commit()
     conn.close()
