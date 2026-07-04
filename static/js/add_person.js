@@ -13,21 +13,25 @@ document.addEventListener("DOMContentLoaded", function () {
         const photo = document.querySelector('input[name="photo"]').files[0];
 
         if (fullName === "") {
+            e.preventDefault();
             alert("Please enter Full Name.");
             return;
         }
 
         if (age === "" || age < 1 || age > 120) {
+            e.preventDefault();
             alert("Please enter a valid Age.");
             return;
         }
 
         if (gender === "") {
+            e.preventDefault();
             alert("Please select Gender.");
             return;
         }
 
         if (location === "") {
+            e.preventDefault();
             alert("Please enter Rescue Location.");
             return;
         }
@@ -40,12 +44,11 @@ document.addEventListener("DOMContentLoaded", function () {
             ];
 
             if (!allowedTypes.includes(photo.type)) {
+                e.preventDefault();
                 alert("Please upload only JPG or PNG images.");
                 return;
             }
         }
-
-        alert("✅ Homeless person record saved successfully!");
 
         form.reset();
 
