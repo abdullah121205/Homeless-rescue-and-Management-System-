@@ -91,18 +91,23 @@ def delete_person(id):
 
 
 # Search Person
-def search_person(name):
+def search_person(keyword):
+
     conn = connect_db()
+    conn.row_factory = sqlite3.Row
     cursor = conn.cursor()
 
     cursor.execute("""
     SELECT * FROM persons
     WHERE name LIKE ?
-    """, ('%' + name + '%',))
+       OR location LIKE ?
+    """, ('%' + keyword + '%',
+          '%' + keyword + '%'))
 
     data = cursor.fetchall()
 
     conn.close()
+
     return data
 
 
