@@ -27,12 +27,13 @@ def create_tables():
     # Homeless Person Table
     cursor.execute("""
     CREATE TABLE IF NOT EXISTS persons(
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        name TEXT NOT NULL,
-        age INTEGER,
-        gender TEXT,
-        location TEXT,
-        status TEXT
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name TEXT NOT NULL,
+    age INTEGER,
+    gender TEXT,
+    location TEXT,
+    status TEXT,
+    photo TEXT
     )
     """)
 
