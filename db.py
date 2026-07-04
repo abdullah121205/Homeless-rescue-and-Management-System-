@@ -65,7 +65,7 @@ def get_all_persons():
 
 
 # Update Person
-def update_person(id, name, age, gender, location):
+def update_person(id, name, age, gender, location,status):
     conn = connect_db()
     cursor = conn.cursor()
 
