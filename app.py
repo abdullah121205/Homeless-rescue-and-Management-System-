@@ -102,6 +102,30 @@ def view_persons():
         persons=persons
     )
 
+# ---------------- EDIT PERSON ----------------
+
+@app.route('/edit_person/<int:id>', methods=['GET', 'POST'])
+def edit_person(id):
+
+    if request.method == 'POST':
+
+        name = request.form['full_name']
+        age = request.form['age']
+        gender = request.form['gender']
+        location = request.form['location']
+        status = request.form['status']
+
+        update_person(id, name, age, gender, location, status)
+
+        return redirect(url_for('view_persons'))
+
+    person = get_person(id)
+
+    return render_template(
+        'edit_person.html',
+        person=person
+    )
+
 
 # ---------------- SEARCH ----------------
 
