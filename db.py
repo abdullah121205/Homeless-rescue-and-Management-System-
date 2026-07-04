@@ -54,6 +54,23 @@ def insert_person(name, age, gender, location, status):
     conn.close()
 
 
+# Get One Person
+def get_person(id):
+    conn = connect_db()
+    cursor = conn.cursor()
+
+    cursor.execute("""
+    SELECT * FROM persons
+    WHERE id=?
+    """, (id,))
+
+    person = cursor.fetchone()
+
+    conn.close()
+
+    return person
+    
+
 # View Persons
 def get_all_persons():
     conn = connect_db()
