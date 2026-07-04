@@ -157,10 +157,16 @@ def update_person(id, name, age, gender, location, status, photo):
     cursor = conn.cursor()
 
     cursor.execute("""
-    UPDATE persons
-    SET name=?, age=?, gender=?, location=?, status=?
-    WHERE id=?
-    """, (name, age, gender, location, status, id))
+UPDATE persons
+SET
+    name=?,
+    age=?,
+    gender=?,
+    location=?,
+    status=?,
+    photo=?
+WHERE id=?
+""", (name, age, gender, location, status, photo, id))
 
     conn.commit()
     conn.close()
