@@ -71,9 +71,9 @@ def update_person(id, name, age, gender, location,status):
 
     cursor.execute("""
     UPDATE persons
-    SET name=?, age=?, gender=?, location=?
+    SET name=?, age=?, gender=?, location=?, status=?
     WHERE id=?
-    """, (name, age, gender, location, id))
+    """, (name, age, gender, location, status, id))
 
     conn.commit()
     conn.close()
