@@ -75,7 +75,8 @@ def dashboard():
         'dashboard.html',
         total_persons=get_total_persons(),
         rescued=get_rescued_count(),
-        pending=get_pending_cases()
+        pending=get_pending_cases(),
+        recent_persons=get_recent_persons()
     )
 
 # ---------------- ADD PERSON ----------------
