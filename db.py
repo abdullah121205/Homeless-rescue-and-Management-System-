@@ -135,10 +135,12 @@ def insert_user(fullname, username, email, password):
     conn = connect_db()
     cursor = conn.cursor()
 
+    hashed_password = generate_password_hash(password)
+
     cursor.execute("""
     INSERT INTO users(fullname, username, email, password)
     VALUES (?, ?, ?, ?)
-    """, (fullname, username, email, password))
+    """, (fullname, username, email, hashed_password))
 
     conn.commit()
     conn.close()
