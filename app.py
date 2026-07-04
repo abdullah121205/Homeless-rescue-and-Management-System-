@@ -12,7 +12,8 @@ from db import (
     delete_person,
     get_total_persons,
     get_pending_cases,
-    get_rescued_count
+    get_rescued_count,
+    get_recent_persons
 )
 
 app = Flask(__name__)
