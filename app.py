@@ -126,8 +126,16 @@ def search():
         'search.html',
         persons=persons
     )
+    
+#------------------ Delete Person -------------------
 
+@app.route('/delete_person/<int:id>')
+def delete_person_route(id):
 
+    delete_person(id)
+
+    return redirect(url_for('view_persons'))
+    
 # ---------------- LOGOUT ----------------
 
 @app.route('/logout')
