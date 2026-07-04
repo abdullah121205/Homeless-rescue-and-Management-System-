@@ -130,14 +130,14 @@ def filter_by_status(status):
     return data
 
 # Register User
-def insert_user(username, email, password):
+def insert_user(fullname, username, email, password):
     conn = connect_db()
     cursor = conn.cursor()
 
     cursor.execute("""
-    INSERT INTO users(username, email, password)
-    VALUES (?, ?, ?)
-    """, (username, email, password))
+    INSERT INTO users(fullname, username, email, password)
+    VALUES (?, ?, ?, ?)
+    """, (fullname, username, email, password))
 
     conn.commit()
     conn.close()
