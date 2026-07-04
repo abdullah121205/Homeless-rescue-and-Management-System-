@@ -153,14 +153,17 @@ def login_user(username, password):
 
     cursor.execute("""
     SELECT * FROM users
-    WHERE username=? AND password=?
-    """, (username, password))
+    WHERE username=?
+    """, (username,))
 
     user = cursor.fetchone()
 
     conn.close()
 
-    return user
+    if user and check_password_hash(user["password"], password):
+        return user
+
+    return None
 
 if __name__ == "__main__":
     create_tables()
