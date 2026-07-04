@@ -4,7 +4,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
     form.addEventListener("submit", function (e) {
 
-        e.preventDefault();
 
         const fullName = document.querySelector('input[name="full_name"]').value.trim();
         const age = document.querySelector('input[name="age"]').value;
@@ -50,7 +49,6 @@ document.addEventListener("DOMContentLoaded", function () {
             }
         }
 
-        form.reset();
 
     });
 
