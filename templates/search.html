@@ -36,28 +36,18 @@ onkeyup="searchPerson()">
 </thead>
 
 <tbody>
-    
-<tr>
-<td>Ravi</td>
-<td>45</td>
-<td>Chennai</td>
-<td>Medical Care</td>
-</tr>
+
+{% for person in persons %}
 
 <tr>
-<td>Mani</td>
-<td>60</td>
-<td>Madurai</td>
-<td>In Shelter</td>
+    <td>{{ person.name }}</td>
+    <td>{{ person.age }}</td>
+    <td>{{ person.location }}</td>
+    <td>{{ person.status }}</td>
 </tr>
 
-<tr>
-<td>Kumar</td>
-<td>52</td>
-<td>Trichy</td>
-<td>Reunited</td>
-</tr>
-    
+{% endfor %}
+
 </tbody>
 
 </table>
