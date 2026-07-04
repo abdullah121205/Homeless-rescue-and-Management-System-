@@ -83,6 +83,24 @@ def get_all_persons():
     conn.close()
     return data
 
+# Recent Persons
+def get_recent_persons():
+    conn = connect_db()
+    cursor = conn.cursor()
+
+    cursor.execute("""
+        SELECT *
+        FROM persons
+        ORDER BY id DESC
+        LIMIT 5
+    """)
+
+    persons = cursor.fetchall()
+
+    conn.close()
+
+    return persons
+    
 # Total Persons
 def get_total_persons():
     conn = connect_db()
