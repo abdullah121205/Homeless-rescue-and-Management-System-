@@ -128,6 +128,36 @@ def filter_by_status(status):
 
     return data
 
+# Register User
+def insert_user(username, email, password):
+    conn = connect_db()
+    cursor = conn.cursor()
+
+    cursor.execute("""
+    INSERT INTO users(username, email, password)
+    VALUES (?, ?, ?)
+    """, (username, email, password))
+
+    conn.commit()
+    conn.close()
+
+
+# Login User
+def login_user(username, password):
+    conn = connect_db()
+    cursor = conn.cursor()
+
+    cursor.execute("""
+    SELECT * FROM users
+    WHERE username=? AND password=?
+    """, (username, password))
+
+    user = cursor.fetchone()
+
+    conn.close()
+
+    return user
+
 if __name__ == "__main__":
     create_tables()
     print("Database created successfully.")
