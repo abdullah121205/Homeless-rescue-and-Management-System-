@@ -42,7 +42,7 @@ def create_tables():
 
 
 # Insert Person
-def insert_person(name, age, gender, location, status):
+def insert_person(name, age, gender, location, status, photo):
     conn = connect_db()
     cursor = conn.cursor()
 
