@@ -6,7 +6,8 @@ from db import (
     insert_person,
     get_all_persons,
     search_person,
-    filter_by_status
+    filter_by_status,
+    delete_person
 )
 
 app = Flask(__name__)
