@@ -43,7 +43,8 @@ def create_tables():
     family_contact TEXT,
     remarks TEXT,
     photo TEXT
-    """)
+)
+""")
 
     conn.commit()
     conn.close()
