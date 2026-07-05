@@ -215,6 +215,9 @@ def edit_person(id):
 
 @app.route('/search', methods=['GET', 'POST'])
 def search():
+    
+    if 'user' not in session:
+    return redirect(url_for('login'))
 
     persons = []
 
