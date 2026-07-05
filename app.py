@@ -120,6 +120,22 @@ def view_persons():
         persons=persons
     )
 
+@app.route('/edit_person/<int:id>', methods=['GET', 'POST'])
+def edit_person(id):
+
+    person = get_person(id)
+
+    if request.method == 'POST':
+
+        # your update code here...
+
+        return redirect(url_for('view_persons'))
+
+    return render_template(
+        'edit_person.html',
+        person=person
+    )
+    
 # ---------------- EDIT PERSON ----------------
 
 @app.route('/edit_person/<int:id>', methods=['GET', 'POST'])
