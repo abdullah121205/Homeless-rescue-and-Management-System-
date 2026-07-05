@@ -234,14 +234,39 @@ def update_person(
 UPDATE persons
 SET
     name=?,
+    alias=?,
     age=?,
     gender=?,
+    rescue_date=?,
     location=?,
+    rescued_by=?,
     status=?,
+    physical_condition=?,
+    medical_issues=?,
+    disability=?,
+    aadhaar=?,
+    family_contact=?,
+    remarks=?,
     photo=?
 WHERE id=?
-""", (name, age, gender, location, status, photo, id))
-
+""", (
+    name,
+    alias,
+    age,
+    gender,
+    rescue_date,
+    location,
+    rescued_by,
+    status,
+    physical_condition,
+    medical_issues,
+    disability,
+    aadhaar,
+    family_contact,
+    remarks,
+    photo,
+    id
+))
     conn.commit()
     conn.close()
 
