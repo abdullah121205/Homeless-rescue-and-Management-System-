@@ -50,14 +50,63 @@ def create_tables():
 
 
 # Insert Person
-def insert_person(name, age, gender, location, status, photo):
+def insert_person(
+    name,
+    alias,
+    age,
+    gender,
+    rescue_date,
+    location,
+    rescued_by,
+    status,
+    physical_condition,
+    medical_issues,
+    disability,
+    aadhaar,
+    family_contact,
+    remarks,
+    photo
+):
+
     conn = connect_db()
     cursor = conn.cursor()
 
     cursor.execute("""
-    INSERT INTO persons(name, age, gender, location, status, photo)
-    VALUES (?, ?, ?, ?, ?, ?)
-    """, (name, age, gender, location, status, photo))
+    INSERT INTO persons(
+        name,
+        alias,
+        age,
+        gender,
+        rescue_date,
+        location,
+        rescued_by,
+        status,
+        physical_condition,
+        medical_issues,
+        disability,
+        aadhaar,
+        family_contact,
+        remarks,
+        photo
+    )
+    VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+    """,(
+        name,
+        alias,
+        age,
+        gender,
+        rescue_date,
+        location,
+        rescued_by,
+        status,
+        physical_condition,
+        medical_issues,
+        disability,
+        aadhaar,
+        family_contact,
+        remarks,
+        photo
+    ))
 
     conn.commit()
     conn.close()
