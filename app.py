@@ -95,13 +95,13 @@ def add_person():
 
         photo = request.files['photo']
 
-filename = ""
+        filename = ""
 
-if photo and photo.filename != "":
-    filename = photo.filename
-    photo.save(os.path.join("static/images", filename))
+        if photo and photo.filename != "":
+            filename = photo.filename
+            photo.save(os.path.join("static/images", filename))
 
-insert_person(name, age, gender, location, status, filename)
+        insert_person(name, age, gender, location, status, filename)
 
         return redirect(url_for('view_persons'))
 
