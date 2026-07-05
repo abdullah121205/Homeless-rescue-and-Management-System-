@@ -111,25 +111,25 @@ def add_person():
            photo.save(os.path.join("static/images", filename))
 
         insert_person(
-           name,
-           alias,
-           age,
-           gender,
-           rescue_date,
-           location,
-           rescued_by,
-           status,
-           physical_condition,
-           medical_issues,
-           disability,
-           aadhaar,
-           family_contact,
-           remarks,
-           filename
-         )
+               insert_person(
+        name,
+        alias,
+        age,
+        gender,
+        rescue_date,
+        location,
+        rescued_by,
+        status,
+        physical_condition,
+        medical_issues,
+        disability,
+        aadhaar,
+        family_contact,
+        remarks,
+        filename
+    )
 
-                 return redirect(url_for('view_persons'))
-
+    return redirect(url_for('view_persons'))
     return render_template('add_person.html')
 
 
