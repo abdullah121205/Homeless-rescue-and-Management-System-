@@ -96,6 +96,18 @@
                 <label>Photo Upload</label>
                 <input type="file" name="photo" accept="image/*">
 
+                {% if person.photo %}
+                <label>Current Photo</label>
+                <br>
+
+                <img src="{{ url_for('static', filename='images/' + person.photo) }}"
+                width="150">
+
+                <br><br>
+                {% endif %}
+
+                <label>Remarks</label>
+                <textarea name="remarks" rows="4" placeholder="Additional Remarks"></textarea>
                 <label>Remarks</label>
                 <textarea name="remarks" rows="4" placeholder="Additional Remarks"></textarea>
             </fieldset>
