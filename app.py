@@ -111,7 +111,6 @@ def add_person():
            photo.save(os.path.join("static/images", filename))
 
         insert_person(
-               insert_person(
         name,
         alias,
         age,
