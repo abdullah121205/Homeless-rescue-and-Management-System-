@@ -129,7 +129,29 @@ def edit_person(id):
 
     if request.method == 'POST':
 
-        # your update code here...
+        name = request.form['full_name']
+        age = request.form['age']
+        gender = request.form['gender']
+        location = request.form['location']
+        status = request.form['status']
+
+        photo = request.files.get('photo')
+
+        filename = person["photo"]
+
+        if photo and photo.filename != "":
+            filename = photo.filename
+            photo.save(os.path.join("static/images", filename))
+
+        update_person(
+            id,
+            name,
+            age,
+            gender,
+            location,
+            status,
+            filename
+        )
 
         return redirect(url_for('view_persons'))
 
