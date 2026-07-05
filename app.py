@@ -125,36 +125,40 @@ def view_persons():
 @app.route('/edit_person/<int:id>', methods=['GET', 'POST'])
 def edit_person(id):
 
-    if request.method == 'POST':
-
-    name = request.form['full_name']
-    age = request.form['age']
-    gender = request.form['gender']
-    location = request.form['location']
-    status = request.form['status']
-
     person = get_person(id)
 
-    photo = request.files.get('photo')
+    if request.method == 'POST':
 
-    filename = person["photo"]
+        name = request.form['full_name']
+        age = request.form['age']
+        gender = request.form['gender']
+        location = request.form['location']
+        status = request.form['status']
 
-    if photo and photo.filename != "":
-        filename = photo.filename
-        photo.save(os.path.join("static/images", filename))
+        photo = request.files.get('photo')
 
-    update_person(
-        id,
-        name,
-        age,
-        gender,
-        location,
-        status,
-        filename
+        filename = person["photo"]
+
+        if photo and photo.filename != "":
+            filename = photo.filename
+            photo.save(os.path.join("static/images", filename))
+
+        update_person(
+            id,
+            name,
+            age,
+            gender,
+            location,
+            status,
+            filename
+        )
+
+        return redirect(url_for('view_persons'))
+
+    return render_template(
+        'edit_person.html',
+        person=person
     )
-
-    return redirect(url_for('view_persons'))
-
 
 # ---------------- SEARCH ----------------
 
