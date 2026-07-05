@@ -155,6 +155,9 @@ def view_persons():
 
 @app.route('/edit_person/<int:id>', methods=['GET', 'POST'])
 def edit_person(id):
+    
+    if 'user' not in session:
+    return redirect(url_for('login'))
 
     person = get_person(id)
 
