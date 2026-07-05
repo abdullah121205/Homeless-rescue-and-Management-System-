@@ -29,12 +29,20 @@ def create_tables():
     CREATE TABLE IF NOT EXISTS persons(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     name TEXT NOT NULL,
+    alias TEXT,
     age INTEGER,
     gender TEXT,
+    rescue_date TEXT,
     location TEXT,
+    rescued_by TEXT,
     status TEXT,
+    physical_condition TEXT,
+    medical_issues TEXT,
+    disability TEXT,
+    aadhaar TEXT,
+    family_contact TEXT,
+    remarks TEXT,
     photo TEXT
-    )
     """)
 
     conn.commit()
