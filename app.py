@@ -127,22 +127,33 @@ def edit_person(id):
 
     if request.method == 'POST':
 
-        name = request.form['full_name']
-        age = request.form['age']
-        gender = request.form['gender']
-        location = request.form['location']
-        status = request.form['status']
-
-        update_person(id, name, age, gender, location, status)
-
-        return redirect(url_for('view_persons'))
+    name = request.form['full_name']
+    age = request.form['age']
+    gender = request.form['gender']
+    location = request.form['location']
+    status = request.form['status']
 
     person = get_person(id)
 
-    return render_template(
-        'edit_person.html',
-        person=person
+    photo = request.files.get('photo')
+
+    filename = person["photo"]
+
+    if photo and photo.filename != "":
+        filename = photo.filename
+        photo.save(os.path.join("static/images", filename))
+
+    update_person(
+        id,
+        name,
+        age,
+        gender,
+        location,
+        status,
+        filename
     )
+
+    return redirect(url_for('view_persons'))
 
 
 # ---------------- SEARCH ----------------
