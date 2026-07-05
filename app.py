@@ -140,6 +140,9 @@ def add_person():
 
 @app.route('/view_persons')
 def view_persons():
+    
+    if 'user' not in session:
+        return redirect(url_for('login'))
 
     persons = get_all_persons()
 
