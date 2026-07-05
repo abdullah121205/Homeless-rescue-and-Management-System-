@@ -209,7 +209,24 @@ def get_rescued_count():
     return total
     
 # Update Person
-def update_person(id, name, age, gender, location, status, photo):
+def update_person(
+    id,
+    name,
+    alias,
+    age,
+    gender,
+    rescue_date,
+    location,
+    rescued_by,
+    status,
+    physical_condition,
+    medical_issues,
+    disability,
+    aadhaar,
+    family_contact,
+    remarks,
+    photo
+):
     conn = connect_db()
     cursor = conn.cursor()
 
