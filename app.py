@@ -244,6 +244,9 @@ def search():
 
 @app.route('/delete_person/<int:id>')
 def delete_person_route(id):
+    
+    if 'user' not in session:
+        return redirect(url_for('login'))
 
     delete_person(id)
 
