@@ -84,6 +84,9 @@ def dashboard():
 
 @app.route('/add_person', methods=['GET', 'POST'])
 def add_person():
+    
+    if 'user' not in session:
+    return redirect(url_for('login'))
 
     if request.method == 'POST':
 
