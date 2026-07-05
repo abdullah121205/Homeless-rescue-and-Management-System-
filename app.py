@@ -128,7 +128,7 @@ def add_person():
            filename
          )
 
-         return redirect(url_for('view_persons'))
+                 return redirect(url_for('view_persons'))
 
     return render_template('add_person.html')
 
