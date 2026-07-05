@@ -158,31 +158,48 @@ def edit_person(id):
     if request.method == 'POST':
 
         name = request.form['full_name']
+        alias = request.form['alias']
         age = request.form['age']
         gender = request.form['gender']
+        rescue_date = request.form['rescue_date']
         location = request.form['location']
+        rescued_by = request.form['rescued_by']
         status = request.form['status']
+        physical_condition = request.form['physical_condition']
+        medical_issues = request.form['medical_issues']
+        disability = request.form['disability']
+        aadhaar = request.form['aadhaar']
+        family_contact = request.form['family_contact']
+        remarks = request.form['remarks']
 
         photo = request.files.get('photo')
 
         filename = person["photo"]
 
         if photo and photo.filename != "":
-            filename = photo.filename
-            photo.save(os.path.join("static/images", filename))
+           filename = photo.filename
+           photo.save(os.path.join("static/images", filename))
 
         update_person(
-            id,
-            name,
-            age,
-            gender,
-            location,
-            status,
-            filename
+           id,
+           name,
+           alias,
+           age,
+           gender,
+           rescue_date,
+           location,
+           rescued_by,
+           status,
+           physical_condition,
+           medical_issues,
+           disability,
+           aadhaar,
+           family_contact,
+           remarks,
+           filename
         )
 
         return redirect(url_for('view_persons'))
-
     return render_template(
         'edit_person.html',
         person=person
