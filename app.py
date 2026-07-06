@@ -157,7 +157,7 @@ def view_persons():
 def edit_person(id):
     
     if 'user' not in session:
-    return redirect(url_for('login'))
+       return redirect(url_for('login'))
 
     person = get_person(id)
 
@@ -217,7 +217,7 @@ def edit_person(id):
 def search():
     
     if 'user' not in session:
-    return redirect(url_for('login'))
+       return redirect(url_for('login'))
 
     persons = []
 
