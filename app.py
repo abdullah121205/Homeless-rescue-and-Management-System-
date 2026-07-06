@@ -19,7 +19,7 @@ from db import (
 )
 
 app = Flask(__name__)
-app.secret_key = "ngo_secret_key"
+app.secret_key = os.environ.get("SECRET_KEY", "ngo_secret_key")
 
 
 # ---------------- LOGIN ----------------
