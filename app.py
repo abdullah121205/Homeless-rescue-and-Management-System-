@@ -86,7 +86,7 @@ def dashboard():
 def add_person():
     
     if 'user' not in session:
-    return redirect(url_for('login'))
+       return redirect(url_for('login'))
 
     if request.method == 'POST':
 
