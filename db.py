@@ -210,7 +210,7 @@ def get_rescued_count():
     return total
 
 
- def get_total_volunteers():
+def get_total_volunteers():
     conn = connect_db()
     cursor = conn.cursor()
 
