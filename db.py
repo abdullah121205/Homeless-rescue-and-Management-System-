@@ -208,7 +208,20 @@ def get_rescued_count():
     conn.close()
 
     return total
-    
+
+
+ def get_total_volunteers():
+    conn = connect_db()
+    cursor = conn.cursor()
+
+    cursor.execute("SELECT COUNT(*) FROM users")
+
+    total = cursor.fetchone()[0]
+
+    conn.close()
+
+    return total   
+     
 # Update Person
 def update_person(
     id,
