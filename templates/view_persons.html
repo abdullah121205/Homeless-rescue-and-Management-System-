@@ -43,7 +43,7 @@
     <td>{{ person.location }}</td>
 
     <td>
-    <a href="/edit_person/{{ person.id }}">
+    <a href="{{ url_for('edit_person', id=person.id) }}">
         <button class="edit-btn">Edit</button>
     </a>
     </td>
