@@ -38,7 +38,7 @@
             <h2>Admin Login</h2>
 
             <!-- Connects Login Button to Flask -->
-            <form id="loginForm" method="POST" action="/">
+            <form id="loginForm" method="POST" action="{{ url_for('login') }}">
 
                 <input
                     type="text"
