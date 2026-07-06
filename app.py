@@ -14,6 +14,7 @@ from db import (
     get_total_persons,
     get_pending_cases,
     get_rescued_count,
+    get_recent_persons,
     get_recent_persons
 )
 
