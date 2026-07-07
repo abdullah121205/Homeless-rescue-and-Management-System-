@@ -3,7 +3,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 
 # Connect to database
 def connect_db():
-    conn = sqlite3.connect("database.db")
+    conn = sqlite3.connect("sabarmati_ngo.db")
     conn.row_factory = sqlite3.Row
     return conn
 
@@ -110,6 +110,7 @@ def insert_person(
     ))
 
     conn.commit()
+    print("Person inserted successfully")
     conn.close()
 
 
@@ -182,7 +183,7 @@ def get_pending_cases():
     cursor.execute("""
         SELECT COUNT(*)
         FROM persons
-        WHERE status != 'Reunited'
+        WHERE status = 'Pending'
     """)
 
     total = cursor.fetchone()[0]
