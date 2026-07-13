@@ -196,7 +196,8 @@ if photo and photo.filename != "":
 
     filename = secure_filename(photo.filename)
     photo.save(os.path.join(UPLOAD_FOLDER, filename))
-        update_person(
+    
+update_person(
            id,
            name,
            alias,
