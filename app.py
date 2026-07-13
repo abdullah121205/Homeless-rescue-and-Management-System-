@@ -188,12 +188,14 @@ def edit_person(id):
 
         photo = request.files.get('photo')
 
-        filename = person["photo"]
+filename = person["photo"]
 
-        if photo and photo.filename != "":
-           filename = photo.filename
-           photo.save(os.path.join("static/images", filename))
+if photo and photo.filename != "":
+    UPLOAD_FOLDER = os.path.join(app.root_path, "static", "images")
+    os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 
+    filename = secure_filename(photo.filename)
+    photo.save(os.path.join(UPLOAD_FOLDER, filename))
         update_person(
            id,
            name,
