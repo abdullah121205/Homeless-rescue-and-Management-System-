@@ -45,8 +45,13 @@
             <td>{{ volunteer.email }}</td>
 
             <td>
-                <button class="edit-btn">Edit</button>
-                <button class="delete-btn">Delete</button>
+                <button class="edit-btn" onclick="editVolunteer({{ volunteer.id }})">
+    Edit
+</button>
+
+<button class="delete-btn" onclick="deleteVolunteer({{ volunteer.id }})">
+    Delete
+</button>
             </td>
         </tr>
 
