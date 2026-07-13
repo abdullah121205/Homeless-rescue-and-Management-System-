@@ -223,6 +223,8 @@ def edit_person(id):
         person=person
     )
 
+        
+
 # ---------------- SEARCH ----------------
 
 @app.route('/search', methods=['GET', 'POST'])
