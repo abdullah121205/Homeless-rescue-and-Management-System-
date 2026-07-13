@@ -267,7 +267,7 @@ def delete_person_route(id):
 
     return redirect(url_for('view_persons'))
     
-    # ---------------- ACCOUNTS ----------------
+# ---------------- ACCOUNTS ----------------
 
 @app.route('/accounts')
 def accounts():
