@@ -1,6 +1,6 @@
 import os
 from flask import Flask, render_template, request, redirect, url_for, session
-
+from werkzeug.utils import secure_filename
 from db import (
     insert_user,
     login_user,
