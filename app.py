@@ -59,9 +59,21 @@ def register():
         email = request.form['email']
         password = request.form['password']
 
-        insert_user(fullname, username, email, password)
+        try:
+            insert_user(fullname, username, email, password)
+            return redirect(url_for('login'))
 
-        return redirect(url_for('login'))
+        except psycopg2.errors.UniqueViolation:
+            return render_template(
+                'register.html',
+                error="Username or Email already exists."
+            )
+
+        except Exception as e:
+            return render_template(
+                'register.html',
+                error=str(e)
+            )
 
     return render_template('register.html')
 
