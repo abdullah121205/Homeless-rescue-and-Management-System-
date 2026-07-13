@@ -267,6 +267,32 @@ def delete_person_route(id):
 
     return redirect(url_for('view_persons'))
     
+    # ---------------- ACCOUNTS ----------------
+
+@app.route('/accounts')
+def accounts():
+
+    if 'user' not in session:
+        return redirect(url_for('login'))
+
+    volunteers = get_all_volunteers()
+
+    return render_template(
+        'accounts.html',
+        volunteers=volunteers
+    )
+
+
+@app.route('/delete_volunteer/<int:id>')
+def delete_volunteer_route(id):
+
+    if 'user' not in session:
+        return redirect(url_for('login'))
+
+    delete_volunteer(id)
+
+    return redirect(url_for('accounts'))
+    
 
 # ---------------- LOGOUT ----------------
 
