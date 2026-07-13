@@ -397,8 +397,8 @@ def login_user(username, password):
         return user
 
     return None
+    
     # ---------------- VOLUNTEER ACCOUNTS ----------------
-
 def get_all_volunteers():
     conn = connect_db()
     cursor = conn.cursor()
