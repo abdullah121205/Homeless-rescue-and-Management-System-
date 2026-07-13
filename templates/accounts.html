@@ -1,1 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Accounts</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/accounts.css') }}">
+</head>
+<body>
 
+<div class="container">
+
+    <div class="top-bar">
+        <h1>Volunteer Accounts</h1>
+
+        <a href="/dashboard">
+            <button>← Dashboard</button>
+        </a>
+    </div>
+
+    <div class="search-box">
+        <input type="text" id="searchInput" placeholder="Search volunteer...">
+    </div>
+
+    <table id="accountsTable">
+
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Full Name</th>
+                <th>Username</th>
+                <th>Email</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+
+        <tbody>
+
+        {% for volunteer in volunteers %}
+
+        <tr>
+            <td>{{ volunteer.id }}</td>
+            <td>{{ volunteer.fullname }}</td>
+            <td>{{ volunteer.username }}</td>
+            <td>{{ volunteer.email }}</td>
+
+            <td>
+                <button class="edit-btn">Edit</button>
+                <button class="delete-btn">Delete</button>
+            </td>
+        </tr>
+
+        {% endfor %}
+
+        </tbody>
+
+    </table>
+
+</div>
+
+<script src="{{ url_for('static', filename='js/accounts.js') }}"></script>
+
+</body>
+</html>
