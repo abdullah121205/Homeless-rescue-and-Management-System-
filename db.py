@@ -5,7 +5,11 @@ from werkzeug.security import generate_password_hash, check_password_hash
 
 # Connect to database
 def connect_db():
-    conn = psycopg2.connect(os.environ["DATABASE_URL"])
+    # Using RealDictConnection so rows act like dictionaries, replacing sqlite3.Row
+    conn = psycopg2.connect(
+        os.environ["DATABASE_URL"], 
+        connection_factory=psycopg2.extras.RealDictConnection
+    )
     return conn
 
 
@@ -14,10 +18,11 @@ def create_tables():
     conn = connect_db()
     cursor = conn.cursor()
 
-    # User  table
+    # User table
+    # CHANGED: AUTOINCREMENT replaced with SERIAL
     cursor.execute("""
     CREATE TABLE IF NOT EXISTS users(
-       id INTEGER PRIMARY KEY AUTOINCREMENT,
+       id SERIAL PRIMARY KEY,
        fullname TEXT NOT NULL,
        username TEXT UNIQUE NOT NULL,
        email TEXT UNIQUE NOT NULL,
@@ -26,28 +31,30 @@ def create_tables():
     """)
 
     # Homeless Person Table
+    # CHANGED: AUTOINCREMENT replaced with SERIAL
     cursor.execute("""
     CREATE TABLE IF NOT EXISTS persons(
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    name TEXT NOT NULL,
-    alias TEXT,
-    age INTEGER,
-    gender TEXT,
-    rescue_date TEXT,
-    location TEXT,
-    rescued_by TEXT,
-    status TEXT,
-    physical_condition TEXT,
-    medical_issues TEXT,
-    disability TEXT,
-    aadhaar TEXT,
-    family_contact TEXT,
-    remarks TEXT,
-    photo TEXT
-)
-""")
+        id SERIAL PRIMARY KEY,
+        name TEXT NOT NULL,
+        alias TEXT,
+        age INTEGER,
+        gender TEXT,
+        rescue_date TEXT,
+        location TEXT,
+        rescued_by TEXT,
+        status TEXT,
+        physical_condition TEXT,
+        medical_issues TEXT,
+        disability TEXT,
+        aadhaar TEXT,
+        family_contact TEXT,
+        remarks TEXT,
+        photo TEXT
+    )
+    """)
 
     conn.commit()
+    cursor.close()
     conn.close()
 
 
@@ -69,10 +76,10 @@ def insert_person(
     remarks,
     photo
 ):
-
     conn = connect_db()
     cursor = conn.cursor()
 
+    # CHANGED: SQLite "?" placeholders changed to PostgreSQL "%s" placeholders
     cursor.execute("""
     INSERT INTO persons(
         name,
@@ -91,8 +98,8 @@ def insert_person(
         remarks,
         photo
     )
-    VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
-    """,(
+    VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+    """, (
         name,
         alias,
         age,
@@ -111,6 +118,7 @@ def insert_person(
     ))
 
     conn.commit()
+    cursor.close()
     conn.close()
 
 
@@ -119,13 +127,15 @@ def get_person(id):
     conn = connect_db()
     cursor = conn.cursor()
 
+    # CHANGED: "?" to "%s"
     cursor.execute("""
     SELECT * FROM persons
-    WHERE id=?
+    WHERE id=%s
     """, (id,))
 
     person = cursor.fetchone()
 
+    cursor.close()
     conn.close()
 
     return person
@@ -134,14 +144,15 @@ def get_person(id):
 # View Persons
 def get_all_persons():
     conn = connect_db()
-    conn.row_factory = sqlite3.Row
     cursor = conn.cursor()
 
     cursor.execute("SELECT * FROM persons")
     data = cursor.fetchall()
 
+    cursor.close()
     conn.close()
     return data
+
 
 # Recent Persons
 def get_recent_persons():
@@ -157,10 +168,12 @@ def get_recent_persons():
 
     persons = cursor.fetchall()
 
+    cursor.close()
     conn.close()
 
     return persons
     
+
 # Total Persons
 def get_total_persons():
     conn = connect_db()
@@ -168,8 +181,10 @@ def get_total_persons():
 
     cursor.execute("SELECT COUNT(*) FROM persons")
 
-    total = cursor.fetchone()[0]
+    # RealDictConnection returns dictionary-like rows even for aggregates
+    total = list(cursor.fetchone().values())[0]
 
+    cursor.close()
     conn.close()
 
     return total
@@ -186,8 +201,9 @@ def get_pending_cases():
         WHERE status != 'Reunited'
     """)
 
-    total = cursor.fetchone()[0]
+    total = list(cursor.fetchone().values())[0]
 
+    cursor.close()
     conn.close()
 
     return total
@@ -204,8 +220,9 @@ def get_rescued_count():
         WHERE status='Rescued'
     """)
 
-    total = cursor.fetchone()[0]
+    total = list(cursor.fetchone().values())[0]
 
+    cursor.close()
     conn.close()
 
     return total
@@ -217,12 +234,14 @@ def get_total_volunteers():
 
     cursor.execute("SELECT COUNT(*) FROM users")
 
-    total = cursor.fetchone()[0]
+    total = list(cursor.fetchone().values())[0]
 
+    cursor.close()
     conn.close()
 
     return total   
      
+
 # Update Person
 def update_person(
     id,
@@ -245,44 +264,46 @@ def update_person(
     conn = connect_db()
     cursor = conn.cursor()
 
+    # CHANGED: "?" to "%s"
     cursor.execute("""
-UPDATE persons
-SET
-    name=?,
-    alias=?,
-    age=?,
-    gender=?,
-    rescue_date=?,
-    location=?,
-    rescued_by=?,
-    status=?,
-    physical_condition=?,
-    medical_issues=?,
-    disability=?,
-    aadhaar=?,
-    family_contact=?,
-    remarks=?,
-    photo=?
-WHERE id=?
-""", (
-    name,
-    alias,
-    age,
-    gender,
-    rescue_date,
-    location,
-    rescued_by,
-    status,
-    physical_condition,
-    medical_issues,
-    disability,
-    aadhaar,
-    family_contact,
-    remarks,
-    photo,
-    id
-))
+    UPDATE persons
+    SET
+        name=%s,
+        alias=%s,
+        age=%s,
+        gender=%s,
+        rescue_date=%s,
+        location=%s,
+        rescued_by=%s,
+        status=%s,
+        physical_condition=%s,
+        medical_issues=%s,
+        disability=%s,
+        aadhaar=%s,
+        family_contact=%s,
+        remarks=%s,
+        photo=%s
+    WHERE id=%s
+    """, (
+        name,
+        alias,
+        age,
+        gender,
+        rescue_date,
+        location,
+        rescued_by,
+        status,
+        physical_condition,
+        medical_issues,
+        disability,
+        aadhaar,
+        family_contact,
+        remarks,
+        photo,
+        id
+    ))
     conn.commit()
+    cursor.close()
     conn.close()
 
 
@@ -291,48 +312,52 @@ def delete_person(id):
     conn = connect_db()
     cursor = conn.cursor()
 
-    cursor.execute("DELETE FROM persons WHERE id=?", (id,))
+    # CHANGED: "?" to "%s"
+    cursor.execute("DELETE FROM persons WHERE id=%s", (id,))
 
     conn.commit()
+    cursor.close()
     conn.close()
 
 
 # Search Person
 def search_person(keyword):
-
     conn = connect_db()
-    conn.row_factory = sqlite3.Row
     cursor = conn.cursor()
 
+    # CHANGED: "?" to "%s"
     cursor.execute("""
     SELECT * FROM persons
-    WHERE name LIKE ?
-       OR location LIKE ?
+    WHERE name LIKE %s
+       OR location LIKE %s
     """, ('%' + keyword + '%',
           '%' + keyword + '%'))
 
     data = cursor.fetchall()
 
+    cursor.close()
     conn.close()
 
     return data
 
-def filter_by_status(status):
 
+def filter_by_status(status):
     conn = connect_db()
-    conn.row_factory = sqlite3.Row
     cursor = conn.cursor()
 
+    # CHANGED: "?" to "%s"
     cursor.execute("""
     SELECT * FROM persons
-    WHERE status = ?
+    WHERE status = %s
     """, (status,))
 
     data = cursor.fetchall()
 
+    cursor.close()
     conn.close()
 
     return data
+
 
 # Register User
 def insert_user(fullname, username, email, password):
@@ -341,12 +366,14 @@ def insert_user(fullname, username, email, password):
 
     hashed_password = generate_password_hash(password)
 
+    # CHANGED: "?" to "%s"
     cursor.execute("""
     INSERT INTO users(fullname, username, email, password)
-    VALUES (?, ?, ?, ?)
+    VALUES (%s, %s, %s, %s)
     """, (fullname, username, email, hashed_password))
 
     conn.commit()
+    cursor.close()
     conn.close()
 
 
@@ -355,19 +382,22 @@ def login_user(username, password):
     conn = connect_db()
     cursor = conn.cursor()
 
+    # CHANGED: "?" to "%s"
     cursor.execute("""
     SELECT * FROM users
-    WHERE username=?
+    WHERE username=%s
     """, (username,))
 
     user = cursor.fetchone()
 
+    cursor.close()
     conn.close()
 
     if user and check_password_hash(user["password"], password):
         return user
 
     return None
+
 
 if __name__ == "__main__":
     create_tables()
