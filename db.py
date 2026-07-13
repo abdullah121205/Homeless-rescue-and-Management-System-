@@ -382,7 +382,6 @@ def login_user(username, password):
     conn = connect_db()
     cursor = conn.cursor()
 
-    # CHANGED: "?" to "%s"
     cursor.execute("""
     SELECT * FROM users
     WHERE username=%s
@@ -397,8 +396,10 @@ def login_user(username, password):
         return user
 
     return None
-    
-    # ---------------- VOLUNTEER ACCOUNTS ----------------
+
+
+# ---------------- VOLUNTEER ACCOUNTS ----------------
+
 def get_all_volunteers():
     conn = connect_db()
     cursor = conn.cursor()
