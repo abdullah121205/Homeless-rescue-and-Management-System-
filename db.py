@@ -1,10 +1,11 @@
-import sqlite3
+import os
+import psycopg2
+import psycopg2.extras
 from werkzeug.security import generate_password_hash, check_password_hash
 
 # Connect to database
 def connect_db():
-    conn = sqlite3.connect("database.db")
-    conn.row_factory = sqlite3.Row
+    conn = psycopg2.connect(os.environ["DATABASE_URL"])
     return conn
 
 
