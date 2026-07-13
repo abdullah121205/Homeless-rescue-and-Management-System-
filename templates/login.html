@@ -9,6 +9,10 @@
 </head>
 
 <body>
+    <!-- NGO Banner -->
+<div class="banner">
+    <img src="{{ url_for('static', filename='images/ngo_banner.jpg') }}" alt="Sabarmati NGO Banner">
+</div>
 
 <div class="container">
 
@@ -18,6 +22,11 @@
         <h1>Sabarmati NGO</h1>
 
         <h2>Homeless Rescue & Management System</h2>
+        <p class="govt-info">
+    Jointly with Tiruppur City Municipal Corporation, National Institute of
+    Social Defence under the Ministry of Social Justice and Empowerment,
+    Government of India (SMILE Project).
+</p>
 
         <p>
             Sabarmati NGO is dedicated to rescuing, rehabilitating and supporting
@@ -80,6 +89,9 @@
     </div>
 
 </div>
+    <footer class="footer">
+    © Sabarmati Social Seva Sangam | SMILE Project | Government of India
+</footer>
 
 <script src="{{ url_for('static', filename='js/login.js') }}"></script>
 
