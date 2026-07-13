@@ -163,9 +163,9 @@ def view_persons():
 
 @app.route('/edit_person/<int:id>', methods=['GET', 'POST'])
 def edit_person(id):
-    
+
     if 'user' not in session:
-       return redirect(url_for('login'))
+        return redirect(url_for('login'))
 
     person = get_person(id)
 
@@ -188,35 +188,36 @@ def edit_person(id):
 
         photo = request.files.get('photo')
 
-filename = person["photo"]
+        filename = person["photo"]
 
-if photo and photo.filename != "":
-    UPLOAD_FOLDER = os.path.join(app.root_path, "static", "images")
-    os.makedirs(UPLOAD_FOLDER, exist_ok=True)
+        if photo and photo.filename != "":
+            UPLOAD_FOLDER = os.path.join(app.root_path, "static", "images")
+            os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 
-    filename = secure_filename(photo.filename)
-    photo.save(os.path.join(UPLOAD_FOLDER, filename))
-    
-update_person(
-           id,
-           name,
-           alias,
-           age,
-           gender,
-           rescue_date,
-           location,
-           rescued_by,
-           status,
-           physical_condition,
-           medical_issues,
-           disability,
-           aadhaar,
-           family_contact,
-           remarks,
-           filename
+            filename = secure_filename(photo.filename)
+            photo.save(os.path.join(UPLOAD_FOLDER, filename))
+
+        update_person(
+            id,
+            name,
+            alias,
+            age,
+            gender,
+            rescue_date,
+            location,
+            rescued_by,
+            status,
+            physical_condition,
+            medical_issues,
+            disability,
+            aadhaar,
+            family_contact,
+            remarks,
+            filename
         )
 
         return redirect(url_for('view_persons'))
+
     return render_template(
         'edit_person.html',
         person=person
