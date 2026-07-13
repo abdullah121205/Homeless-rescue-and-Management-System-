@@ -1,4 +1,5 @@
 import os
+import psycopg2
 from flask import Flask, render_template, request, redirect, url_for, session
 from werkzeug.utils import secure_filename
 from db import (
@@ -23,15 +24,14 @@ app.secret_key = os.environ.get("SECRET_KEY", "ngo_secret_key")
 
 from db import create_tables
 
+# Initialize tables in the PostgreSQL database if they don't exist yet
 create_tables()
 
 # ---------------- LOGIN ----------------
 
 @app.route('/', methods=['GET', 'POST'])
 def login():
-
     if request.method == 'POST':
-
         username = request.form['username']
         password = request.form['password']
 
@@ -53,9 +53,7 @@ def login():
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
-
     if request.method == 'POST':
-
         fullname = request.form['fullname']
         username = request.form['username']
         email = request.form['email']
@@ -72,29 +70,26 @@ def register():
 
 @app.route('/dashboard')
 def dashboard():
-
     if 'user' not in session:
         return redirect(url_for('login'))
 
     return render_template(
-    'dashboard.html',
-    total_persons=get_total_persons(),
-    rescued=get_rescued_count(),
-    pending=get_pending_cases(),
-    recent_persons=get_recent_persons(),
-    volunteers=get_total_volunteers()
-)
+        'dashboard.html',
+        total_persons=get_total_persons(),
+        rescued=get_rescued_count(),
+        pending=get_pending_cases(),
+        recent_persons=get_recent_persons(),
+        volunteers=get_total_volunteers()
+    )
 
 # ---------------- ADD PERSON ----------------
 
 @app.route('/add_person', methods=['GET', 'POST'])
 def add_person():
-    
     if 'user' not in session:
        return redirect(url_for('login'))
 
     if request.method == 'POST':
-
         name = request.form['full_name']
         alias = request.form['alias']
         age = request.form['age']
@@ -111,7 +106,6 @@ def add_person():
         remarks = request.form['remarks']
 
         photo = request.files['photo']
-
         filename = ""
 
         if photo and photo.filename != "":
@@ -148,7 +142,6 @@ def add_person():
 
 @app.route('/view_persons')
 def view_persons():
-    
     if 'user' not in session:
         return redirect(url_for('login'))
 
@@ -163,14 +156,12 @@ def view_persons():
 
 @app.route('/edit_person/<int:id>', methods=['GET', 'POST'])
 def edit_person(id):
-
     if 'user' not in session:
         return redirect(url_for('login'))
 
     person = get_person(id)
 
     if request.method == 'POST':
-
         name = request.form['full_name']
         alias = request.form['alias']
         age = request.form['age']
@@ -187,7 +178,8 @@ def edit_person(id):
         remarks = request.form['remarks']
 
         photo = request.files.get('photo')
-
+        
+        # Kept perfectly intact with dictionary lookup matching RealDictConnection mapping
         filename = person["photo"]
 
         if photo and photo.filename != "":
@@ -223,29 +215,24 @@ def edit_person(id):
         person=person
     )
 
-        
 
 # ---------------- SEARCH ----------------
 
 @app.route('/search', methods=['GET', 'POST'])
 def search():
-    
     if 'user' not in session:
        return redirect(url_for('login'))
 
     persons = []
 
     if request.method == 'POST':
-
         keyword = request.form.get('keyword')
         status = request.form.get('status')
 
         if keyword:
             persons = search_person(keyword)
-
         elif status and status != "All":
             persons = filter_by_status(status)
-
         else:
             persons = get_all_persons()
 
@@ -254,11 +241,11 @@ def search():
         persons=persons
     )
     
-#------------------ Delete Person -------------------
+
+#------------------ DELETE PERSON -------------------
 
 @app.route('/delete_person/<int:id>')
 def delete_person_route(id):
-    
     if 'user' not in session:
         return redirect(url_for('login'))
 
@@ -266,13 +253,12 @@ def delete_person_route(id):
 
     return redirect(url_for('view_persons'))
     
+
 # ---------------- LOGOUT ----------------
 
 @app.route('/logout')
 def logout():
-
     session.pop('user', None)
-
     return redirect(url_for('login'))
 
 
