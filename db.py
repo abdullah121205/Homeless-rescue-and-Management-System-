@@ -1,4 +1,4 @@
-import os
+iimport os
 import psycopg2
 import psycopg2.extras
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -397,6 +397,39 @@ def login_user(username, password):
         return user
 
     return None
+    # ---------------- VOLUNTEER ACCOUNTS ----------------
+
+def get_all_volunteers():
+    conn = connect_db()
+    cursor = conn.cursor()
+
+    cursor.execute("""
+        SELECT id, fullname, username, email
+        FROM users
+        ORDER BY id
+    """)
+
+    volunteers = cursor.fetchall()
+
+    cursor.close()
+    conn.close()
+
+    return volunteers
+
+
+def delete_volunteer(id):
+    conn = connect_db()
+    cursor = conn.cursor()
+
+    cursor.execute("""
+        DELETE FROM users
+        WHERE id=%s
+    """, (id,))
+
+    conn.commit()
+
+    cursor.close()
+    conn.close()
 
 
 if __name__ == "__main__":
