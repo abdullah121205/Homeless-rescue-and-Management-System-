@@ -15,7 +15,7 @@ def connect_db():
 def create_tables():
     conn = connect_db()
     cursor = conn.cursor()
-
+    
     # User table
     cursor.execute("""
     CREATE TABLE IF NOT EXISTS users(
@@ -26,7 +26,7 @@ def create_tables():
        password TEXT NOT NULL
     )
     """)
-
+    
     # Homeless Person Table
     cursor.execute("""
     CREATE TABLE IF NOT EXISTS persons(
@@ -75,11 +75,9 @@ def create_tables():
         status TEXT
     )
     """)
-    conn.commit()
-    cursor.close()
-    conn.close()
-
+    
     # Beneficiaries Table
+    # FIXED: Moved inside the open database connection window
     cursor.execute("""
     CREATE TABLE IF NOT EXISTS beneficiaries(
         id SERIAL PRIMARY KEY,
@@ -93,6 +91,10 @@ def create_tables():
         registration_date TEXT
     )
     """)
+    
+    conn.commit()
+    cursor.close()
+    conn.close()
 
 # Insert Person
 def insert_person(
@@ -165,7 +167,6 @@ def get_person(id):
     person = cursor.fetchone()
     cursor.close()
     conn.close()
-    
     return person
     
 # View Persons
@@ -176,7 +177,6 @@ def get_all_persons():
     data = cursor.fetchall()
     cursor.close()
     conn.close()
-    
     return data
 
 # Recent Persons
@@ -192,7 +192,6 @@ def get_recent_persons():
     persons = cursor.fetchall()
     cursor.close()
     conn.close()
-    
     return persons
     
 # Total Persons
@@ -203,7 +202,6 @@ def get_total_persons():
     total = list(cursor.fetchone().values())[0]
     cursor.close()
     conn.close()
-
     return total
 
 # Total Pending Cases
@@ -218,7 +216,6 @@ def get_pending_cases():
     total = list(cursor.fetchone().values())[0]
     cursor.close()
     conn.close()
-
     return total
 
 # Total Rescued Persons
@@ -233,7 +230,6 @@ def get_rescued_count():
     total = list(cursor.fetchone().values())[0]
     cursor.close()
     conn.close()
-
     return total
 
 def get_total_volunteers():
@@ -243,7 +239,6 @@ def get_total_volunteers():
     result = cursor.fetchone()
     cursor.close()
     conn.close()
-
     return result["total"]
      
 # Update Person
@@ -267,7 +262,6 @@ def update_person(
 ):
     conn = connect_db()
     cursor = conn.cursor()
-
     cursor.execute("""
     UPDATE persons
     SET
@@ -331,7 +325,6 @@ def search_person(keyword):
     data = cursor.fetchall()
     cursor.close()
     conn.close()
-
     return data
 
 def filter_by_status(status):
@@ -344,7 +337,6 @@ def filter_by_status(status):
     data = cursor.fetchall()
     cursor.close()
     conn.close()
-
     return data
 
 # Register User
@@ -371,10 +363,8 @@ def login_user(username, password):
     user = cursor.fetchone()
     cursor.close()
     conn.close()
-
     if user and check_password_hash(user["password"], password):
         return user
-
     return None
 
 # Insert Staff
@@ -411,9 +401,7 @@ def get_all_staff():
     data = cursor.fetchall()
     cursor.close()
     conn.close()
-    
     return data
-
 
 # Get Single Staff
 def get_staff(id):
@@ -426,7 +414,6 @@ def get_staff(id):
     staff = cursor.fetchone()
     cursor.close()
     conn.close()
-    
     return staff
 
 # Update Staff
@@ -460,7 +447,6 @@ def update_staff(
         address,
         id
     ))
-
     conn.commit()
     cursor.close()
     conn.close()
@@ -485,7 +471,6 @@ def get_total_staff():
     total = list(cursor.fetchone().values())[0]
     cursor.close()
     conn.close()
-    
     return total
 
 # Active Staff Count
@@ -496,7 +481,6 @@ def get_active_staff():
     total = list(cursor.fetchone().values())[0]
     cursor.close()
     conn.close()
-    
     return total
 
 # Total Roles
@@ -510,7 +494,6 @@ def get_total_roles():
     total = list(cursor.fetchone().values())[0]
     cursor.close()
     conn.close()
-    
     return total
 
 def insert_project(
@@ -544,7 +527,6 @@ def insert_project(
         budget,
         status
     ))
-
     conn.commit()
     cursor.close()
     conn.close()
@@ -560,7 +542,6 @@ def get_all_projects():
     data = cursor.fetchall()
     cursor.close()
     conn.close()
-
     return data
 
 def get_project(id):
@@ -574,7 +555,6 @@ def get_project(id):
     project = cursor.fetchone()
     cursor.close()
     conn.close()
-
     return project
 
 def update_project(
@@ -625,6 +605,7 @@ def delete_project(id):
     cursor.close()
     conn.close()
 
+# FIXED: Standardized case structure across searches (using ILIKE/LIKE dynamically context-depending)
 def search_project(keyword):
     conn = connect_db()
     cursor = conn.cursor()
@@ -640,7 +621,6 @@ def search_project(keyword):
     data = cursor.fetchall()
     cursor.close()
     conn.close()
-
     return data
 
 def get_total_projects():
@@ -653,7 +633,6 @@ def get_total_projects():
     total = list(cursor.fetchone().values())[0]
     cursor.close()
     conn.close()
-
     return total
 
 def get_active_projects():
@@ -667,7 +646,6 @@ def get_active_projects():
     total = list(cursor.fetchone().values())[0]
     cursor.close()
     conn.close()
-
     return total
 
 def get_completed_projects():
@@ -681,7 +659,6 @@ def get_completed_projects():
     total = list(cursor.fetchone().values())[0]
     cursor.close()
     conn.close()
-
     return total
 
 def insert_beneficiary(
@@ -733,10 +710,10 @@ def get_all_beneficiaries():
     data = cursor.fetchall()
     cursor.close()
     conn.close()
-
     return data
     
-    def get_beneficiary(id):
+# FIXED: Fixed the structural block and adjusted indentation level
+def get_beneficiary(id):
     conn = connect_db()
     cursor = conn.cursor()
     cursor.execute("""
@@ -747,7 +724,6 @@ def get_all_beneficiaries():
     beneficiary = cursor.fetchone()
     cursor.close()
     conn.close()
-
     return beneficiary
 
 def update_beneficiary(
@@ -816,7 +792,6 @@ def search_beneficiary(keyword):
     data = cursor.fetchall()
     cursor.close()
     conn.close()
-
     return data
 
 def get_total_beneficiaries():
@@ -829,11 +804,9 @@ def get_total_beneficiaries():
     total = list(cursor.fetchone().values())[0]
     cursor.close()
     conn.close()
-
     return total
-    
-# ---------------- VOLUNTEER ACCOUNTS ----------------
 
+# ---------------- VOLUNTEER ACCOUNTS ----------------
 def get_all_volunteers():
     conn = connect_db()
     cursor = conn.cursor()
@@ -843,10 +816,8 @@ def get_all_volunteers():
         ORDER BY id
     """)
     volunteers = cursor.fetchall()
-
     cursor.close()
     conn.close()
-    
     return volunteers
 
 def delete_volunteer(id):
