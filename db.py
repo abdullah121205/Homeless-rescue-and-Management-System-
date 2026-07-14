@@ -818,6 +818,19 @@ def search_beneficiary(keyword):
     conn.close()
 
     return data
+
+def get_total_beneficiaries():
+    conn = connect_db()
+    cursor = conn.cursor()
+    cursor.execute("""
+    SELECT COUNT(*)
+    FROM beneficiaries
+    """)
+    total = list(cursor.fetchone().values())[0]
+    cursor.close()
+    conn.close()
+
+    return total
     
 # ---------------- VOLUNTEER ACCOUNTS ----------------
 
