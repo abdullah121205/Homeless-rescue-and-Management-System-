@@ -4,75 +4,86 @@
     <title>Homeless Persons List</title>
 
     <link rel="stylesheet" href="{{ url_for('static', filename='css/view_person.css') }}">
-    
-
 </head>
 
 <body>
 
-<h2>Homeless Persons Details</h2>
+<div class="container">
 
-<center>
-    <input
-        type="text"
-        id="searchInput"
-        placeholder="Search by Name...">
-</center>
+    <div class="header">
+        <h1>🏠 Homeless Persons Details</h1>
+        <p>View and manage rescued persons</p>
+    </div>
 
-<br>
+    <div class="top-bar">
 
-<table id="personsTable">
+        <a href="{{ url_for('add_person') }}" class="add-btn">
+            Add New Person
+        </a>
 
-<tr>
-    <th>Name</th>
-    <th>Age</th>
-    <th>Gender</th>
-    <th>Location Found</th>
+        <input
+            type="text"
+            id="searchInput"
+            placeholder="Search by Name...">
 
-    
-    <th>Edit</th>
-    <th>Delete</th>
-</tr>
+    </div>
 
-{% for person in persons %}
+    <table id="personsTable">
 
-<tr>
-    <td>{{ person.name }}</td>
-    <td>{{ person.age }}</td>
-    <td>{{ person.gender }}</td>
-    <td>{{ person.location }}</td>
+        <thead>
 
-    <td>
-    <a href="{{ url_for('edit_person', id=person.id) }}">
-        <button class="edit-btn">Edit</button>
-    </a>
-    </td>
+        <tr>
+            <th>Name</th>
+            <th>Age</th>
+            <th>Gender</th>
+            <th>Location Found</th>
+            <th>Edit</th>
+            <th>Delete</th>
+        </tr>
 
-    <td>
-    <a href="{{ url_for('delete_person_route', id=person.id) }}"
-       onclick="return confirm('Are you sure you want to delete this record?')">
-        <button class="delete-btn">Delete</button>
-    </a>
-</td>
+        </thead>
 
-</tr>
+        <tbody>
 
-{% endfor %}
+        {% for person in persons %}
 
-</table>
+        <tr>
 
-<br>
+            <td>{{ person.name }}</td>
+            <td>{{ person.age }}</td>
+            <td>{{ person.gender }}</td>
+            <td>{{ person.location }}</td>
 
-<a href="{{ url_for('add_person') }}">
-    <button>Add New Person</button>
-</a>
+            <td>
+                <a href="{{ url_for('edit_person', id=person.id) }}" class="edit-btn">
+                    Edit
+                </a>
+            </td>
+
+            <td>
+                <a href="{{ url_for('delete_person_route', id=person.id) }}"
+                   class="delete-btn"
+                   onclick="return confirm('Are you sure you want to delete this record?')">
+                    Delete
+                </a>
+            </td>
+
+        </tr>
+
+        {% endfor %}
+
+        </tbody>
+
+    </table>
 
     <br><br>
 
-<a href="{{ url_for('dashboard') }}">
-    <button type="button">Back to Dashboard</button>
-</a>
-    
+    <a href="{{ url_for('dashboard') }}" class="add-btn">
+        Back to Dashboard
+    </a>
+
+</div>
+
 <script src="{{ url_for('static', filename='js/view_persons.js') }}"></script>
 
 </body>
