@@ -684,6 +684,44 @@ def get_completed_projects():
     conn.close()
 
     return total
+
+def insert_beneficiary(
+    beneficiary_name,
+    age,
+    gender,
+    phone,
+    address,
+    project_name,
+    support_type,
+    registration_date
+):
+    conn = connect_db()
+    cursor = conn.cursor()
+    cursor.execute("""
+    INSERT INTO beneficiaries(
+        beneficiary_name,
+        age,
+        gender,
+        phone,
+        address,
+        project_name,
+        support_type,
+        registration_date
+    )
+    VALUES(%s,%s,%s,%s,%s,%s,%s,%s)
+    """,(
+        beneficiary_name,
+        age,
+        gender,
+        phone,
+        address,
+        project_name,
+        support_type,
+        registration_date
+    ))
+    conn.commit()
+    cursor.close()
+    conn.close()
     
 # ---------------- VOLUNTEER ACCOUNTS ----------------
 
