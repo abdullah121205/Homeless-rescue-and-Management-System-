@@ -26,7 +26,25 @@ from db import (
     delete_staff,
     get_total_staff,
     get_active_staff,
-    get_total_roles
+    get_total_roles,
+
+    insert_project,
+    get_all_projects,
+    get_project,
+    update_project,
+    delete_project,
+    search_project,
+    get_total_projects,
+    get_active_projects,
+    get_completed_projects,
+
+    insert_beneficiary,
+    get_all_beneficiaries,
+    get_beneficiary,
+    update_beneficiary,
+    delete_beneficiary,
+    search_beneficiary,
+    get_total_beneficiaries
 )
 
 app = Flask(__name__)
