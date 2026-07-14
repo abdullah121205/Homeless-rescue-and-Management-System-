@@ -65,7 +65,20 @@ def create_tables():
         address TEXT
     )
     """)
-
+    
+    # Projects Table
+    cursor.execute("""
+    CREATE TABLE IF NOT EXISTS projects(
+        id SERIAL PRIMARY KEY,
+        project_name TEXT NOT NULL,
+        description TEXT,
+        start_date TEXT,
+        end_date TEXT,
+        location TEXT,
+        budget INTEGER,
+        status TEXT
+    )
+    """)
     conn.commit()
     cursor.close()
     conn.close()
