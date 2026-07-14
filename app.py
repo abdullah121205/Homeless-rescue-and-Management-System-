@@ -99,7 +99,6 @@ def register():
 
     return render_template('register.html')
 
-
 # ---------------- DASHBOARD ----------------
 
 @app.route('/dashboard')
@@ -117,7 +116,6 @@ def dashboard():
         staff=get_total_staff()
     )
 
-
 # ---------------- STAFF ----------------
 
 @app.route('/staff')
@@ -134,7 +132,6 @@ def staff():
         active_staff=get_active_staff(),
         total_roles=get_total_roles()
     )
-
 
 # ---------------- ADD STAFF ----------------
 
@@ -163,7 +160,6 @@ def add_staff():
         return redirect(url_for('staff'))
 
     return render_template('add_staff.html')
-
 
 # ---------------- EDIT STAFF ----------------
 
@@ -198,7 +194,6 @@ def edit_staff(id):
         'edit_staff.html',
         staff=staff
     )
-
 
 # ---------------- DELETE STAFF ----------------
 
@@ -448,7 +443,6 @@ def add_person():
 
     return render_template('add_person.html')
 
-
 # ---------------- VIEW PERSONS ----------------
 
 @app.route('/view_persons')
@@ -462,7 +456,6 @@ def view_persons():
         'view_persons.html',
         persons=persons
     )
-
 
 # ---------------- EDIT PERSON ----------------
 
@@ -527,7 +520,6 @@ def edit_person(id):
         person=person
     )
 
-
 # ---------------- SEARCH ----------------
 
 @app.route('/search', methods=['GET', 'POST'])
@@ -553,7 +545,6 @@ def search():
         persons=persons
     )
     
-
 #------------------ DELETE PERSON -------------------
 
 @app.route('/delete_person/<int:id>')
@@ -563,8 +554,7 @@ def delete_person_route(id):
 
     delete_person(id)
 
-    return redirect(url_for('view_persons'))
-    
+    return redirect(url_for('view_persons')) 
 
 # ---------------- ACCOUNTS ----------------
 
@@ -580,7 +570,6 @@ def accounts():
         volunteers=volunteers
     )
 
-
 @app.route('/delete_volunteer/<int:id>')
 def delete_volunteer_route(id):
     if 'user' not in session:
@@ -590,7 +579,6 @@ def delete_volunteer_route(id):
 
     return redirect(url_for('accounts'))
     
-
 # ---------------- LOGOUT ----------------
 
 @app.route('/logout')
