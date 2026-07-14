@@ -1,11 +1,15 @@
 import os
-import sqlite3
+import psycopg2
+import psycopg2.extras
 from werkzeug.security import generate_password_hash, check_password_hash
 
 # Connect to database
 def connect_db():
-    conn = sqlite3.connect("Sabarmati_NGO.db")
-    conn.row_factory = sqlite3.Row
+    # Configure globally to return rows as dictionary objects
+    conn = psycopg2.connect(
+        os.environ["DATABASE_URL"], 
+        connection_factory=psycopg2.extras.RealDictConnection
+    )
     return conn
 
 # Create tables
@@ -17,7 +21,7 @@ def create_tables():
     # CHANGED: AUTOINCREMENT replaced with SERIAL
     cursor.execute("""
     CREATE TABLE IF NOT EXISTS users(
-       id INTEGER PRIMARY KEY AUTOINCREMENT,
+       id SERIAL PRIMARY KEY,
        fullname TEXT NOT NULL,
        username TEXT UNIQUE NOT NULL,
        email TEXT UNIQUE NOT NULL,
@@ -29,7 +33,7 @@ def create_tables():
     # CHANGED: AUTOINCREMENT replaced with SERIAL
     cursor.execute("""
     CREATE TABLE IF NOT EXISTS persons(
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        id SERIAL PRIMARY KEY,
         name TEXT NOT NULL,
         alias TEXT,
         age INTEGER,
@@ -47,10 +51,12 @@ def create_tables():
         photo TEXT
     )
     """)
+    
     # Staff Table  
+    # CHANGED: AUTOINCREMENT replaced with SERIAL
     cursor.execute("""
     CREATE TABLE IF NOT EXISTS staff(
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        id SERIAL PRIMARY KEY,
         name TEXT NOT NULL,
         role TEXT,
         phone TEXT,
@@ -63,8 +69,6 @@ def create_tables():
     conn.commit()
     cursor.close()
     conn.close()
-
-    
 
 
 # Insert Person
@@ -107,7 +111,7 @@ def insert_person(
         remarks,
         photo
     )
-    VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+    VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
     """, (
         name,
         alias,
@@ -139,7 +143,7 @@ def get_person(id):
     # CHANGED: "?" to "%s"
     cursor.execute("""
     SELECT * FROM persons
-    WHERE id=?
+    WHERE id=%s
     """, (id,))
 
     person = cursor.fetchone()
@@ -190,7 +194,8 @@ def get_total_persons():
 
     cursor.execute("SELECT COUNT(*) FROM persons")
 
-    total = cursor.fetchone()[0]
+    # RealDictConnection returns row dictionaries; unpack to get the raw aggregate value
+    total = list(cursor.fetchone().values())[0]
     cursor.close()
     conn.close()
 
@@ -208,7 +213,7 @@ def get_pending_cases():
         WHERE status != 'Reunited'
     """)
 
-    total = cursor.fetchone()[0] 
+    total = list(cursor.fetchone().values())[0]
 
     cursor.close()
     conn.close()
@@ -227,21 +232,21 @@ def get_rescued_count():
         WHERE status='Rescued'
     """)
 
-    total = cursor.fetchone()[0]
+    total = list(cursor.fetchone().values())[0]
 
     cursor.close()
     conn.close()
 
     return total
 
-def get_total_volunteers():
 
+def get_total_volunteers():
     conn = connect_db()
     cursor = conn.cursor()
 
     cursor.execute("SELECT COUNT(*) FROM staff")
 
-    total = cursor.fetchone()[0] 
+    total = list(cursor.fetchone().values())[0] 
 
     cursor.close()
     conn.close()
@@ -275,22 +280,22 @@ def update_person(
     cursor.execute("""
     UPDATE persons
     SET
-        name=?,
-        alias=?,
-        age=?,
-        gender=?,
-        rescue_date=?,
-        location=?,
-        rescued_by=?,
-        status=?,
-        physical_condition=?,
-        medical_issues=?,
-        disability=?,
-        aadhaar=?,
-        family_contact=?,
-        remarks=?,
-        photo=?
-    WHERE id=?
+        name=%s,
+        alias=%s,
+        age=%s,
+        gender=%s,
+        rescue_date=%s,
+        location=%s,
+        rescued_by=%s,
+        status=%s,
+        physical_condition=%s,
+        medical_issues=%s,
+        disability=%s,
+        aadhaar=%s,
+        family_contact=%s,
+        remarks=%s,
+        photo=%s
+    WHERE id=%s
     """, (
         name,
         alias,
@@ -320,7 +325,7 @@ def delete_person(id):
     cursor = conn.cursor()
 
     # CHANGED: "?" to "%s"
-    cursor.execute("DELETE FROM persons WHERE id=?", (id,))
+    cursor.execute("DELETE FROM persons WHERE id=%s", (id,))
 
     conn.commit()
     cursor.close()
@@ -335,8 +340,8 @@ def search_person(keyword):
     # CHANGED: "?" to "%s"
     cursor.execute("""
     SELECT * FROM persons
-    WHERE name LIKE ?
-       OR location LIKE ?
+    WHERE name LIKE %s
+       OR location LIKE %s
     """, ('%' + keyword + '%',
           '%' + keyword + '%'))
 
@@ -355,7 +360,7 @@ def filter_by_status(status):
     # CHANGED: "?" to "%s"
     cursor.execute("""
     SELECT * FROM persons
-    WHERE status = ?
+    WHERE status = %s
     """, (status,))
 
     data = cursor.fetchall()
@@ -376,7 +381,7 @@ def insert_user(fullname, username, email, password):
     # CHANGED: "?" to "%s"
     cursor.execute("""
     INSERT INTO users(fullname, username, email, password)
-    VALUES (?, ?, ?, ?)
+    VALUES (%s, %s, %s, %s)
     """, (fullname, username, email, hashed_password))
 
     conn.commit()
@@ -389,9 +394,10 @@ def login_user(username, password):
     conn = connect_db()
     cursor = conn.cursor()
 
+    # CHANGED: "?" to "%s"
     cursor.execute("""
     SELECT * FROM users
-    WHERE username=?
+    WHERE username=%s
     """, (username,))
 
     user = cursor.fetchone()
@@ -403,12 +409,14 @@ def login_user(username, password):
         return user
 
     return None
+
+
 # Insert Staff
 def insert_staff(name, role, phone, email, joining_date, address):
-
     conn = connect_db()
     cursor = conn.cursor()
 
+    # CHANGED: "?" to "%s"
     cursor.execute("""
     INSERT INTO staff(
         name,
@@ -418,8 +426,8 @@ def insert_staff(name, role, phone, email, joining_date, address):
         joining_date,
         address
     )
-    VALUES(?,?,?,?,?,?)
-    """,(
+    VALUES(%s, %s, %s, %s, %s, %s)
+    """, (
         name,
         role,
         phone,
@@ -429,45 +437,39 @@ def insert_staff(name, role, phone, email, joining_date, address):
     ))
 
     conn.commit()
+    cursor.close()
     conn.close()
-
 
 
 # View All Staff
 def get_all_staff():
-
     conn = connect_db()
     cursor = conn.cursor()
 
-    cursor.execute("""
-    SELECT * FROM staff
-    """)
-
+    cursor.execute("SELECT * FROM staff")
     data = cursor.fetchall()
 
+    cursor.close()
     conn.close()
-
     return data
-
 
 
 # Get Single Staff
 def get_staff(id):
-
     conn = connect_db()
     cursor = conn.cursor()
 
+    # CHANGED: "?" to "%s"
     cursor.execute("""
     SELECT * FROM staff
-    WHERE id=?
-    """,(id,))
+    WHERE id=%s
+    """, (id,))
 
     staff = cursor.fetchone()
 
+    cursor.close()
     conn.close()
-
     return staff
-
 
 
 # Update Staff
@@ -480,21 +482,21 @@ def update_staff(
     joining_date,
     address
 ):
-
     conn = connect_db()
     cursor = conn.cursor()
 
+    # CHANGED: "?" to "%s"
     cursor.execute("""
     UPDATE staff
     SET
-        name=?,
-        role=?,
-        phone=?,
-        email=?,
-        joining_date=?,
-        address=?
-    WHERE id=?
-    """,(
+        name=%s,
+        role=%s,
+        phone=%s,
+        email=%s,
+        joining_date=%s,
+        address=%s
+    WHERE id=%s
+    """, (
         name,
         role,
         phone,
@@ -505,66 +507,54 @@ def update_staff(
     ))
 
     conn.commit()
+    cursor.close()
     conn.close()
-
 
 
 # Delete Staff
 def delete_staff(id):
-
     conn = connect_db()
     cursor = conn.cursor()
 
+    # CHANGED: "?" to "%s"
     cursor.execute("""
     DELETE FROM staff
-    WHERE id=?
-    """,(id,))
+    WHERE id=%s
+    """, (id,))
 
     conn.commit()
+    cursor.close()
     conn.close()
-    # Login User
+
 
 # Total Staff Count
-
 def get_total_staff():
-
     conn = connect_db()
     cursor = conn.cursor()
 
     cursor.execute("SELECT COUNT(*) FROM staff")
+    total = list(cursor.fetchone().values())[0]
 
-    total = cursor.fetchone()[0]
-
+    cursor.close()
     conn.close()
-
     return total
-
 
 
 # Active Staff Count
-
 def get_active_staff():
-
     conn = connect_db()
     cursor = conn.cursor()
 
-    cursor.execute("""
-    SELECT COUNT(*)
-    FROM staff
-    """)
+    cursor.execute("SELECT COUNT(*) FROM staff")
+    total = list(cursor.fetchone().values())[0]
 
-    total = cursor.fetchone()[0]
-
+    cursor.close()
     conn.close()
-
     return total
 
 
-
 # Total Roles
-
 def get_total_roles():
-
     conn = connect_db()
     cursor = conn.cursor()
 
@@ -572,11 +562,10 @@ def get_total_roles():
     SELECT COUNT(DISTINCT role)
     FROM staff
     """)
+    total = list(cursor.fetchone().values())[0]
 
-    total = cursor.fetchone()[0]
-
+    cursor.close()
     conn.close()
-
     return total
 
 
@@ -591,12 +580,10 @@ def get_all_volunteers():
         FROM users
         ORDER BY id
     """)
-
     volunteers = cursor.fetchall()
 
     cursor.close()
     conn.close()
-
     return volunteers
 
 
@@ -604,13 +591,13 @@ def delete_volunteer(id):
     conn = connect_db()
     cursor = conn.cursor()
 
+    # CHANGED: "?" to "%s"
     cursor.execute("""
         DELETE FROM users
-        WHERE id=?
+        WHERE id=%s
     """, (id,))
 
     conn.commit()
-
     cursor.close()
     conn.close()
 
