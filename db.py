@@ -45,9 +45,23 @@ def create_tables():
     photo TEXT
 )
 """)
+    # Staff Table  
+    cursor.execute("""
+    CREATE TABLE IF NOT EXISTS staff(
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        name TEXT NOT NULL,
+        role TEXT,
+        phone TEXT,
+        email TEXT,
+        joining_date TEXT,
+        address TEXT
+    )
+    """)
 
     conn.commit()
     conn.close()
+
+    
 
 
 # Insert Person
@@ -209,18 +223,18 @@ def get_rescued_count():
 
     return total
 
-
 def get_total_volunteers():
+
     conn = connect_db()
     cursor = conn.cursor()
 
-    cursor.execute("SELECT COUNT(*) FROM users")
+    cursor.execute("SELECT COUNT(*) FROM staff")
 
     total = cursor.fetchone()[0]
 
     conn.close()
 
-    return total   
+    return total
      
 # Update Person
 def update_person(
@@ -367,6 +381,184 @@ def login_user(username, password):
         return user
 
     return None
+# Insert Staff
+def insert_staff(name, role, phone, email, joining_date, address):
+
+    conn = connect_db()
+    cursor = conn.cursor()
+
+    cursor.execute("""
+    INSERT INTO staff(
+        name,
+        role,
+        phone,
+        email,
+        joining_date,
+        address
+    )
+    VALUES(?,?,?,?,?,?)
+    """,(
+        name,
+        role,
+        phone,
+        email,
+        joining_date,
+        address
+    ))
+
+    conn.commit()
+    conn.close()
+
+
+
+# View All Staff
+def get_all_staff():
+
+    conn = connect_db()
+    conn.row_factory = sqlite3.Row
+    cursor = conn.cursor()
+
+    cursor.execute("""
+    SELECT * FROM staff
+    """)
+
+    data = cursor.fetchall()
+
+    conn.close()
+
+    return data
+
+
+
+# Get Single Staff
+def get_staff(id):
+
+    conn = connect_db()
+    cursor = conn.cursor()
+
+    cursor.execute("""
+    SELECT * FROM staff
+    WHERE id=?
+    """,(id,))
+
+    staff = cursor.fetchone()
+
+    conn.close()
+
+    return staff
+
+
+
+# Update Staff
+def update_staff(
+    id,
+    name,
+    role,
+    phone,
+    email,
+    joining_date,
+    address
+):
+
+    conn = connect_db()
+    cursor = conn.cursor()
+
+    cursor.execute("""
+    UPDATE staff
+    SET
+        name=?,
+        role=?,
+        phone=?,
+        email=?,
+        joining_date=?,
+        address=?
+    WHERE id=?
+    """,(
+        name,
+        role,
+        phone,
+        email,
+        joining_date,
+        address,
+        id
+    ))
+
+    conn.commit()
+    conn.close()
+
+
+
+# Delete Staff
+def delete_staff(id):
+
+    conn = connect_db()
+    cursor = conn.cursor()
+
+    cursor.execute("""
+    DELETE FROM staff
+    WHERE id=?
+    """,(id,))
+
+    conn.commit()
+    conn.close()
+    # Login User
+def login_user(username, password):
+    ...
+    return None
+# Total Staff Count
+
+def get_total_staff():
+
+    conn = connect_db()
+    cursor = conn.cursor()
+
+    cursor.execute("SELECT COUNT(*) FROM staff")
+
+    total = cursor.fetchone()[0]
+
+    conn.close()
+
+    return total
+
+
+
+# Active Staff Count
+
+def get_active_staff():
+
+    conn = connect_db()
+    cursor = conn.cursor()
+
+    cursor.execute("""
+    SELECT COUNT(*)
+    FROM staff
+    """)
+
+    total = cursor.fetchone()[0]
+
+    conn.close()
+
+    return total
+
+
+
+# Total Roles
+
+def get_total_roles():
+
+    conn = connect_db()
+    cursor = conn.cursor()
+
+    cursor.execute("""
+    SELECT COUNT(DISTINCT role)
+    FROM staff
+    """)
+
+    total = cursor.fetchone()[0]
+
+    conn.close()
+
+    return total
 
 if __name__ == "__main__":
     create_tables()
