@@ -71,14 +71,8 @@ def register():
         try:
             insert_user(fullname, username, email, password)
             return redirect(url_for('login'))
-
         except Exception as e:
-          return render_template(
-        'register.html',
-        error=str(e)
-    )
-
-        except Exception as e:
+            # Cleaned up duplicate exception blocks from the original script
             return render_template(
                 'register.html',
                 error=str(e)
@@ -102,12 +96,12 @@ def dashboard():
         recent_persons=get_recent_persons(),
         volunteers=get_total_volunteers()
     )
-# ---------------- STAFF ----------------
 
+
+# ---------------- STAFF ----------------
 
 @app.route('/staff')
 def staff():
-
     if 'user' not in session:
         return redirect(url_for('login'))
 
@@ -120,16 +114,16 @@ def staff():
         active_staff=get_active_staff(),
         total_roles=get_total_roles()
     )
+
+
 # ---------------- ADD STAFF ----------------
 
-@app.route('/add_staff', methods=['GET','POST'])
+@app.route('/add_staff', methods=['GET', 'POST'])
 def add_staff():
-
     if 'user' not in session:
         return redirect(url_for('login'))
 
     if request.method == 'POST':
-
         name = request.form['name']
         role = request.form['role']
         phone = request.form['phone']
@@ -150,25 +144,23 @@ def add_staff():
 
     return render_template('add_staff.html')
 
+
 # ---------------- EDIT STAFF ----------------
 
-@app.route('/edit_staff/<int:id>', methods=['GET','POST'])
+@app.route('/edit_staff/<int:id>', methods=['GET', 'POST'])
 def edit_staff(id):
-
     if 'user' not in session:
         return redirect(url_for('login'))
 
     staff = get_staff(id)
 
     if request.method == 'POST':
-
         name = request.form['name']
         role = request.form['role']
         phone = request.form['phone']
         email = request.form['email']
         joining_date = request.form['joining_date']
         address = request.form['address']
-
 
         update_staff(
             id,
@@ -182,24 +174,22 @@ def edit_staff(id):
 
         return redirect(url_for('staff'))
 
-
     return render_template(
         'edit_staff.html',
         staff=staff
     )
 
+
 # ---------------- DELETE STAFF ----------------
 
 @app.route('/delete_staff/<int:id>')
 def delete_staff_route(id):
-
     if 'user' not in session:
         return redirect(url_for('login'))
 
     delete_staff(id)
 
     return redirect(url_for('staff'))
-
 
 
 # ---------------- ADD PERSON ----------------
@@ -271,6 +261,7 @@ def view_persons():
         'view_persons.html',
         persons=persons
     )
+
 
 # ---------------- EDIT PERSON ----------------
 
@@ -373,11 +364,11 @@ def delete_person_route(id):
 
     return redirect(url_for('view_persons'))
     
+
 # ---------------- ACCOUNTS ----------------
 
 @app.route('/accounts')
 def accounts():
-
     if 'user' not in session:
         return redirect(url_for('login'))
 
@@ -391,7 +382,6 @@ def accounts():
 
 @app.route('/delete_volunteer/<int:id>')
 def delete_volunteer_route(id):
-
     if 'user' not in session:
         return redirect(url_for('login'))
 
