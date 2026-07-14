@@ -399,7 +399,6 @@ def insert_staff(name, role, phone, email, joining_date, address):
         joining_date,
         address
     ))
-
     conn.commit()
     cursor.close()
     conn.close()
@@ -801,6 +800,24 @@ def delete_beneficiary(id):
     conn.commit()
     cursor.close()
     conn.close()
+
+def search_beneficiary(keyword):
+    conn = connect_db()
+    cursor = conn.cursor()
+    cursor.execute("""
+    SELECT *
+    FROM beneficiaries
+    WHERE beneficiary_name ILIKE %s
+       OR project_name ILIKE %s
+    """,(
+        "%" + keyword + "%",
+        "%" + keyword + "%"
+    ))
+    data = cursor.fetchall()
+    cursor.close()
+    conn.close()
+
+    return data
     
 # ---------------- VOLUNTEER ACCOUNTS ----------------
 
