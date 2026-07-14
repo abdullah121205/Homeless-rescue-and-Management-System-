@@ -722,6 +722,20 @@ def insert_beneficiary(
     conn.commit()
     cursor.close()
     conn.close()
+
+def get_all_beneficiaries():
+    conn = connect_db()
+    cursor = conn.cursor()
+    cursor.execute("""
+    SELECT *
+    FROM beneficiaries
+    ORDER BY id DESC
+    """)
+    data = cursor.fetchall()
+    cursor.close()
+    conn.close()
+
+    return data
     
 # ---------------- VOLUNTEER ACCOUNTS ----------------
 
