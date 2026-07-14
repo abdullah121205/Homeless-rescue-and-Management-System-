@@ -790,6 +790,17 @@ def update_beneficiary(
     conn.commit()
     cursor.close()
     conn.close()
+
+def delete_beneficiary(id):
+    conn = connect_db()
+    cursor = conn.cursor()
+    cursor.execute("""
+    DELETE FROM beneficiaries
+    WHERE id=%s
+    """,(id,))
+    conn.commit()
+    cursor.close()
+    conn.close()
     
 # ---------------- VOLUNTEER ACCOUNTS ----------------
 
