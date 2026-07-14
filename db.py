@@ -244,14 +244,14 @@ def get_total_volunteers():
     conn = connect_db()
     cursor = conn.cursor()
 
-    cursor.execute("SELECT COUNT(*) FROM staff")
+    cursor.execute("SELECT COUNT(*) AS total FROM users")
 
-    total = list(cursor.fetchone().values())[0] 
+    result = cursor.fetchone()
 
     cursor.close()
     conn.close()
 
-    return total
+    return result["total"]
      
 
 # Update Person
