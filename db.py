@@ -750,6 +750,46 @@ def get_all_beneficiaries():
     conn.close()
 
     return beneficiary
+
+def update_beneficiary(
+    id,
+    beneficiary_name,
+    age,
+    gender,
+    phone,
+    address,
+    project_name,
+    support_type,
+    registration_date
+):
+    conn = connect_db()
+    cursor = conn.cursor()
+    cursor.execute("""
+    UPDATE beneficiaries
+    SET
+        beneficiary_name=%s,
+        age=%s,
+        gender=%s,
+        phone=%s,
+        address=%s,
+        project_name=%s,
+        support_type=%s,
+        registration_date=%s
+    WHERE id=%s
+    """,(
+        beneficiary_name,
+        age,
+        gender,
+        phone,
+        address,
+        project_name,
+        support_type,
+        registration_date,
+        id
+    ))
+    conn.commit()
+    cursor.close()
+    conn.close()
     
 # ---------------- VOLUNTEER ACCOUNTS ----------------
 
