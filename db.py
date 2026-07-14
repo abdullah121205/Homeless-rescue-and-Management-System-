@@ -656,6 +656,20 @@ def get_total_projects():
     conn.close()
 
     return total
+
+def get_active_projects():
+    conn = connect_db()
+    cursor = conn.cursor()
+    cursor.execute("""
+    SELECT COUNT(*)
+    FROM projects
+    WHERE status='Active'
+    """)
+    total = list(cursor.fetchone().values())[0]
+    cursor.close()
+    conn.close()
+
+    return total
     
 # ---------------- VOLUNTEER ACCOUNTS ----------------
 
