@@ -549,6 +549,23 @@ def insert_project(
     conn.commit()
     cursor.close()
     conn.close()
+
+def get_all_projects():
+    conn = connect_db()
+    cursor = conn.cursor()
+
+    cursor.execute("""
+    SELECT *
+    FROM projects
+    ORDER BY id DESC
+    """)
+
+    data = cursor.fetchall()
+
+    cursor.close()
+    conn.close()
+
+    return data
     
 # ---------------- VOLUNTEER ACCOUNTS ----------------
 
