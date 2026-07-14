@@ -625,6 +625,24 @@ def delete_project(id):
     conn.commit()
     cursor.close()
     conn.close()
+
+def search_project(keyword):
+    conn = connect_db()
+    cursor = conn.cursor()
+    cursor.execute("""
+    SELECT *
+    FROM projects
+    WHERE project_name ILIKE %s
+       OR location ILIKE %s
+    """,(
+        "%" + keyword + "%",
+        "%" + keyword + "%"
+    ))
+    data = cursor.fetchall()
+    cursor.close()
+    conn.close()
+
+    return data
     
 # ---------------- VOLUNTEER ACCOUNTS ----------------
 
