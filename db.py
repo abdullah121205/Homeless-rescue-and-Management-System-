@@ -83,6 +83,20 @@ def create_tables():
     cursor.close()
     conn.close()
 
+    # Beneficiaries Table
+    cursor.execute("""
+    CREATE TABLE IF NOT EXISTS beneficiaries(
+        id SERIAL PRIMARY KEY,
+        beneficiary_name TEXT NOT NULL,
+        age INTEGER,
+        gender TEXT,
+        phone TEXT,
+        address TEXT,
+        project_name TEXT,
+        support_type TEXT,
+        registration_date TEXT
+    )
+    """)
 
 # Insert Person
 def insert_person(
