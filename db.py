@@ -737,6 +737,20 @@ def get_all_beneficiaries():
 
     return data
     
+    def get_beneficiary(id):
+    conn = connect_db()
+    cursor = conn.cursor()
+    cursor.execute("""
+    SELECT *
+    FROM beneficiaries
+    WHERE id=%s
+    """,(id,))
+    beneficiary = cursor.fetchone()
+    cursor.close()
+    conn.close()
+
+    return beneficiary
+    
 # ---------------- VOLUNTEER ACCOUNTS ----------------
 
 def get_all_volunteers():
