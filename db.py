@@ -643,6 +643,19 @@ def search_project(keyword):
     conn.close()
 
     return data
+
+def get_total_projects():
+    conn = connect_db()
+    cursor = conn.cursor()
+    cursor.execute("""
+    SELECT COUNT(*)
+    FROM projects
+    """)
+    total = list(cursor.fetchone().values())[0]
+    cursor.close()
+    conn.close()
+
+    return total
     
 # ---------------- VOLUNTEER ACCOUNTS ----------------
 
