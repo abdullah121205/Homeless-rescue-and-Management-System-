@@ -614,6 +614,17 @@ def update_project(
     conn.commit()
     cursor.close()
     conn.close()
+
+def delete_project(id):
+    conn = connect_db()
+    cursor = conn.cursor()
+    cursor.execute("""
+    DELETE FROM projects
+    WHERE id=%s
+    """,(id,))
+    conn.commit()
+    cursor.close()
+    conn.close()
     
 # ---------------- VOLUNTEER ACCOUNTS ----------------
 
