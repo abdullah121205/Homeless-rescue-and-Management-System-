@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Add Project</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/projects.css') }}">
+
+</head>
+
+<body>
+
+<div class="container">
+
+    <h2>Add New Project</h2>
+
+    <form method="POST">
+
+        <label>Project Name</label>
+        <input type="text" name="project_name" required>
+
+        <label>Description</label>
+        <textarea name="description" rows="4"></textarea>
+
+        <label>Start Date</label>
+        <input type="date" name="start_date">
+
+        <label>End Date</label>
+        <input type="date" name="end_date">
+
+        <label>Location</label>
+        <input type="text" name="location">
+
+        <label>Budget (₹)</label>
+        <input type="number" name="budget">
+
+        <label>Status</label>
+
+        <select name="status">
+
+            <option value="Active">Active</option>
+
+            <option value="Completed">Completed</option>
+
+            <option value="On Hold">On Hold</option>
+
+        </select>
+
+        <button type="submit">
+            Add Project
+        </button>
+
+    </form>
+
+    <br>
+
+    <a href="/projects">
+        ← Back to Projects
+    </a>
+
+</div>
+
+</body>
+
+</html>
