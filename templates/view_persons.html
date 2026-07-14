@@ -1,7 +1,9 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Homeless Persons List</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Persons | Sabarmati NGO</title>
 
     <link rel="stylesheet" href="{{ url_for('static', filename='css/view_person.css') }}">
 </head>
@@ -11,7 +13,7 @@
 <div class="container">
 
     <div class="header">
-        <h1>🏠 Homeless Persons Details</h1>
+        <h1>🏠 Homeless Persons</h1>
         <p>View and manage rescued persons</p>
     </div>
 
@@ -31,16 +33,14 @@
     <table id="personsTable">
 
         <thead>
-
-        <tr>
-            <th>Name</th>
-            <th>Age</th>
-            <th>Gender</th>
-            <th>Location Found</th>
-            <th>Edit</th>
-            <th>Delete</th>
-        </tr>
-
+            <tr>
+                <th>Name</th>
+                <th>Age</th>
+                <th>Gender</th>
+                <th>Location</th>
+                <th>Edit</th>
+                <th>Delete</th>
+            </tr>
         </thead>
 
         <tbody>
