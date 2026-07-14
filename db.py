@@ -577,6 +577,43 @@ def get_project(id):
     conn.close()
 
     return project
+
+def update_project(
+    id,
+    project_name,
+    description,
+    start_date,
+    end_date,
+    location,
+    budget,
+    status
+):
+    conn = connect_db()
+    cursor = conn.cursor()
+    cursor.execute("""
+    UPDATE projects
+    SET
+        project_name=%s,
+        description=%s,
+        start_date=%s,
+        end_date=%s,
+        location=%s,
+        budget=%s,
+        status=%s
+    WHERE id=%s
+    """,(
+        project_name,
+        description,
+        start_date,
+        end_date,
+        location,
+        budget,
+        status,
+        id
+    ))
+    conn.commit()
+    cursor.close()
+    conn.close()
     
 # ---------------- VOLUNTEER ACCOUNTS ----------------
 
