@@ -94,7 +94,8 @@ def dashboard():
         rescued=get_rescued_count(),
         pending=get_pending_cases(),
         recent_persons=get_recent_persons(),
-        volunteers=get_total_volunteers()
+        volunteers=get_total_volunteers(),
+        staff=get_total_staff()
     )
 
 
