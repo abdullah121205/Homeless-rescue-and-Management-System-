@@ -1,6 +1,7 @@
 import os
+import psycopg2
 from flask import Flask, render_template, request, redirect, url_for, session
-
+from werkzeug.utils import secure_filename
 from db import (
     insert_user,
     login_user,
@@ -16,6 +17,8 @@ from db import (
     get_rescued_count,
     get_recent_persons,
     get_total_volunteers,
+    get_all_volunteers,
+    delete_volunteer,
     insert_staff,
     get_all_staff,
     get_staff,
@@ -31,15 +34,14 @@ app.secret_key = os.environ.get("SECRET_KEY", "ngo_secret_key")
 
 from db import create_tables
 
+# Initialize tables in the PostgreSQL database if they don't exist yet
 create_tables()
 
 # ---------------- LOGIN ----------------
 
 @app.route('/', methods=['GET', 'POST'])
 def login():
-
     if request.method == 'POST':
-
         username = request.form['username']
         password = request.form['password']
 
@@ -61,17 +63,27 @@ def login():
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
-
     if request.method == 'POST':
-
         fullname = request.form['fullname']
         username = request.form['username']
         email = request.form['email']
         password = request.form['password']
 
-        insert_user(fullname, username, email, password)
+        try:
+            insert_user(fullname, username, email, password)
+            return redirect(url_for('login'))
 
-        return redirect(url_for('login'))
+        except psycopg2.errors.UniqueViolation:
+            return render_template(
+                'register.html',
+                error="Username or Email already exists."
+            )
+
+        except Exception as e:
+            return render_template(
+                'register.html',
+                error=str(e)
+            )
 
     return render_template('register.html')
 
@@ -80,18 +92,17 @@ def register():
 
 @app.route('/dashboard')
 def dashboard():
-
     if 'user' not in session:
         return redirect(url_for('login'))
 
     return render_template(
-    'dashboard.html',
-    total_persons=get_total_persons(),
-    rescued=get_rescued_count(),
-    pending=get_pending_cases(),
-    recent_persons=get_recent_persons(),
-    volunteers=get_total_volunteers()
-)
+        'dashboard.html',
+        total_persons=get_total_persons(),
+        rescued=get_rescued_count(),
+        pending=get_pending_cases(),
+        recent_persons=get_recent_persons(),
+        volunteers=get_total_volunteers()
+    )
 # ---------------- STAFF ----------------
 
 
@@ -196,12 +207,10 @@ def delete_staff_route(id):
 
 @app.route('/add_person', methods=['GET', 'POST'])
 def add_person():
-    
     if 'user' not in session:
        return redirect(url_for('login'))
 
     if request.method == 'POST':
-
         name = request.form['full_name']
         alias = request.form['alias']
         age = request.form['age']
@@ -218,12 +227,14 @@ def add_person():
         remarks = request.form['remarks']
 
         photo = request.files['photo']
-
         filename = ""
 
         if photo and photo.filename != "":
-            filename = photo.filename
-            photo.save(os.path.join("static/images", filename))
+           UPLOAD_FOLDER = os.path.join(app.root_path, "static", "images")
+           os.makedirs(UPLOAD_FOLDER, exist_ok=True)
+
+           filename = secure_filename(photo.filename)
+           photo.save(os.path.join(UPLOAD_FOLDER, filename))
 
         insert_person(
             name,
@@ -252,7 +263,6 @@ def add_person():
 
 @app.route('/view_persons')
 def view_persons():
-    
     if 'user' not in session:
         return redirect(url_for('login'))
 
@@ -267,14 +277,12 @@ def view_persons():
 
 @app.route('/edit_person/<int:id>', methods=['GET', 'POST'])
 def edit_person(id):
-    
     if 'user' not in session:
-       return redirect(url_for('login'))
+        return redirect(url_for('login'))
 
     person = get_person(id)
 
     if request.method == 'POST':
-
         name = request.form['full_name']
         alias = request.form['alias']
         age = request.form['age']
@@ -291,59 +299,61 @@ def edit_person(id):
         remarks = request.form['remarks']
 
         photo = request.files.get('photo')
-
+        
+        # Kept perfectly intact with dictionary lookup matching RealDictConnection mapping
         filename = person["photo"]
 
         if photo and photo.filename != "":
-           filename = photo.filename
-           photo.save(os.path.join("static/images", filename))
+            UPLOAD_FOLDER = os.path.join(app.root_path, "static", "images")
+            os.makedirs(UPLOAD_FOLDER, exist_ok=True)
+
+            filename = secure_filename(photo.filename)
+            photo.save(os.path.join(UPLOAD_FOLDER, filename))
 
         update_person(
-           id,
-           name,
-           alias,
-           age,
-           gender,
-           rescue_date,
-           location,
-           rescued_by,
-           status,
-           physical_condition,
-           medical_issues,
-           disability,
-           aadhaar,
-           family_contact,
-           remarks,
-           filename
+            id,
+            name,
+            alias,
+            age,
+            gender,
+            rescue_date,
+            location,
+            rescued_by,
+            status,
+            physical_condition,
+            medical_issues,
+            disability,
+            aadhaar,
+            family_contact,
+            remarks,
+            filename
         )
 
         return redirect(url_for('view_persons'))
+
     return render_template(
         'edit_person.html',
         person=person
     )
 
+
 # ---------------- SEARCH ----------------
 
 @app.route('/search', methods=['GET', 'POST'])
 def search():
-    
     if 'user' not in session:
        return redirect(url_for('login'))
 
     persons = []
 
     if request.method == 'POST':
-
         keyword = request.form.get('keyword')
         status = request.form.get('status')
 
         if keyword:
             persons = search_person(keyword)
-
         elif status and status != "All":
             persons = filter_by_status(status)
-
         else:
             persons = get_all_persons()
 
@@ -352,11 +362,11 @@ def search():
         persons=persons
     )
     
-#------------------ Delete Person -------------------
+
+#------------------ DELETE PERSON -------------------
 
 @app.route('/delete_person/<int:id>')
 def delete_person_route(id):
-    
     if 'user' not in session:
         return redirect(url_for('login'))
 
@@ -364,13 +374,38 @@ def delete_person_route(id):
 
     return redirect(url_for('view_persons'))
     
+# ---------------- ACCOUNTS ----------------
+
+@app.route('/accounts')
+def accounts():
+
+    if 'user' not in session:
+        return redirect(url_for('login'))
+
+    volunteers = get_all_volunteers()
+
+    return render_template(
+        'accounts.html',
+        volunteers=volunteers
+    )
+
+
+@app.route('/delete_volunteer/<int:id>')
+def delete_volunteer_route(id):
+
+    if 'user' not in session:
+        return redirect(url_for('login'))
+
+    delete_volunteer(id)
+
+    return redirect(url_for('accounts'))
+    
+
 # ---------------- LOGOUT ----------------
 
 @app.route('/logout')
 def logout():
-
     session.pop('user', None)
-
     return redirect(url_for('login'))
 
 
