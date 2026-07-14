@@ -1,17 +1,12 @@
 import os
-import psycopg2
-import psycopg2.extras
+import sqlite3
 from werkzeug.security import generate_password_hash, check_password_hash
 
 # Connect to database
 def connect_db():
-    # Using RealDictConnection so rows act like dictionaries, replacing sqlite3.Row
-    conn = psycopg2.connect(
-        os.environ["DATABASE_URL"], 
-        connection_factory=psycopg2.extras.RealDictConnection
-    )
+    conn = sqlite3.connect("Sabarmati_NGO.db")
+    conn.row_factory = sqlite3.Row
     return conn
-
 
 # Create tables
 def create_tables():
@@ -22,7 +17,7 @@ def create_tables():
     # CHANGED: AUTOINCREMENT replaced with SERIAL
     cursor.execute("""
     CREATE TABLE IF NOT EXISTS users(
-       id SERIAL PRIMARY KEY,
+       id INTEGER PRIMARY KEY AUTOINCREMENT,
        fullname TEXT NOT NULL,
        username TEXT UNIQUE NOT NULL,
        email TEXT UNIQUE NOT NULL,
@@ -34,7 +29,7 @@ def create_tables():
     # CHANGED: AUTOINCREMENT replaced with SERIAL
     cursor.execute("""
     CREATE TABLE IF NOT EXISTS persons(
-        id SERIAL PRIMARY KEY,
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
         name TEXT NOT NULL,
         alias TEXT,
         age INTEGER,
@@ -112,7 +107,7 @@ def insert_person(
         remarks,
         photo
     )
-    VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+    VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     """, (
         name,
         alias,
@@ -144,7 +139,7 @@ def get_person(id):
     # CHANGED: "?" to "%s"
     cursor.execute("""
     SELECT * FROM persons
-    WHERE id=%s
+    WHERE id=?
     """, (id,))
 
     person = cursor.fetchone()
@@ -195,9 +190,7 @@ def get_total_persons():
 
     cursor.execute("SELECT COUNT(*) FROM persons")
 
-    # RealDictConnection returns dictionary-like rows even for aggregates
-    total = list(cursor.fetchone().values())[0]
-
+    total = cursor.fetchone()[0]
     cursor.close()
     conn.close()
 
@@ -215,7 +208,7 @@ def get_pending_cases():
         WHERE status != 'Reunited'
     """)
 
-    total = list(cursor.fetchone().values())[0]
+    total = cursor.fetchone()[0] 
 
     cursor.close()
     conn.close()
@@ -234,7 +227,7 @@ def get_rescued_count():
         WHERE status='Rescued'
     """)
 
-    total = list(cursor.fetchone().values())[0]
+    total = cursor.fetchone()[0]
 
     cursor.close()
     conn.close()
@@ -248,7 +241,7 @@ def get_total_volunteers():
 
     cursor.execute("SELECT COUNT(*) FROM staff")
 
-    total = list(cursor.fetchone().values())[0]
+    total = cursor.fetchone()[0] 
 
     cursor.close()
     conn.close()
@@ -282,22 +275,22 @@ def update_person(
     cursor.execute("""
     UPDATE persons
     SET
-        name=%s,
-        alias=%s,
-        age=%s,
-        gender=%s,
-        rescue_date=%s,
-        location=%s,
-        rescued_by=%s,
-        status=%s,
-        physical_condition=%s,
-        medical_issues=%s,
-        disability=%s,
-        aadhaar=%s,
-        family_contact=%s,
-        remarks=%s,
-        photo=%s
-    WHERE id=%s
+        name=?,
+        alias=?,
+        age=?,
+        gender=?,
+        rescue_date=?,
+        location=?,
+        rescued_by=?,
+        status=?,
+        physical_condition=?,
+        medical_issues=?,
+        disability=?,
+        aadhaar=?,
+        family_contact=?,
+        remarks=?,
+        photo=?
+    WHERE id=?
     """, (
         name,
         alias,
@@ -327,7 +320,7 @@ def delete_person(id):
     cursor = conn.cursor()
 
     # CHANGED: "?" to "%s"
-    cursor.execute("DELETE FROM persons WHERE id=%s", (id,))
+    cursor.execute("DELETE FROM persons WHERE id=?", (id,))
 
     conn.commit()
     cursor.close()
@@ -342,8 +335,8 @@ def search_person(keyword):
     # CHANGED: "?" to "%s"
     cursor.execute("""
     SELECT * FROM persons
-    WHERE name LIKE %s
-       OR location LIKE %s
+    WHERE name LIKE ?
+       OR location LIKE ?
     """, ('%' + keyword + '%',
           '%' + keyword + '%'))
 
@@ -362,7 +355,7 @@ def filter_by_status(status):
     # CHANGED: "?" to "%s"
     cursor.execute("""
     SELECT * FROM persons
-    WHERE status = %s
+    WHERE status = ?
     """, (status,))
 
     data = cursor.fetchall()
@@ -383,7 +376,7 @@ def insert_user(fullname, username, email, password):
     # CHANGED: "?" to "%s"
     cursor.execute("""
     INSERT INTO users(fullname, username, email, password)
-    VALUES (%s, %s, %s, %s)
+    VALUES (?, ?, ?, ?)
     """, (fullname, username, email, hashed_password))
 
     conn.commit()
@@ -398,7 +391,7 @@ def login_user(username, password):
 
     cursor.execute("""
     SELECT * FROM users
-    WHERE username=%s
+    WHERE username=?
     """, (username,))
 
     user = cursor.fetchone()
@@ -444,7 +437,6 @@ def insert_staff(name, role, phone, email, joining_date, address):
 def get_all_staff():
 
     conn = connect_db()
-    conn.row_factory = sqlite3.Row
     cursor = conn.cursor()
 
     cursor.execute("""
@@ -531,9 +523,7 @@ def delete_staff(id):
     conn.commit()
     conn.close()
     # Login User
-def login_user(username, password):
-    ...
-    return None
+
 # Total Staff Count
 
 def get_total_staff():
@@ -616,7 +606,7 @@ def delete_volunteer(id):
 
     cursor.execute("""
         DELETE FROM users
-        WHERE id=%s
+        WHERE id=?
     """, (id,))
 
     conn.commit()

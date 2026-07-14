@@ -1,5 +1,4 @@
 import os
-import psycopg2
 from flask import Flask, render_template, request, redirect, url_for, session
 from werkzeug.utils import secure_filename
 from db import (
@@ -73,11 +72,11 @@ def register():
             insert_user(fullname, username, email, password)
             return redirect(url_for('login'))
 
-        except psycopg2.errors.UniqueViolation:
-            return render_template(
-                'register.html',
-                error="Username or Email already exists."
-            )
+        except Exception as e:
+          return render_template(
+        'register.html',
+        error=str(e)
+    )
 
         except Exception as e:
             return render_template(
