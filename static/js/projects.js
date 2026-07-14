@@ -1,17 +1,27 @@
-// ===============================
-// Projects Module JavaScript
-// Sabarmati NGO
-// ===============================
+// Search Project Table
 
-document.addEventListener("DOMContentLoaded", function () {
+const searchInput = document.getElementById("search");
 
-    console.log("Projects Module Loaded Successfully");
+if (searchInput) {
+    searchInput.addEventListener("keyup", function () {
 
-});
+        let filter = searchInput.value.toLowerCase();
 
-// Delete confirmation
+        let rows = document.querySelectorAll("tbody tr");
+
+        rows.forEach(function (row) {
+
+            let text = row.textContent.toLowerCase();
+
+            row.style.display = text.includes(filter) ? "" : "none";
+
+        });
+
+    });
+}
+
+// Delete Confirmation
+
 function confirmDelete() {
-
     return confirm("Are you sure you want to delete this project?");
-
 }
