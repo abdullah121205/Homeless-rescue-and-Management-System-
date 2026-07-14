@@ -4,3 +4,6 @@ __pycache__/
 .env
 
 .vscode/
+
+static/images/*
+!static/images/.gitkeep
