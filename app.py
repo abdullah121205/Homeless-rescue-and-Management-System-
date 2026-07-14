@@ -211,7 +211,188 @@ def delete_staff_route(id):
 
     return redirect(url_for('staff'))
 
+@app.route('/projects')
+def projects():
 
+    if 'user' not in session:
+        return redirect(url_for('login'))
+
+    return render_template(
+        'projects.html',
+        projects=get_all_projects(),
+        total_projects=get_total_projects(),
+        active_projects=get_active_projects(),
+        completed_projects=get_completed_projects()
+    )
+
+@app.route('/add_project', methods=['GET','POST'])
+def add_project():
+
+    if 'user' not in session:
+        return redirect(url_for('login'))
+
+    if request.method == 'POST':
+
+        insert_project(
+            request.form['project_name'],
+            request.form['description'],
+            request.form['start_date'],
+            request.form['end_date'],
+            request.form['location'],
+            request.form['budget'],
+            request.form['status']
+        )
+
+        return redirect(url_for('projects'))
+
+    return render_template('add_project.html')
+
+@app.route('/edit_project/<int:id>', methods=['GET','POST'])
+def edit_project(id):
+
+    if 'user' not in session:
+        return redirect(url_for('login'))
+
+    project = get_project(id)
+
+    if request.method == 'POST':
+
+        update_project(
+            id,
+            request.form['project_name'],
+            request.form['description'],
+            request.form['start_date'],
+            request.form['end_date'],
+            request.form['location'],
+            request.form['budget'],
+            request.form['status']
+        )
+
+        return redirect(url_for('projects'))
+
+    return render_template(
+        'edit_project.html',
+        project=project
+    )
+
+@app.route('/delete_project/<int:id>')
+def delete_project_route(id):
+
+    if 'user' not in session:
+        return redirect(url_for('login'))
+
+    delete_project(id)
+
+    return redirect(url_for('projects'))
+
+@app.route('/search_projects', methods=['POST'])
+def search_projects():
+
+    if 'user' not in session:
+        return redirect(url_for('login'))
+
+    keyword = request.form['keyword']
+
+    projects = search_project(keyword)
+
+    return render_template(
+        'projects.html',
+        projects=projects,
+        total_projects=get_total_projects(),
+        active_projects=get_active_projects(),
+        completed_projects=get_completed_projects()
+    )
+
+@app.route('/beneficiaries')
+def beneficiaries():
+
+    if 'user' not in session:
+        return redirect(url_for('login'))
+
+    return render_template(
+        'beneficiaries.html',
+        beneficiaries=get_all_beneficiaries(),
+        total_beneficiaries=get_total_beneficiaries()
+    )
+
+@app.route('/add_beneficiary', methods=['GET','POST'])
+def add_beneficiary():
+
+    if 'user' not in session:
+        return redirect(url_for('login'))
+
+    if request.method == 'POST':
+
+        insert_beneficiary(
+            request.form['beneficiary_name'],
+            request.form['age'],
+            request.form['gender'],
+            request.form['phone'],
+            request.form['address'],
+            request.form['project_name'],
+            request.form['support_type'],
+            request.form['registration_date']
+        )
+
+        return redirect(url_for('beneficiaries'))
+
+    return render_template('add_beneficiary.html')
+
+@app.route('/edit_beneficiary/<int:id>', methods=['GET','POST'])
+def edit_beneficiary(id):
+
+    if 'user' not in session:
+        return redirect(url_for('login'))
+
+    beneficiary = get_beneficiary(id)
+
+    if request.method == 'POST':
+
+        update_beneficiary(
+            id,
+            request.form['beneficiary_name'],
+            request.form['age'],
+            request.form['gender'],
+            request.form['phone'],
+            request.form['address'],
+            request.form['project_name'],
+            request.form['support_type'],
+            request.form['registration_date']
+        )
+
+        return redirect(url_for('beneficiaries'))
+
+    return render_template(
+        'edit_beneficiary.html',
+        beneficiary=beneficiary
+    )
+
+@app.route('/delete_beneficiary/<int:id>')
+def delete_beneficiary_route(id):
+
+    if 'user' not in session:
+        return redirect(url_for('login'))
+
+    delete_beneficiary(id)
+
+    return redirect(url_for('beneficiaries'))
+
+@app.route('/search_beneficiaries', methods=['POST'])
+def search_beneficiaries():
+
+    if 'user' not in session:
+        return redirect(url_for('login'))
+
+    keyword = request.form['keyword']
+
+    beneficiaries = search_beneficiary(keyword)
+
+    return render_template(
+        'beneficiaries.html',
+        beneficiaries=beneficiaries,
+        total_beneficiaries=get_total_beneficiaries()
+    )
+    
 # ---------------- ADD PERSON ----------------
 
 @app.route('/add_person', methods=['GET', 'POST'])
