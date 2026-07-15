@@ -3,97 +3,78 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sabarmati NGO - Login</title>
+    <title>Homeless Rescue & Management System - Login</title>
 
     <link rel="stylesheet" href="{{ url_for('static', filename='css/login.css') }}">
 </head>
 
 <body>
+
     <!-- NGO Banner -->
-<div class="banner">
-    <img src="{{ url_for('static', filename='Images/ngo_banner.jpg') }}" alt="Sabarmati NGO Banner">
-</div>
-
-<div class="container">
-
-    <!-- Left Panel -->
-    <div class="left-panel">
-
-        <h1>Sabarmati NGO</h1>
-
-        <h2>Homeless Rescue & Management System</h2>
-        <p class="govt-info">
-    Jointly with Tiruppur City Municipal Corporation, National Institute of
-    Social Defence under the Ministry of Social Justice and Empowerment,
-    Government of India (SMILE Project).
-</p>
-
-        <p>
-            Sabarmati NGO is dedicated to rescuing, rehabilitating and supporting
-            homeless people by providing shelter, food and essential care.
-        </p>
-
-        <p class="quote">
-            "Together we can restore hope and dignity."
-        </p>
-
+    <div class="banner">
+        <img src="{{ url_for('static', filename='Images/ngo_banner.jpg') }}" alt="Sabarmati NGO Banner">
     </div>
 
-    <!-- Right Panel -->
-    <div class="right-panel">
+    <!-- Login Section -->
+    <div class="container">
 
-        <div class="login-card">
+        <div class="right-panel">
 
-            <h2>Admin Login</h2>
+            <div class="login-card">
 
-            <!-- Connects Login Button to Flask -->
-            <form id="loginForm" method="POST" action="{{ url_for('login') }}">
-
-                <input
-                    type="text"
-                    id="username"
-                    name="username"
-                    placeholder="Enter Username"
-                    required
-                >
-
-                <input
-                    type="password"
-                    id="password"
-                    name="password"
-                    placeholder="Enter Password"
-                    required
-                >
-
-                <button type="submit">Login</button>
-                
-                <br><br>
-
-                <p style="text-align:center;">
-                Don't have an account?
-                <a href="/register">Register Here</a>
+                <h2>Homeless Rescue & Management System</h2>
+                <p style="text-align:center; color:#666; margin-bottom:25px;">
+                    Authorized User Login
                 </p>
-                
-                <!-- JavaScript Validation Error -->
-                <p id="error-message"></p>
 
-                <!-- Flask Server Error -->
-                {% if error %}
-                <p class="server-error">{{ error }}</p>
-                {% endif %}
+                <form id="loginForm" method="POST" action="{{ url_for('login') }}">
 
-            </form>
+                    <input
+                        type="text"
+                        id="username"
+                        name="username"
+                        placeholder="Enter Username"
+                        required
+                    >
+
+                    <input
+                        type="password"
+                        id="password"
+                        name="password"
+                        placeholder="Enter Password"
+                        required
+                    >
+
+                    <button type="submit">
+                        Login
+                    </button>
+
+                    <br><br>
+
+                    <p style="text-align:center;">
+                        Don't have an account?
+                        <a href="{{ url_for('register') }}">Register Here</a>
+                    </p>
+
+                    <p id="error-message"></p>
+
+                    {% if error %}
+                        <p class="server-error">{{ error }}</p>
+                    {% endif %}
+
+                </form>
+
+            </div>
 
         </div>
 
     </div>
 
-</div>
     <footer class="footer">
-    © Sabarmati Social Seva Sangam | SMILE Project | Government of India
-</footer>
+        © Sabarmati Social Seva Sangam | Homeless Rescue & Management System
+    </footer>
 
-<script src="{{ url_for('static', filename='js/login.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/login.js') }}"></script>
 
 </body>
 </html>
