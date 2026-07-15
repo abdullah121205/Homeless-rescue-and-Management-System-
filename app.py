@@ -18,6 +18,7 @@ from db import (
     get_total_volunteers,
     get_all_volunteers,
     delete_volunteer,
+
     insert_staff,
     get_all_staff,
     get_staff,
@@ -25,18 +26,7 @@ from db import (
     delete_staff,
     get_total_staff,
     get_active_staff,
-    get_total_roles,
-    insert_donation,
-    get_all_donations,
-    get_donation,
-    update_donation,
-    get_total_donations,
-    insert_expense,
-    get_all_expenses,
-    get_expense,
-    update_expense,
-    get_total_expenses,
-    get_available_balance
+    get_total_roles
 )
 
 app = Flask(__name__)
@@ -91,7 +81,6 @@ def register():
 
     return render_template('register.html')
 
-
 # ---------------- DASHBOARD ----------------
 
 @app.route('/dashboard')
@@ -109,7 +98,6 @@ def dashboard():
         staff=get_total_staff()
     )
 
-
 # ---------------- STAFF ----------------
 
 @app.route('/staff')
@@ -126,7 +114,6 @@ def staff():
         active_staff=get_active_staff(),
         total_roles=get_total_roles()
     )
-
 
 # ---------------- ADD STAFF ----------------
 
@@ -155,7 +142,6 @@ def add_staff():
         return redirect(url_for('staff'))
 
     return render_template('add_staff.html')
-
 
 # ---------------- EDIT STAFF ----------------
 
@@ -191,7 +177,6 @@ def edit_staff(id):
         staff=staff
     )
 
-
 # ---------------- DELETE STAFF ----------------
 
 @app.route('/delete_staff/<int:id>')
@@ -203,7 +188,188 @@ def delete_staff_route(id):
 
     return redirect(url_for('staff'))
 
+@app.route('/projects')
+def projects():
 
+    if 'user' not in session:
+        return redirect(url_for('login'))
+
+    return render_template(
+        'projects.html',
+        projects=get_all_projects(),
+        total_projects=get_total_projects(),
+        active_projects=get_active_projects(),
+        completed_projects=get_completed_projects()
+    )
+
+@app.route('/add_project', methods=['GET','POST'])
+def add_project():
+
+    if 'user' not in session:
+        return redirect(url_for('login'))
+
+    if request.method == 'POST':
+
+        insert_project(
+            request.form['project_name'],
+            request.form['description'],
+            request.form['start_date'],
+            request.form['end_date'],
+            request.form['location'],
+            request.form['budget'],
+            request.form['status']
+        )
+
+        return redirect(url_for('projects'))
+
+    return render_template('add_project.html')
+
+@app.route('/edit_project/<int:id>', methods=['GET','POST'])
+def edit_project(id):
+
+    if 'user' not in session:
+        return redirect(url_for('login'))
+
+    project = get_project(id)
+
+    if request.method == 'POST':
+
+        update_project(
+            id,
+            request.form['project_name'],
+            request.form['description'],
+            request.form['start_date'],
+            request.form['end_date'],
+            request.form['location'],
+            request.form['budget'],
+            request.form['status']
+        )
+
+        return redirect(url_for('projects'))
+
+    return render_template(
+        'edit_project.html',
+        project=project
+    )
+
+@app.route('/delete_project/<int:id>')
+def delete_project_route(id):
+
+    if 'user' not in session:
+        return redirect(url_for('login'))
+
+    delete_project(id)
+
+    return redirect(url_for('projects'))
+
+@app.route('/search_projects', methods=['POST'])
+def search_projects():
+
+    if 'user' not in session:
+        return redirect(url_for('login'))
+
+    keyword = request.form['keyword']
+
+    projects = search_project(keyword)
+
+    return render_template(
+        'projects.html',
+        projects=projects,
+        total_projects=get_total_projects(),
+        active_projects=get_active_projects(),
+        completed_projects=get_completed_projects()
+    )
+
+@app.route('/beneficiaries')
+def beneficiaries():
+
+    if 'user' not in session:
+        return redirect(url_for('login'))
+
+    return render_template(
+        'beneficiaries.html',
+        beneficiaries=get_all_beneficiaries(),
+        total_beneficiaries=get_total_beneficiaries()
+    )
+
+@app.route('/add_beneficiary', methods=['GET','POST'])
+def add_beneficiary():
+
+    if 'user' not in session:
+        return redirect(url_for('login'))
+
+    if request.method == 'POST':
+
+        insert_beneficiary(
+            request.form['beneficiary_name'],
+            request.form['age'],
+            request.form['gender'],
+            request.form['phone'],
+            request.form['address'],
+            request.form['project_name'],
+            request.form['support_type'],
+            request.form['registration_date']
+        )
+
+        return redirect(url_for('beneficiaries'))
+
+    return render_template('add_beneficiary.html')
+
+@app.route('/edit_beneficiary/<int:id>', methods=['GET','POST'])
+def edit_beneficiary(id):
+
+    if 'user' not in session:
+        return redirect(url_for('login'))
+
+    beneficiary = get_beneficiary(id)
+
+    if request.method == 'POST':
+
+        update_beneficiary(
+            id,
+            request.form['beneficiary_name'],
+            request.form['age'],
+            request.form['gender'],
+            request.form['phone'],
+            request.form['address'],
+            request.form['project_name'],
+            request.form['support_type'],
+            request.form['registration_date']
+        )
+
+        return redirect(url_for('beneficiaries'))
+
+    return render_template(
+        'edit_beneficiary.html',
+        beneficiary=beneficiary
+    )
+
+@app.route('/delete_beneficiary/<int:id>')
+def delete_beneficiary_route(id):
+
+    if 'user' not in session:
+        return redirect(url_for('login'))
+
+    delete_beneficiary(id)
+
+    return redirect(url_for('beneficiaries'))
+
+@app.route('/search_beneficiaries', methods=['POST'])
+def search_beneficiaries():
+
+    if 'user' not in session:
+        return redirect(url_for('login'))
+
+    keyword = request.form['keyword']
+
+    beneficiaries = search_beneficiary(keyword)
+
+    return render_template(
+        'beneficiaries.html',
+        beneficiaries=beneficiaries,
+        total_beneficiaries=get_total_beneficiaries()
+    )
+    
 # ---------------- ADD PERSON ----------------
 
 @app.route('/add_person', methods=['GET', 'POST'])
@@ -259,7 +425,6 @@ def add_person():
 
     return render_template('add_person.html')
 
-
 # ---------------- VIEW PERSONS ----------------
 
 @app.route('/view_persons')
@@ -273,7 +438,6 @@ def view_persons():
         'view_persons.html',
         persons=persons
     )
-
 
 # ---------------- EDIT PERSON ----------------
 
@@ -338,7 +502,6 @@ def edit_person(id):
         person=person
     )
 
-
 # ---------------- SEARCH ----------------
 
 @app.route('/search', methods=['GET', 'POST'])
@@ -364,7 +527,6 @@ def search():
         persons=persons
     )
     
-
 #------------------ DELETE PERSON -------------------
 
 @app.route('/delete_person/<int:id>')
@@ -374,8 +536,7 @@ def delete_person_route(id):
 
     delete_person(id)
 
-    return redirect(url_for('view_persons'))
-    
+    return redirect(url_for('view_persons')) 
 
 # ---------------- ACCOUNTS ----------------
 
@@ -391,7 +552,6 @@ def accounts():
         volunteers=volunteers
     )
 
-
 @app.route('/delete_volunteer/<int:id>')
 def delete_volunteer_route(id):
     if 'user' not in session:
@@ -400,145 +560,6 @@ def delete_volunteer_route(id):
     delete_volunteer(id)
 
     return redirect(url_for('accounts'))
-
-# ---------------- FINANCE ----------------
-
-@app.route('/finance')
-def finance():
-
-    if 'user' not in session:
-        return redirect(url_for('login'))
-
-    donations = get_all_donations()
-    expenses = get_all_expenses()
-
-    return render_template(
-        'finance.html',
-        donations=donations,
-        expenses=expenses,
-        total_donations=get_total_donations(),
-        total_expenses=get_total_expenses(),
-        balance=get_available_balance()
-    )
-
-
-# ---------------- ADD DONATION ----------------
-
-@app.route('/add_donation', methods=['POST'])
-def add_donation():
-
-    if 'user' not in session:
-        return redirect(url_for('login'))
-
-    donor_name = request.form['donor_name']
-    donation_type = request.form['donation_type']
-    amount = request.form['amount']
-    donated_on = request.form['donated_on']
-    remarks = request.form['remarks']
-
-
-    insert_donation(
-        donor_name,
-        donation_type,
-        amount,
-        donated_on,
-        remarks
-    )
-
-    return redirect(url_for('finance'))
-
-# ---------------- EDIT DONATION ----------------
-
-@app.route('/edit_donation/<int:id>', methods=['GET', 'POST'])
-def edit_donation(id):
-
-    if 'user' not in session:
-        return redirect(url_for('login'))
-
-    donation = get_donation(id)
-
-    if request.method == 'POST':
-
-        donor_name = request.form['donor_name']
-        donation_type = request.form['donation_type']
-        amount = request.form['amount']
-        donated_on = request.form['donated_on']
-        remarks = request.form['remarks']
-
-        update_donation(
-            id,
-            donor_name,
-            donation_type,
-            amount,
-            donated_on,
-            remarks
-        )
-
-        return redirect(url_for('finance'))
-
-    return render_template(
-        'edit_donation.html',
-        donation=donation
-    )
-
-# ---------------- ADD EXPENSE ----------------
-
-@app.route('/add_expense', methods=['POST'])
-def add_expense():
-
-    if 'user' not in session:
-        return redirect(url_for('login'))
-
-    purpose = request.form['purpose']
-    amount = request.form['amount']
-    spent_on = request.form['spent_on']
-    paid_to = request.form['paid_to']
-    remarks = request.form['remarks']
-
-
-    insert_expense(
-        purpose,
-        amount,
-        spent_on,
-        paid_to,
-        remarks
-    )
-
-    return redirect(url_for('finance'))
-
-# ---------------- EDIT EXPENSE ----------------
-
-@app.route('/edit_expense/<int:id>', methods=['GET', 'POST'])
-def edit_expense(id):
-
-    if 'user' not in session:
-        return redirect(url_for('login'))
-
-    expense = get_expense(id)
-
-    if request.method == 'POST':
-
-        purpose = request.form['purpose']
-        amount = request.form['amount']
-        spent_on = request.form['spent_on']
-        paid_to = request.form['paid_to']
-        remarks = request.form['remarks']
-
-        update_expense(
-            id,
-            purpose,
-            amount,
-            spent_on,
-            paid_to,
-            remarks
-        )
-
-        return redirect(url_for('finance'))
-
-    return render_template(
-        'edit_expense.html',
-        expense=expense
-    )
     
 
 # ---------------- LOGOUT ----------------

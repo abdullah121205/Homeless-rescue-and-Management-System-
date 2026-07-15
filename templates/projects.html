@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Projects | Sabarmati NGO</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/projects.css') }}">
+
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="header">
+
+        <h1>📁 Project Management</h1>
+        <p>Manage NGO Projects</p>
+
+    </div>
+
+    <div class="project-cards">
+
+        <div class="card">
+            <h3>Total Projects</h3>
+            <p>{{ total_projects }}</p>
+        </div>
+
+        <div class="card">
+            <h3>Active Projects</h3>
+            <p>{{ active_projects }}</p>
+        </div>
+
+        <div class="card">
+            <h3>Completed Projects</h3>
+            <p>{{ completed_projects }}</p>
+        </div>
+
+    </div>
+
+    <div class="top-bar">
+
+        <a href="/add_project" class="add-btn">
+            Add Project
+        </a>
+
+        <form action="/search_projects" method="POST">
+
+            <input
+                type="text"
+                name="keyword"
+                placeholder="Search Project..."
+            >
+
+            <button type="submit">
+                Search
+            </button>
+
+        </form>
+
+    </div>
+
+    <table>
+
+        <thead>
+
+            <tr>
+
+                <th>ID</th>
+                <th>Project</th>
+                <th>Location</th>
+                <th>Budget</th>
+                <th>Status</th>
+                <th>Action</th>
+
+            </tr>
+
+        </thead>
+
+        <tbody>
+
+        {% for project in projects %}
+
+        <tr>
+
+            <td>{{ project.id }}</td>
+
+            <td>{{ project.project_name }}</td>
+
+            <td>{{ project.location }}</td>
+
+            <td>₹ {{ project.budget }}</td>
+
+            <td>{{ project.status }}</td>
+
+            <td>
+
+                <a href="/edit_project/{{ project.id }}"
+                   class="edit-btn">
+                    Edit
+                </a>
+
+                <a href="/delete_project/{{ project.id }}"
+                   class="delete-btn"
+                   onclick="return confirmDelete();">
+                    Delete
+                </a>
+
+            </td>
+
+        </tr>
+
+        {% endfor %}
+
+        </tbody>
+
+    </table>
+
+</div>
+
+<script src="{{ url_for('static', filename='js/projects.js') }}"></script>
+
+</body>
+
+</html>

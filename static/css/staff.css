@@ -288,3 +288,50 @@ tr:hover{
     color:#243447;
 
 }
+/* ---------- Add Staff Form ---------- */
+
+form{
+    background:white;
+    padding:30px;
+    border-radius:12px;
+    box-shadow:0 5px 20px rgba(0,0,0,0.08);
+}
+
+form label{
+    display:block;
+    margin-top:15px;
+    margin-bottom:6px;
+    font-weight:600;
+    color:#333;
+}
+
+form input,
+form textarea{
+    width:100%;
+    padding:12px;
+    border:1px solid #ccc;
+    border-radius:8px;
+    font-size:15px;
+}
+
+form textarea{
+    min-height:100px;
+    resize:vertical;
+}
+
+form button{
+    margin-top:20px;
+    width:100%;
+    padding:14px;
+    background:#16a085;
+    color:white;
+    border:none;
+    border-radius:8px;
+    font-size:16px;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+form button:hover{
+    background:#138d75;
+}

@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Beneficiaries Management</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/beneficiaries.css') }}">
+
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="header">
+
+        <h1>Beneficiaries Management</h1>
+
+        <p>Manage NGO Beneficiaries</p>
+
+    </div>
+
+    <div class="project-cards">
+
+        <div class="card">
+
+            <h3>Total Beneficiaries</h3>
+
+            <p>{{ total_beneficiaries }}</p>
+
+        </div>
+
+    </div>
+
+    <div class="top-bar">
+
+        <a href="/add_beneficiary" class="add-btn">
+            Add Beneficiary
+        </a>
+
+        <form action="/search_beneficiaries" method="POST">
+
+            <input
+                type="text"
+                name="keyword"
+                placeholder="Search by Name or Project"
+                required>
+
+            <button type="submit">
+                Search
+            </button>
+
+        </form>
+
+    </div>
+
+    <table>
+
+        <thead>
+
+            <tr>
+
+                <th>ID</th>
+                <th>Name</th>
+                <th>Age</th>
+                <th>Gender</th>
+                <th>Phone</th>
+                <th>Project</th>
+                <th>Support Type</th>
+                <th>Action</th>
+
+            </tr>
+
+        </thead>
+
+        <tbody>
+
+        {% for beneficiary in beneficiaries %}
+
+            <tr>
+
+                <td>{{ beneficiary.id }}</td>
+
+                <td>{{ beneficiary.beneficiary_name }}</td>
+
+                <td>{{ beneficiary.age }}</td>
+
+                <td>{{ beneficiary.gender }}</td>
+
+                <td>{{ beneficiary.phone }}</td>
+
+                <td>{{ beneficiary.project_name }}</td>
+
+                <td>{{ beneficiary.support_type }}</td>
+
+                <td>
+
+                    <a href="/edit_beneficiary/{{ beneficiary.id }}"
+                       class="edit-btn">
+                        Edit
+                    </a>
+
+                    <a href="/delete_beneficiary/{{ beneficiary.id }}"
+                       class="delete-btn"
+                       onclick="return confirmDelete();">
+                        Delete
+                    </a>
+
+                </td>
+
+            </tr>
+
+        {% endfor %}
+
+        </tbody>
+
+    </table>
+
+</div>
+
+<script src="{{ url_for('static', filename='js/beneficiaries.js') }}"></script>
+
+</body>
+</html>

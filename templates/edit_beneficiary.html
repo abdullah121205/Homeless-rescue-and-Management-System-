@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Edit Beneficiary</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/beneficiaries.css') }}">
+
+</head>
+
+<body>
+
+<div class="container">
+
+    <h2>Edit Beneficiary</h2>
+
+    <form method="POST">
+
+        <label>Beneficiary Name</label>
+        <input
+            type="text"
+            name="beneficiary_name"
+            value="{{ beneficiary.beneficiary_name }}"
+            required>
+
+        <label>Age</label>
+        <input
+            type="number"
+            name="age"
+            value="{{ beneficiary.age }}">
+
+        <label>Gender</label>
+
+        <select name="gender">
+
+            <option value="Male"
+            {% if beneficiary.gender=="Male" %}selected{% endif %}>
+            Male
+            </option>
+
+            <option value="Female"
+            {% if beneficiary.gender=="Female" %}selected{% endif %}>
+            Female
+            </option>
+
+            <option value="Other"
+            {% if beneficiary.gender=="Other" %}selected{% endif %}>
+            Other
+            </option>
+
+        </select>
+
+        <label>Phone Number</label>
+        <input
+            type="text"
+            name="phone"
+            value="{{ beneficiary.phone }}">
+
+        <label>Address</label>
+        <textarea
+            name="address"
+            rows="3">{{ beneficiary.address }}</textarea>
+
+        <label>Project Name</label>
+        <input
+            type="text"
+            name="project_name"
+            value="{{ beneficiary.project_name }}">
+
+        <label>Support Type</label>
+
+        <select name="support_type">
+
+            <option value="Food"
+            {% if beneficiary.support_type=="Food" %}selected{% endif %}>
+            Food
+            </option>
+
+            <option value="Shelter"
+            {% if beneficiary.support_type=="Shelter" %}selected{% endif %}>
+            Shelter
+            </option>
+
+            <option value="Medical"
+            {% if beneficiary.support_type=="Medical" %}selected{% endif %}>
+            Medical
+            </option>
+
+            <option value="Education"
+            {% if beneficiary.support_type=="Education" %}selected{% endif %}>
+            Education
+            </option>
+
+            <option value="Financial"
+            {% if beneficiary.support_type=="Financial" %}selected{% endif %}>
+            Financial
+            </option>
+
+            <option value="Counselling"
+            {% if beneficiary.support_type=="Counselling" %}selected{% endif %}>
+            Counselling
+            </option>
+
+        </select>
+
+        <label>Registration Date</label>
+        <input
+            type="date"
+            name="registration_date"
+            value="{{ beneficiary.registration_date }}">
+
+        <button type="submit">
+            Update Beneficiary
+        </button>
+
+    </form>
+
+    <br>
+
+    <a href="/beneficiaries">
+        ← Back to Beneficiaries
+    </a>
+
+</div>
+
+</body>
+
+</html>
