@@ -40,7 +40,7 @@ def create_tables():
         gender TEXT,
         rescue_date TEXT,
         location TEXT,
-        rescued_by TEXT,
+        rescued_by "SABARMATI NGO RESCUE TEAM",
         status TEXT,
         physical_condition TEXT,
         medical_issues TEXT,
@@ -61,8 +61,32 @@ def create_tables():
         role TEXT,
         phone TEXT,
         email TEXT,
-        joining_date TEXT,
+        joining_date DATE,
         address TEXT
+    )
+    """)
+
+    # Donation Table
+    cursor.execute("""
+    CREATE TABLE IF NOT EXISTS donations(
+         id SERIAL PRIMARY KEY,
+         donor_name TEXT NOT NULL,
+         donation_type TEXT NOT NULL,
+         amount DECIMAL(10,2) NOT NULL,
+         donated_on DATE NOT NULL,
+         remarks TEXT
+    )
+    """)
+
+    # Expense Table
+    cursor.execute("""
+    CREATE TABLE IF NOT EXISTS expenses(
+        id SERIAL PRIMARY KEY,
+        purpose TEXT NOT NULL,
+        amount DECIMAL(10,2) NOT NULL,
+        spent_on DATE NOT NULL,
+        paid_to TEXT NOT NULL,
+        remarks TEXT
     )
     """)
 
@@ -601,6 +625,298 @@ def delete_volunteer(id):
     cursor.close()
     conn.close()
 
+# ---------------- FINANCE MODULE ----------------
+
+# Insert Donation
+
+def insert_donation(
+     donor_name,
+     donation_type,
+     amount,
+     donated_on,
+     remarks
+):
+    conn = connect_db()
+    cursor = conn.cursor()
+
+    cursor.execute("""
+    INSERT INTO donations(
+        donor_name,
+        donation_type,
+        amount,
+        donated_on,
+        remarks
+    )
+    VALUES(%s, %s, %s, %s, %s)
+    """, (
+        donor_name,
+        donation_type,
+        amount,
+        donated_on,
+        remarks
+    ))
+
+    conn.commit()
+    cursor.close()
+    conn.close()
+
+
+ #  all donation
+
+def get_all_donations():
+    conn = connect_db()
+    cursor = conn.cursor()
+
+    cursor.execute("""
+    SELECT * FROM donations
+    ORDER BY donated_on DESC
+    """)
+
+    donations = cursor.fetchall()
+
+    cursor.close()
+    conn.close()
+
+    return donations
+
+# Get One Donation
+
+def get_donation(id):
+    conn = connect_db()
+    cursor = conn.cursor()
+
+    cursor.execute("""
+    SELECT *
+    FROM donations
+    WHERE id=%s
+    """, (id,))
+
+    donation = cursor.fetchone()
+
+    cursor.close()
+    conn.close()
+
+    return donation
+
+# Update Donation
+
+def update_donation(
+    id,
+    donor_name,
+    donation_type,
+    amount,
+    donated_on,
+    remarks
+):
+    conn = connect_db()
+    cursor = conn.cursor()
+
+    cursor.execute("""
+    UPDATE donations
+    SET
+        donor_name=%s,
+        donation_type=%s,
+        amount=%s,
+        donated_on=%s,
+        remarks=%s
+    WHERE id=%s
+    """, (
+        donor_name,
+        donation_type,
+        amount,
+        donated_on,
+        remarks,
+        id
+    ))
+
+    conn.commit()
+    cursor.close()
+    conn.close()
+
+# delete donation
+
+def delete_donation(id):
+    conn = connect_db()
+    cursor = conn.cursor()
+
+    cursor.execute("""
+    DELETE FROM donations
+    WHERE id=%s
+    """, (id,))
+
+    conn.commit()
+    cursor.close()
+    conn.close()
+
+
+    # total donation
+def get_total_donations():
+    conn = connect_db()
+    cursor = conn.cursor()
+
+    cursor.execute("""
+    SELECT COALESCE(SUM(amount), 0) AS total
+    FROM donations
+    """)
+
+    result = cursor.fetchone()
+
+    cursor.close()
+    conn.close()
+
+    return result["total"] 
+
+# insert expense
+
+def insert_expense(
+    purpose,
+    amount,
+    spent_on,
+    paid_to,
+    remarks
+):
+    conn = connect_db()
+    cursor = conn.cursor()
+
+    cursor.execute("""
+    INSERT INTO expenses(
+        purpose,
+        amount,
+        spent_on,
+        paid_to,
+        remarks
+    )
+    VALUES(%s, %s, %s, %s, %s)
+    """, (
+        purpose,
+        amount,
+        spent_on,
+        paid_to,
+        remarks
+    ))
+
+    conn.commit()
+    cursor.close()
+    conn.close()
+
+# all expense
+
+def get_all_expenses():
+    conn = connect_db()
+    cursor = conn.cursor()
+
+    cursor.execute("""
+    SELECT *
+    FROM expenses
+    ORDER BY spent_on DESC
+    """)
+
+    expenses = cursor.fetchall()
+
+    cursor.close()
+    conn.close()
+
+    return expenses 
+
+# Get One Expense
+
+def get_expense(id):
+    conn = connect_db()
+    cursor = conn.cursor()
+
+    cursor.execute("""
+    SELECT *
+    FROM expenses
+    WHERE id=%s
+    """, (id,))
+
+    expense = cursor.fetchone()
+
+    cursor.close()
+    conn.close()
+
+    return expense
+
+# Update Expense
+
+def update_expense(
+    id,
+    purpose,
+    amount,
+    spent_on,
+    paid_to,
+    remarks
+):
+    conn = connect_db()
+    cursor = conn.cursor()
+
+    cursor.execute("""
+    UPDATE expenses
+    SET
+        purpose=%s,
+        amount=%s,
+        spent_on=%s,
+        paid_to=%s,
+        remarks=%s
+    WHERE id=%s
+    """, (
+        purpose,
+        amount,
+        spent_on,
+        paid_to,
+        remarks,
+        id
+    ))
+
+    conn.commit()
+    cursor.close()
+    conn.close()
+
+# delete expense
+
+def delete_expense(id):
+    conn = connect_db()
+    cursor = conn.cursor()
+
+    cursor.execute("""
+    DELETE FROM expenses
+    WHERE id=%s
+    """, (id,))
+
+    conn.commit()
+    cursor.close()
+    conn.close()
+
+    # total expense
+
+def get_total_expenses():
+    conn = connect_db()
+    cursor = conn.cursor()
+
+    cursor.execute("""
+    SELECT COALESCE(SUM(amount), 0) AS total
+    FROM expenses
+    """)
+
+    result = cursor.fetchone()
+
+    cursor.close()
+    conn.close()
+
+    return result["total"]  
+
+
+# Available Balance
+
+def get_available_balance():
+
+    total_donations = get_total_donations()
+    total_expenses = get_total_expenses()
+
+    balance = total_donations - total_expenses
+
+    return balance
+ 
 
 if __name__ == "__main__":
     create_tables()

@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Finance Management</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/finance.css') }}">
+</head>
+<body>
+
+<div class="container">
+
+    <div class="top-bar">
+        <h1>Finance Management</h1>
+
+        <a href="{{ url_for('dashboard') }}">
+            <button>← Dashboard</button>
+        </a>
+    </div>
+
+    <!-- Summary Cards -->
+
+    <div class="cards">
+
+        <div class="card">
+            <h3>Total Donations</h3>
+            <h2>₹ {{ total_donations }}</h2>
+        </div>
+
+        <div class="card">
+            <h3>Total Expenses</h3>
+            <h2>₹ {{ total_expenses }}</h2>
+        </div>
+
+        <div class="card">
+            <h3>Available Balance</h3>
+            <h2>₹ {{ balance }}</h2>
+        </div>
+
+    </div>
+
+    <!-- Donation Form -->
+
+    <div class="form-section">
+
+        <h2>Add Donation</h2>
+
+        <form action="{{ url_for('add_donation') }}" method="POST">
+
+            <input type="text" name="donor_name" placeholder="Donor Name" required>
+
+            <input type="text" name="donation_type" placeholder="Donation Type" required>
+
+            <input type="number" step="0.01" name="amount" placeholder="Amount" required>
+
+            <input type="date" name="donated_on" required>
+
+            <textarea name="remarks" placeholder="Remarks"></textarea>
+
+            <button type="submit">Add Donation</button>
+
+        </form>
+
+    </div>
+
+    <!-- Expense Form -->
+
+    <div class="form-section">
+
+        <h2>Add Expense</h2>
+
+        <form action="{{ url_for('add_expense') }}" method="POST">
+
+            <input type="text" name="purpose" placeholder="Purpose" required>
+
+            <input type="number" step="0.01" name="amount" placeholder="Amount" required>
+
+            <input type="date" name="spent_on" required>
+
+            <input type="text" name="paid_to" placeholder="Paid To" required>
+
+            <textarea name="remarks" placeholder="Remarks"></textarea>
+
+            <button type="submit">Add Expense</button>
+
+        </form>
+
+    </div>
+
+    <!-- Donation History -->
+
+    <h2>Donation History</h2>
+
+    <table>
+
+        <tr>
+            <th>ID</th>
+            <th>Donor</th>
+            <th>Type</th>
+            <th>Amount</th>
+            <th>Date</th>
+            <th>Edit</th>
+        </tr>
+
+        {% for donation in donations %}
+
+        <tr>
+
+            <td>{{ donation.id }}</td>
+            <td>{{ donation.donor_name }}</td>
+            <td>{{ donation.donation_type }}</td>
+            <td>₹ {{ donation.amount }}</td>
+            <td>{{ donation.donated_on }}</td>
+
+          <td>
+             <a href="{{ url_for('edit_donation', id=donation.id) }}">
+                Edit
+             </a>
+        </td>  
+
+        </tr>
+
+        {% endfor %}
+
+    </table>
+
+    <!-- Expense History -->
+
+    <h2>Expense History</h2>
+
+    <table>
+
+        <tr>
+            <th>ID</th>
+            <th>Purpose</th>
+            <th>Amount</th>
+            <th>Paid To</th>
+            <th>Date</th>
+            <th>Edit</th>
+        </tr>
+
+        {% for expense in expenses %}
+
+        <tr>
+
+            <td>{{ expense.id }}</td>
+            <td>{{ expense.purpose }}</td>
+            <td>₹ {{ expense.amount }}</td>
+            <td>{{ expense.paid_to }}</td>
+            <td>{{ expense.spent_on }}</td>
+
+          <td>
+             <a href="{{ url_for('edit_expense', id=expense.id) }}">
+                Edit
+             </a>
+
+         </td>  
+
+        </tr>
+
+        {% endfor %}
+
+    </table>
+
+</div>
+
+<script src="{{ url_for('static', filename='js/finance.js') }}"></script>
+
+</body>
+</html>
