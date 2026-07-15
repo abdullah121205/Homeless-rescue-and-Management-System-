@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>View Persons | Sabarmati NGO</title>
+    <title>Homeless Persons Management | Sabarmati NGO</title>
 
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/view_person.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/view_persons.css') }}">
 </head>
 
 <body>
@@ -16,7 +16,7 @@
 
     <div class="header">
         <h1>🏠 Homeless Persons Management</h1>
-        <p>Manage and monitor rescued homeless persons</p>
+        <p>Manage and Monitor Rescued Homeless Persons</p>
     </div>
 
     <!-- Summary Cards -->
@@ -25,21 +25,17 @@
 
         <div class="card">
             <h3>Total Persons</h3>
-            <p>{{ persons|length }}</p>
+            <p>{{ total_persons }}</p>
         </div>
 
         <div class="card">
-            <h3>Male</h3>
-            <p>
-                {{ persons|selectattr("gender","equalto","Male")|list|length }}
-            </p>
+            <h3>Pending Cases</h3>
+            <p>{{ pending_cases }}</p>
         </div>
 
         <div class="card">
-            <h3>Female</h3>
-            <p>
-                {{ persons|selectattr("gender","equalto","Female")|list|length }}
-            </p>
+            <h3>Rescued Persons</h3>
+            <p>{{ rescued_count }}</p>
         </div>
 
     </div>
@@ -49,32 +45,34 @@
     <div class="top-bar">
 
         <a href="{{ url_for('add_person') }}" class="add-btn">
-            ➕ Add New Person
+            Add Person
         </a>
 
         <input
             type="text"
             id="searchInput"
-            placeholder="🔍 Search by Name...">
+            placeholder="Search Person...">
 
     </div>
 
-    <!-- Table -->
+    <!-- Persons Table -->
 
     <table id="personsTable">
 
         <thead>
 
-        <tr>
+            <tr>
 
-            <th>Name</th>
-            <th>Age</th>
-            <th>Gender</th>
-            <th>Location</th>
-            <th>Edit</th>
-            <th>Delete</th>
+                <th>Photo</th>
+                <th>Name</th>
+                <th>Age</th>
+                <th>Gender</th>
+                <th>Location</th>
+                <th>Rescue Date</th>
+                <th>Status</th>
+                <th>Action</th>
 
-        </tr>
+            </tr>
 
         </thead>
 
@@ -84,10 +82,67 @@
 
         <tr>
 
+            <td>
+
+                {% if person.photo %}
+
+                <img
+                    src="{{ url_for('static', filename='images/' + person.photo) }}"
+                    class="person-photo">
+
+                {% else %}
+
+                No Photo
+
+                {% endif %}
+
+            </td>
+
             <td>{{ person.name }}</td>
+
             <td>{{ person.age }}</td>
+
             <td>{{ person.gender }}</td>
+
             <td>{{ person.location }}</td>
+
+            <td>{{ person.rescue_date }}</td>
+
+            <td>
+
+                {% if person.status == "Rescued" %}
+
+                    <span class="status rescued">
+                        Rescued
+                    </span>
+
+                {% elif person.status == "Medical Care" %}
+
+                    <span class="status medical">
+                        Medical Care
+                    </span>
+
+                {% elif person.status == "In Shelter" %}
+
+                    <span class="status shelter">
+                        In Shelter
+                    </span>
+
+                {% elif person.status == "Reunited" %}
+
+                    <span class="status reunited">
+                        Reunited
+                    </span>
+
+                {% else %}
+
+                    <span class="status">
+                        {{ person.status }}
+                    </span>
+
+                {% endif %}
+
+            </td>
 
             <td>
 
@@ -99,14 +154,10 @@
 
                 </a>
 
-            </td>
-
-            <td>
-
                 <a
                     href="{{ url_for('delete_person_route', id=person.id) }}"
                     class="delete-btn"
-                    onclick="return confirm('Delete this record?')">
+                    onclick="return confirm('Are you sure you want to delete this person?')">
 
                     Delete
 
@@ -117,14 +168,21 @@
         </tr>
 
         {% endfor %}
-                </tbody>
+
+        </tbody>
 
     </table>
 
+    <!-- Bottom -->
+
     <div class="bottom-actions">
 
-        <a href="{{ url_for('dashboard') }}" class="dashboard-btn">
-            ⬅ Back to Dashboard
+        <a
+            href="{{ url_for('dashboard') }}"
+            class="dashboard-btn">
+
+            ← Back to Dashboard
+
         </a>
 
     </div>
@@ -145,12 +203,13 @@ searchInput.addEventListener("keyup", function(){
 
     rows.forEach(function(row){
 
-        let name = row.cells[0].textContent.toLowerCase();
+        let text = row.textContent.toLowerCase();
 
-        if(name.includes(filter)){
-            row.style.display="";
-        }else{
-            row.style.display="none";
+        if(text.includes(filter)){
+            row.style.display = "";
+        }
+        else{
+            row.style.display = "none";
         }
 
     });
@@ -160,5 +219,4 @@ searchInput.addEventListener("keyup", function(){
 </script>
 
 </body>
-
 </html>
