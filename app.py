@@ -44,8 +44,23 @@ from db import (
     update_beneficiary,
     delete_beneficiary,
     search_beneficiary,
-    get_total_beneficiaries
+    get_total_beneficiaries,
+    
+    insert_donation,
+    get_all_donations,
+    get_donation,
+    update_donation,
+    get_total_donations,
+
+    insert_expense,
+    get_all_expenses,
+    get_expense,
+    update_expense,
+    get_total_expenses,
+    get_available_balance,
+
 )
+
 
 app = Flask(__name__)
 app.secret_key = os.environ.get("SECRET_KEY", "ngo_secret_key")
