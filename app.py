@@ -26,8 +26,11 @@ from db import (
     delete_staff,
     get_total_staff,
     get_active_staff,
+    get_total_roles,
+    get_total_beneficiaries,
     get_total_roles
 )
+
 
 app = Flask(__name__)
 app.secret_key = os.environ.get("SECRET_KEY", "ngo_secret_key")
