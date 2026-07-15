@@ -26,25 +26,7 @@ from db import (
     delete_staff,
     get_total_staff,
     get_active_staff,
-    get_total_roles,
-
-    insert_project,
-    get_all_projects,
-    get_project,
-    update_project,
-    delete_project,
-    search_project,
-    get_total_projects,
-    get_active_projects,
-    get_completed_projects,
-
-    insert_beneficiary,
-    get_all_beneficiaries,
-    get_beneficiary,
-    update_beneficiary,
-    delete_beneficiary,
-    search_beneficiary,
-    get_total_beneficiaries
+    get_total_roles
 )
 
 app = Flask(__name__)
@@ -578,6 +560,145 @@ def delete_volunteer_route(id):
     delete_volunteer(id)
 
     return redirect(url_for('accounts'))
+
+# ---------------- FINANCE ----------------
+
+@app.route('/finance')
+def finance():
+
+    if 'user' not in session:
+        return redirect(url_for('login'))
+
+    donations = get_all_donations()
+    expenses = get_all_expenses()
+
+    return render_template(
+        'finance.html',
+        donations=donations,
+        expenses=expenses,
+        total_donations=get_total_donations(),
+        total_expenses=get_total_expenses(),
+        balance=get_available_balance()
+    )
+
+
+# ---------------- ADD DONATION ----------------
+
+@app.route('/add_donation', methods=['POST'])
+def add_donation():
+
+    if 'user' not in session:
+        return redirect(url_for('login'))
+
+    donor_name = request.form['donor_name']
+    donation_type = request.form['donation_type']
+    amount = request.form['amount']
+    donated_on = request.form['donated_on']
+    remarks = request.form['remarks']
+
+
+    insert_donation(
+        donor_name,
+        donation_type,
+        amount,
+        donated_on,
+        remarks
+    )
+
+    return redirect(url_for('finance'))
+
+# ---------------- EDIT DONATION ----------------
+
+@app.route('/edit_donation/<int:id>', methods=['GET', 'POST'])
+def edit_donation(id):
+
+    if 'user' not in session:
+        return redirect(url_for('login'))
+
+    donation = get_donation(id)
+
+    if request.method == 'POST':
+
+        donor_name = request.form['donor_name']
+        donation_type = request.form['donation_type']
+        amount = request.form['amount']
+        donated_on = request.form['donated_on']
+        remarks = request.form['remarks']
+
+        update_donation(
+            id,
+            donor_name,
+            donation_type,
+            amount,
+            donated_on,
+            remarks
+        )
+
+        return redirect(url_for('finance'))
+
+    return render_template(
+        'edit_donation.html',
+        donation=donation
+    )
+
+# ---------------- ADD EXPENSE ----------------
+
+@app.route('/add_expense', methods=['POST'])
+def add_expense():
+
+    if 'user' not in session:
+        return redirect(url_for('login'))
+
+    purpose = request.form['purpose']
+    amount = request.form['amount']
+    spent_on = request.form['spent_on']
+    paid_to = request.form['paid_to']
+    remarks = request.form['remarks']
+
+
+    insert_expense(
+        purpose,
+        amount,
+        spent_on,
+        paid_to,
+        remarks
+    )
+
+    return redirect(url_for('finance'))
+
+# ---------------- EDIT EXPENSE ----------------
+
+@app.route('/edit_expense/<int:id>', methods=['GET', 'POST'])
+def edit_expense(id):
+
+    if 'user' not in session:
+        return redirect(url_for('login'))
+
+    expense = get_expense(id)
+
+    if request.method == 'POST':
+
+        purpose = request.form['purpose']
+        amount = request.form['amount']
+        spent_on = request.form['spent_on']
+        paid_to = request.form['paid_to']
+        remarks = request.form['remarks']
+
+        update_expense(
+            id,
+            purpose,
+            amount,
+            spent_on,
+            paid_to,
+            remarks
+        )
+
+        return redirect(url_for('finance'))
+
+    return render_template(
+        'edit_expense.html',
+        expense=expense
+    )
     
 # ---------------- LOGOUT ----------------
 

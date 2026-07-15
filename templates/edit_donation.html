@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Donation</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/finance.css') }}">
+</head>
+<body>
+
+<div class="container">
+
+    <div class="top-bar">
+        <h1>Edit Donation</h1>
+
+        <a href="{{ url_for('finance') }}">
+            <button>← Back</button>
+        </a>
+    </div>
+
+    <div class="form-section">
+
+        <form method="POST">
+
+            <input
+                type="text"
+                name="donor_name"
+                value="{{ donation.donor_name }}"
+                required
+            >
+
+            <input
+                type="text"
+                name="donation_type"
+                value="{{ donation.donation_type }}"
+                required
+            >
+
+            <input
+                type="number"
+                step="0.01"
+                name="amount"
+                value="{{ donation.amount }}"
+                required
+            >
+
+            <input
+                type="date"
+                name="donated_on"
+                value="{{ donation.donated_on }}"
+                required
+            >
+
+            <textarea
+                name="remarks"
+            >{{ donation.remarks }}</textarea>
+
+            <button type="submit">
+                Update Donation
+            </button>
+
+        </form>
+
+    </div>
+
+</div>
+
+</body>
+</html>
