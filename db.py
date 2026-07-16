@@ -364,7 +364,7 @@ def filter_by_status(status):
     return data
 
 # Register User
-def insert_user(fullname, username, email, password, role="Volunteer"):
+def insert_user(fullname, username, email, password, role="admin"):
     conn = connect_db()
     cursor = conn.cursor()
     hashed_password = generate_password_hash(password)
