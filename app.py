@@ -199,15 +199,23 @@ def add_staff():
         password = request.form['password']
 
         insert_staff(
-            name,
-            role,
-            phone,
-            email,
-            joining_date,
-            address
+           name,
+           role,
+           phone,
+           email,
+           joining_date,
+          address
         )
+        
+        insert_user(
+           name,
+           username,
+           email,
+           password,
+           "staff"
+         )
 
-        return redirect(url_for('staff'))
+         return redirect(url_for('staff'))
 
     return render_template('add_staff.html')
 
