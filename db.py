@@ -369,9 +369,21 @@ def insert_user(fullname, username, email, password, role="Volunteer"):
     cursor = conn.cursor()
     hashed_password = generate_password_hash(password)
     cursor.execute("""
-    INSERT INTO users(fullname, username, email, password)
-    VALUES (%s, %s, %s, %s)
-    """, (fullname, username, email, hashed_password))
+    INSERT INTO users(
+    fullname,
+    username,
+    email,
+    password,
+    role
+    )
+    VALUES (%s, %s, %s, %s, %s)
+    """, (
+    fullname,
+    username,
+    email,
+    hashed_password,
+    role
+    ))
     conn.commit()
     cursor.close()
     conn.close()
