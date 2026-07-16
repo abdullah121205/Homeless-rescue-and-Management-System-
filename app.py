@@ -327,6 +327,7 @@ def delete_project_route(id):
     return redirect(url_for('projects'))
 
 @app.route('/search_projects', methods=['POST'])
+@roles_required("Admin", "Staff")
 def search_projects():
 
     if 'user' not in session:
