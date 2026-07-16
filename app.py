@@ -424,6 +424,7 @@ def delete_beneficiary_route(id):
     return redirect(url_for('beneficiaries'))
 
 @app.route('/search_beneficiaries', methods=['POST'])
+@roles_required("Admin", "Staff")
 def search_beneficiaries():
 
     if 'user' not in session:
