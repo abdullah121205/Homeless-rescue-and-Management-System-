@@ -500,8 +500,6 @@ def edit_person(id):
         remarks = request.form['remarks']
 
         photo = request.files.get('photo')
-        
-        # Kept perfectly intact with dictionary lookup matching RealDictConnection mapping
         filename = person["photo"]
 
         if photo and photo.filename != "":
@@ -740,6 +738,7 @@ def edit_expense(id):
 @app.route('/logout')
 def logout():
     session.pop('user', None)
+    session.pop('role', None)
     return redirect(url_for('login'))
 
 
