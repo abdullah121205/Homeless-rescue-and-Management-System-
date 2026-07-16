@@ -69,7 +69,19 @@ tr:nth-child(even){
     background:#f9f9f9;
 }
 
+.delete-btn{
+    background:#e53935;
+    color:white;
+    padding:8px 14px;
+    border:none;
+    border-radius:5px;
+    cursor:pointer;
+}
+
+.delete-btn:hover{
+    background:#b71c1c;
+}
+
 tr:hover{
     background:#eef6ff;
 }
-
