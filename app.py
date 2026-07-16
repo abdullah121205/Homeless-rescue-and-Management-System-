@@ -165,7 +165,7 @@ def dashboard():
 # ---------------- STAFF ----------------
 
 @app.route('/staff')
-@roles_required("Admin", "Staff")
+@roles_required("admin", "staff")
 def staff():
     if 'user' not in session:
         return redirect(url_for('login'))
@@ -183,7 +183,7 @@ def staff():
 # ---------------- ADD STAFF ----------------
 
 @app.route('/add_staff', methods=['GET', 'POST'])
-@roles_required("Admin", "Staff")
+@roles_required("admin", "staff")
 def add_staff():
     if 'user' not in session:
         return redirect(url_for('login'))
@@ -212,7 +212,7 @@ def add_staff():
 # ---------------- EDIT STAFF ----------------
 
 @app.route('/edit_staff/<int:id>', methods=['GET', 'POST'])
-@roles_required("Admin", "Staff")
+@roles_required("admin", "staff")
 def edit_staff(id):
     if 'user' not in session:
         return redirect(url_for('login'))
@@ -247,7 +247,7 @@ def edit_staff(id):
 # ---------------- DELETE STAFF ----------------
 
 @app.route('/delete_staff/<int:id>')
-@roles_required("Admin", "Staff")
+@roles_required("admin", "staff")
 def delete_staff_route(id):
     if 'user' not in session:
         return redirect(url_for('login'))
@@ -257,7 +257,7 @@ def delete_staff_route(id):
     return redirect(url_for('staff'))
 
 @app.route('/projects')
-@roles_required("Admin", "Staff")
+@roles_required("admin", "staff")
 def projects():
 
     if 'user' not in session:
@@ -272,7 +272,7 @@ def projects():
     )
 
 @app.route('/add_project', methods=['GET','POST'])
-@roles_required("Admin", "Staff")
+@roles_required("admin", "staff")
 def add_project():
 
     if 'user' not in session:
@@ -295,7 +295,7 @@ def add_project():
     return render_template('add_project.html')
 
 @app.route('/edit_project/<int:id>', methods=['GET','POST'])
-@roles_required("Admin", "Staff")
+@roles_required("admin", "staff")
 def edit_project(id):
 
     if 'user' not in session:
@@ -324,7 +324,7 @@ def edit_project(id):
     )
 
 @app.route('/delete_project/<int:id>')
-@roles_required("Admin", "Staff")
+@roles_required("admin", "Staff")
 def delete_project_route(id):
 
     if 'user' not in session:
@@ -335,7 +335,7 @@ def delete_project_route(id):
     return redirect(url_for('projects'))
 
 @app.route('/search_projects', methods=['POST'])
-@roles_required("Admin", "Staff")
+@roles_required("admin", "staff")
 def search_projects():
 
     if 'user' not in session:
@@ -354,7 +354,7 @@ def search_projects():
     )
 
 @app.route('/beneficiaries')
-@roles_required("Admin", "Staff")
+@roles_required("admin", "staff")
 def beneficiaries():
 
     if 'user' not in session:
@@ -367,7 +367,7 @@ def beneficiaries():
     )
 
 @app.route('/add_beneficiary', methods=['GET','POST'])
-@roles_required("Admin", "Staff")
+@roles_required("admin", "staff")
 def add_beneficiary():
 
     if 'user' not in session:
@@ -391,7 +391,7 @@ def add_beneficiary():
     return render_template('add_beneficiary.html')
 
 @app.route('/edit_beneficiary/<int:id>', methods=['GET','POST'])
-@roles_required("Admin", "Staff")
+@roles_required("admin", "staff")
 def edit_beneficiary(id):
 
     if 'user' not in session:
@@ -421,7 +421,7 @@ def edit_beneficiary(id):
     )
 
 @app.route('/delete_beneficiary/<int:id>')
-@roles_required("Admin", "Staff")
+@roles_required("admin", "staff")
 def delete_beneficiary_route(id):
 
     if 'user' not in session:
@@ -432,7 +432,7 @@ def delete_beneficiary_route(id):
     return redirect(url_for('beneficiaries'))
 
 @app.route('/search_beneficiaries', methods=['POST'])
-@roles_required("Admin", "Staff")
+@roles_required("admin", "staff")
 def search_beneficiaries():
 
     if 'user' not in session:
@@ -617,7 +617,7 @@ def delete_person_route(id):
 # ---------------- ACCOUNTS ----------------
 
 @app.route('/accounts')
-@roles_required("Admin", "Staff")
+@roles_required("admin", "staff")
 def accounts():
     if 'user' not in session:
         return redirect(url_for('login'))
@@ -630,7 +630,7 @@ def accounts():
     )
 
 @app.route('/delete_volunteer/<int:id>')
-@roles_required("Admin", "Staff")
+@roles_required("admin", "staff")
 def delete_volunteer_route(id):
     if 'user' not in session:
         return redirect(url_for('login'))
