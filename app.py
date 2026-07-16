@@ -66,6 +66,27 @@ from db import (
 app = Flask(__name__)
 app.secret_key = os.environ.get("SECRET_KEY", "ngo_secret_key")
 
+from functools import wraps
+
+def roles_required(*roles):
+    def decorator(f):
+        @wraps(f)
+        def decorated_function(*args, **kwargs):
+
+            if 'user' not in session:
+                return redirect(url_for('login'))
+
+            if session.get("role") not in roles:
+                return render_template(
+                    "access_denied.html",
+                    role=session.get("role")
+                )
+
+            return f(*args, **kwargs)
+
+        return decorated_function
+    return decorator
+    
 from db import create_tables
 
 # Initialize tables in the PostgreSQL database if they don't exist yet
