@@ -287,6 +287,7 @@ def add_project():
     return render_template('add_project.html')
 
 @app.route('/edit_project/<int:id>', methods=['GET','POST'])
+@roles_required("Admin", "Staff")
 def edit_project(id):
 
     if 'user' not in session:
