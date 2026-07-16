@@ -19,11 +19,12 @@ def create_tables():
     # User table
     cursor.execute("""
     CREATE TABLE IF NOT EXISTS users(
-       id SERIAL PRIMARY KEY,
-       fullname TEXT NOT NULL,
-       username TEXT UNIQUE NOT NULL,
-       email TEXT UNIQUE NOT NULL,
-       password TEXT NOT NULL
+        id SERIAL PRIMARY KEY,
+        fullname TEXT NOT NULL,
+        username TEXT UNIQUE NOT NULL,
+        email TEXT UNIQUE NOT NULL,
+        password TEXT NOT NULL,
+        role TEXT NOT NULL DEFAULT 'Volunteer'
     )
     """)
     
