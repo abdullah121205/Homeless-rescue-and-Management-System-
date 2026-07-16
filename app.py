@@ -359,6 +359,7 @@ def beneficiaries():
     )
 
 @app.route('/add_beneficiary', methods=['GET','POST'])
+@roles_required("Admin", "Staff")
 def add_beneficiary():
 
     if 'user' not in session:
