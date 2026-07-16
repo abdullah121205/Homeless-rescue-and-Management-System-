@@ -339,6 +339,7 @@ def search_projects():
     )
 
 @app.route('/beneficiaries')
+@roles_required("Admin", "Staff")
 def beneficiaries():
 
     if 'user' not in session:
