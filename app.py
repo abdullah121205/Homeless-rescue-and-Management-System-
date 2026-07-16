@@ -89,7 +89,6 @@ def roles_required(*roles):
     
 from db import create_tables
 
-# Initialize tables in the PostgreSQL database if they don't exist yet
 create_tables()
 
 # ---------------- LOGIN ----------------
@@ -126,10 +125,9 @@ def register():
         password = request.form['password']
 
         try:
-            insert_user(fullname, username, email, password)
+            insert_user(fullname,username,email,password,"volunteer")
             return redirect(url_for('login'))
         except Exception as e:
-            # Cleaned up duplicate exception blocks from the original script
             return render_template(
                 'register.html',
                 error=str(e)
