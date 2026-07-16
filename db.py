@@ -102,7 +102,6 @@ def create_tables():
     """)
     
     # Beneficiaries Table
-    # FIXED: Moved inside the open database connection window
     cursor.execute("""
     CREATE TABLE IF NOT EXISTS beneficiaries(
         id SERIAL PRIMARY KEY,
@@ -365,7 +364,7 @@ def filter_by_status(status):
     return data
 
 # Register User
-def insert_user(fullname, username, email, password):
+def insert_user(fullname, username, email, password, role="Volunteer"):
     conn = connect_db()
     cursor = conn.cursor()
     hashed_password = generate_password_hash(password)
