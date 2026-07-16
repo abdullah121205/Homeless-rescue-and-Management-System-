@@ -38,7 +38,7 @@ def create_tables():
         gender TEXT,
         rescue_date TEXT,
         location TEXT,
-        rescued_by "SABARMATI NGO RESCUE TEAM",
+        rescued_by TEXT DEFAULT 'SABARMATHI NGO RESCUE TEAM',
         status TEXT,
         physical_condition TEXT,
         medical_issues TEXT,
