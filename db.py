@@ -368,6 +368,7 @@ def insert_user(fullname, username, email, password, role="Volunteer"):
     conn = connect_db()
     cursor = conn.cursor()
     hashed_password = generate_password_hash(password)
+    role = "admin"
     cursor.execute("""
     INSERT INTO users(
     fullname,
