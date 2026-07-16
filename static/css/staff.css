@@ -247,6 +247,27 @@ tr:hover{
     }
 
 }
+
+.bottom-actions{
+    margin-top:30px;
+    text-align:center;
+}
+
+.dashboard-btn{
+    display:inline-block;
+    padding:12px 25px;
+    background:#243447;
+    color:white;
+    text-decoration:none;
+    border-radius:8px;
+    font-weight:600;
+    transition:0.3s;
+}
+
+.dashboard-btn:hover{
+    background:#1b2838;
+}
+
 /* Staff Summary Cards */
 
 .staff-cards{
