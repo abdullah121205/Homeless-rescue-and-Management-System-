@@ -413,6 +413,7 @@ def edit_beneficiary(id):
     )
 
 @app.route('/delete_beneficiary/<int:id>')
+@roles_required("Admin", "Staff")
 def delete_beneficiary_route(id):
 
     if 'user' not in session:
