@@ -62,7 +62,7 @@ from db import (
     get_total_roles
 )
 
-ADMIN_USERNAME = "ADMIN"
+ADMIN_USERNAME = "admin"
 ADMIN_PASSWORD = "admin123"
 
 app = Flask(__name__)
