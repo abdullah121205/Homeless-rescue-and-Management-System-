@@ -82,8 +82,9 @@ def login():
         user = login_user(username, password)
 
         if user:
-            session['user'] = username
-            return redirect(url_for('dashboard'))
+           session['user'] = username
+           session['role'] = user["role"]  
+           return redirect(url_for('dashboard'))
 
         return render_template(
             'login.html',
