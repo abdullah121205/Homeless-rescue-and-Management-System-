@@ -62,6 +62,8 @@ from db import (
     get_total_roles
 )
 
+ADMIN_USERNAME = "ADMIN"
+ADMIN_PASSWORD = "admin123"
 
 app = Flask(__name__)
 app.secret_key = os.environ.get("SECRET_KEY", "ngo_secret_key")
