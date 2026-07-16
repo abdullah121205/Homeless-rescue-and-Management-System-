@@ -43,17 +43,20 @@
 
     <div class="top-bar">
 
-     <a href="{{ url_for('add_staff') }}" class="add-btn">Add Staff
-</a>   
-
+     <a href="{{ url_for('add_staff') }}" class="add-btn">Add Staff</a>   
         <input
             type="text"
             id="search"
-            placeholder="Search Staff..."
-        >
-
+            placeholder="Search Staff...">
     </div>
 </div>
+    
+    <div class="bottom-actions">
+    <a href="{{ url_for('dashboard') }}" class="dashboard-btn">
+        ⬅ Dashboard
+    </a>
+</div>
+    
     <table>
 
         <thead>
