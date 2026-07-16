@@ -195,6 +195,8 @@ def add_staff():
         email = request.form['email']
         joining_date = request.form['joining_date']
         address = request.form['address']
+        username = request.form['username']
+        password = request.form['password']
 
         insert_staff(
             name,
