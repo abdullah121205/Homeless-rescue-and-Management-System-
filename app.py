@@ -246,6 +246,7 @@ def delete_staff_route(id):
     return redirect(url_for('staff'))
 
 @app.route('/projects')
+@roles_required("Admin", "Staff")
 def projects():
 
     if 'user' not in session:
