@@ -157,6 +157,7 @@ def dashboard():
 # ---------------- STAFF ----------------
 
 @app.route('/staff')
+@roles_required("Admin", "Staff")
 def staff():
     if 'user' not in session:
         return redirect(url_for('login'))
