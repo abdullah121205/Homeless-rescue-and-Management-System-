@@ -642,6 +642,7 @@ def delete_volunteer_route(id):
 # ---------------- FINANCE ----------------
 
 @app.route('/finance')
+@roles_required("admin", "staff")
 def finance():
 
     if 'user' not in session:
@@ -663,6 +664,7 @@ def finance():
 # ---------------- ADD DONATION ----------------
 
 @app.route('/add_donation', methods=['POST'])
+@roles_required("admin", "staff")
 def add_donation():
 
     if 'user' not in session:
@@ -688,6 +690,7 @@ def add_donation():
 # ---------------- EDIT DONATION ----------------
 
 @app.route('/edit_donation/<int:id>', methods=['GET', 'POST'])
+@roles_required("admin", "staff")
 def edit_donation(id):
 
     if 'user' not in session:
@@ -722,6 +725,7 @@ def edit_donation(id):
 # ---------------- ADD EXPENSE ----------------
 
 @app.route('/add_expense', methods=['POST'])
+@roles_required("admin", "staff")
 def add_expense():
 
     if 'user' not in session:
@@ -747,6 +751,7 @@ def add_expense():
 # ---------------- EDIT EXPENSE ----------------
 
 @app.route('/edit_expense/<int:id>', methods=['GET', 'POST'])
+@roles_required("admin", "staff")
 def edit_expense(id):
 
     if 'user' not in session:
