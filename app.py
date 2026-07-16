@@ -101,20 +101,28 @@ def login():
         username = request.form['username']
         password = request.form['password']
 
+        # ---------- Hardcoded Admin ----------
+        
+        if username == ADMIN_USERNAME and password == ADMIN_PASSWORD:
+            session["user"] = username
+            session["role"] = "admin"
+            return redirect(url_for("dashboard"))
+
+        # ---------- Database Users ----------
+        
         user = login_user(username, password)
 
         if user:
-           session['user'] = username
-           session['role'] = user["role"]  
-           return redirect(url_for('dashboard'))
+            session["user"] = username
+            session["role"] = user["role"]
+            return redirect(url_for("dashboard"))
 
         return render_template(
-            'login.html',
+            "login.html",
             error="Invalid Username or Password"
         )
 
-    return render_template('login.html')
-
+    return render_template("login.html")
 
 # ---------------- REGISTER ----------------
 
