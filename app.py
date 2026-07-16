@@ -264,6 +264,7 @@ def projects():
     )
 
 @app.route('/add_project', methods=['GET','POST'])
+@roles_required("Admin", "Staff")
 def add_project():
 
     if 'user' not in session:
