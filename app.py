@@ -596,6 +596,7 @@ def delete_person_route(id):
 # ---------------- ACCOUNTS ----------------
 
 @app.route('/accounts')
+@roles_required("Admin", "Staff")
 def accounts():
     if 'user' not in session:
         return redirect(url_for('login'))
