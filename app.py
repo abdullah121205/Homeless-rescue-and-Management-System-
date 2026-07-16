@@ -316,6 +316,7 @@ def edit_project(id):
     )
 
 @app.route('/delete_project/<int:id>')
+@roles_required("Admin", "Staff")
 def delete_project_route(id):
 
     if 'user' not in session:
