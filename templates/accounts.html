@@ -52,10 +52,22 @@
            <td>{{ volunteer.fullname }}</td>
            <td>{{ volunteer.username }}</td>
            <td>{{ volunteer.email }}</td>
+<td>
 
+      <a href="{{ url_for('delete_volunteer_route', id=volunteer.id) }}"
+
+         onclick="return confirm('Are you sure you want to delete this volunteer account?')">
+
+         <button class="delete-btn">
+
+             Delete
+
+         </button>
+
+      </a>
+
+   </td>
          
-            
-
       </tr>
         {% endfor %}
 
