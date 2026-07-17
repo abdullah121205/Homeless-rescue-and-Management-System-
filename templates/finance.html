@@ -151,9 +151,14 @@
             <td>{{ expense.spent_on }}</td>
 
           <td>
-             <a href="{{ url_for('edit_expense', id=expense.id) }}">
-                Edit
-             </a>
+              
+        {% if session.get("role") == "admin" %}
+
+          <a href="{{ url_for('edit_donation', id=donation.id) }}">
+             Edit
+          </a>
+
+          {% endif %}
 
          </td>  
 
