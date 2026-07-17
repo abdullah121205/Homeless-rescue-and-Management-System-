@@ -105,7 +105,7 @@
                 <td>{{ beneficiary.support_type }}</td>
 
                 <td>
-
+                {% if session.get("role") == "admin" %}
                 <a href="/edit_beneficiary/{{ beneficiary.id }}"
                     class="edit-btn">
                     Edit
