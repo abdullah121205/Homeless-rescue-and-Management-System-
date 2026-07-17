@@ -640,7 +640,7 @@ def accounts():
     )
 
 @app.route('/delete_volunteer/<int:id>')
-@roles_required("admin", "staff")
+@roles_required("admin")
 def delete_volunteer_route(id):
     if 'user' not in session:
         return redirect(url_for('login'))
