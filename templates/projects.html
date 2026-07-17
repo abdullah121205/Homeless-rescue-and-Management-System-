@@ -105,7 +105,7 @@
 
             <td>
 
-
+            {% if session.get("role") == "admin" %}
             <a href="{{ url_for('edit_project', id=project.id) }}"
                class="edit-btn">
                Edit
