@@ -257,7 +257,7 @@ def edit_staff(id):
 # ---------------- DELETE STAFF ----------------
 
 @app.route('/delete_staff/<int:id>')
-@roles_required("admin", "staff")
+@roles_required("admin")
 def delete_staff_route(id):
     if 'user' not in session:
         return redirect(url_for('login'))
