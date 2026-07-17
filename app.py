@@ -700,7 +700,7 @@ def add_donation():
 # ---------------- EDIT DONATION ----------------
 
 @app.route('/edit_donation/<int:id>', methods=['GET', 'POST'])
-@roles_required("admin", "staff")
+@roles_required("admin")
 def edit_donation(id):
 
     if 'user' not in session:
@@ -761,7 +761,7 @@ def add_expense():
 # ---------------- EDIT EXPENSE ----------------
 
 @app.route('/edit_expense/<int:id>', methods=['GET', 'POST'])
-@roles_required("admin", "staff")
+@roles_required("admin")
 def edit_expense(id):
 
     if 'user' not in session:
