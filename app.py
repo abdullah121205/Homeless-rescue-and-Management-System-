@@ -401,7 +401,7 @@ def add_beneficiary():
     return render_template('add_beneficiary.html')
 
 @app.route('/edit_beneficiary/<int:id>', methods=['GET','POST'])
-@roles_required("admin", "staff")
+@roles_required("admin")
 def edit_beneficiary(id):
 
     if 'user' not in session:
@@ -431,7 +431,7 @@ def edit_beneficiary(id):
     )
 
 @app.route('/delete_beneficiary/<int:id>')
-@roles_required("admin", "staff")
+@roles_required("admin")
 def delete_beneficiary_route(id):
 
     if 'user' not in session:
