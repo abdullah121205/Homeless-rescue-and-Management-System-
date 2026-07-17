@@ -222,7 +222,7 @@ def add_staff():
 # ---------------- EDIT STAFF ----------------
 
 @app.route('/edit_staff/<int:id>', methods=['GET', 'POST'])
-@roles_required("admin", "staff")
+@roles_required("admin")
 def edit_staff(id):
     if 'user' not in session:
         return redirect(url_for('login'))
