@@ -114,9 +114,13 @@
             <td>{{ donation.donated_on }}</td>
 
           <td>
+
+             {% if session.get("role") == "admin" %}
              <a href="{{ url_for('edit_donation', id=donation.id) }}">
                 Edit
              </a>
+
+              
         </td>  
 
         </tr>
@@ -152,7 +156,7 @@
 
           <td>
               
-        {% if session.get("role") == "admin" %}
+          {% if session.get("role") == "admin" %}
 
           <a href="{{ url_for('edit_donation', id=donation.id) }}">
              Edit
