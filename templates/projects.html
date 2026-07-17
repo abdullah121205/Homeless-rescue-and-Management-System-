@@ -105,10 +105,12 @@
 
             <td>
 
-                <a href="/edit_project/{{ project.id }}"
-                   class="edit-btn">
-                    Edit
-                </a>
+
+            <a href="{{ url_for('edit_project', id=project.id) }}"
+               class="edit-btn">
+               Edit
+            </a>
+
 
                 <a href="/delete_project/{{ project.id }}"
                    class="delete-btn"
