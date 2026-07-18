@@ -20,7 +20,6 @@
     </div>
 
     <!-- Summary Cards -->
-
     <div class="cards">
 
         <div class="card">
@@ -41,7 +40,6 @@
     </div>
 
     <!-- Donation Form -->
-
     <div class="form-section">
 
         <h2>Add Donation</h2>
@@ -65,7 +63,6 @@
     </div>
 
     <!-- Expense Form -->
-
     <div class="form-section">
 
         <h2>Add Expense</h2>
@@ -89,7 +86,6 @@
     </div>
 
     <!-- Donation History -->
-
     <h2>Donation History</h2>
 
     <table>
@@ -113,15 +109,13 @@
             <td>₹ {{ donation.amount }}</td>
             <td>{{ donation.donated_on }}</td>
 
-          <td>
-
-             {% if session.get("role") == "admin" %}
-             <a href="{{ url_for('edit_donation', id=donation.id) }}">
-                Edit
-             </a>
-             {% endif %}
-  
-        </td>  
+            <td>
+                {% if session.get("role") == "admin" %}
+                <a href="{{ url_for('edit_donation', id=donation.id) }}">
+                    Edit
+                </a>
+                {% endif %}
+            </td>
 
         </tr>
 
@@ -130,7 +124,6 @@
     </table>
 
     <!-- Expense History -->
-
     <h2>Expense History</h2>
 
     <table>
@@ -154,17 +147,13 @@
             <td>{{ expense.paid_to }}</td>
             <td>{{ expense.spent_on }}</td>
 
-          <td>
-              
-          {% if session.get("role") == "admin" %}
-
-          <a href="{{ url_for('edit_donation', id=donation.id) }}">
-             Edit
-          </a>
-
-          {% endif %}
-
-         </td>  
+            <td>
+                {% if session.get("role") == "admin" %}
+                <a href="{{ url_for('edit_expense', id=expense.id) }}">
+                    Edit
+                </a>
+                {% endif %}
+            </td>
 
         </tr>
 
